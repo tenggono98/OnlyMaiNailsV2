@@ -111,7 +111,7 @@ class DatabaseSeeder extends Seeder
         MService::insert([
             [
                 'name_service' => 'Fills',
-                'price_service' => 85,
+                'price_service' => 50,
                 'is_merge' => 1,
                 'm_service_category_id' => 1
             ]

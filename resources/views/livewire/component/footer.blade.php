@@ -19,9 +19,9 @@
         {{-- Info 2 --}}
         <div class="">
             <h1 class="text-2xl uppercase">Working Hours</h1>
-            <p class="uppercase">Mondays <span class="font-light"> 10AM, 12PM, 2PM </span></p>
-            <p class="uppercase">Tuesdays <span class="font-light"> 12PM, 2PM</span></p>
-            <p class="uppercase">Wednesdays  <span class="font-light"> 12 PM </span></p>
+            <p class="uppercase">Mondays </p>
+            <p class="uppercase">Tuesdays </p>
+            <p class="uppercase">Wednesdays  </p>
 
         </div>
         {{-- Info 2 --}}
