@@ -1,4 +1,9 @@
 {
+  "resources/css/app-admin.css": {
+    "file": "assets/app-admin-B6nW4bLn.css",
+    "src": "resources/css/app-admin.css",
+    "isEntry": true
+  },
   "resources/css/app.css": {
     "file": "assets/app-CKyQEQDw.css",
     "src": "resources/css/app.css",
