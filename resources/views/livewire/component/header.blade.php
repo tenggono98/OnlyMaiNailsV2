@@ -49,7 +49,7 @@
             {{-- Menu --}}
             <div class="flex items-center justify-center ">
                 <ul class="flex justify-center gap-5 uppercase list-none">
-                    <li><a href="{{ Route('home') }}">Home</a></li>
+                    <li><a href="{{ Route('home') }}">Home V2</a></li>
                     <li><a href="">Our Services</a></li>
                     <li><a href="">Contact Us</a></li>
                     <li><a href="{{ Route('book') }}">Book</a></li>
