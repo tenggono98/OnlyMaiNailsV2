@@ -13,6 +13,8 @@ class Book extends Component
     public $selectedServices = [];
     public $total_price ;
 
+    public $number_of_people = 1;
+
     public $deposit ;
 
     public $flagService = true, $flagPickDateAndTime = false, $flagInformationClient = false, $flagSummary = false;
@@ -24,11 +26,6 @@ class Book extends Component
 
         $this->deposit = SettingWeb::where('name','=','deposit')->first();
 
-        // dd($serviceCategory);
-
-        // $service = MService::where('status',true)->orderBy('name_service')->get();
-
-        // dd($service);
 
 
         return view('livewire.book',compact('serviceCategory'));
