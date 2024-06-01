@@ -10,25 +10,100 @@ use Livewire\Component;
 class Book extends Component
 {
 
-    public $selectedServices = [];
+    public $selectedServices = [] , $selectedDate , $indexDate;
     public $total_price ;
 
     public $number_of_people = 1;
 
     public $deposit ;
 
-    public $flagService = true, $flagPickDateAndTime = false, $flagInformationClient = false, $flagSummary = false;
+    public $flagService = false, $flagPickDateAndTime = true, $flagInformationClient = false, $flagSummary = false;
+
+    protected $listeners = ['selectedDate'];
+
+
+    // public $startTime = '10:00 AM';
+    // public $endTime = '03:00 PM'; // Changed to 12-hour format
+    // public $interval = 30;
+    // public $timeSlots = [];
+
+
+    public $exampleDataBookigDate ;
+
+    public function mount()
+    {
+
+        $this->exampleDataBookigDate = collect([
+            [
+                'id' => 0,
+                'date' => '2024-06-03',
+                'time' => collect([
+                    ['value' => '9:30', 'status' => true],
+                    ['value' => '12:30', 'status' => false],
+                    ['value' => '15:30', 'status' => false],
+                    ['value' => '18:30', 'status' => false],
+                ])
+            ],
+            [
+                'id' => 1,
+                'date' => '2024-06-04',
+                'time' => collect([
+                    ['value' => '9:30', 'status' => false],
+                    ['value' => '12:30', 'status' => false],
+                ])
+            ],
+            [
+                'id' => 2,
+                'date' => '2024-06-05',
+                'time' => collect([
+                    ['value' => '9:30', 'status' => false],
+                    ['value' => '12:30', 'status' => false],
+                    ['value' => '15:30', 'status' => false],
+                    ['value' => '18:30', 'status' => false],
+                ])
+            ]
+        ]);
+
+    }
+
+    // public function generateTimeSlots()
+    // {
+    //     $this->timeSlots = [];
+    //     $start = strtotime($this->startTime);
+    //     $end = strtotime($this->endTime);
+
+    //     while ($start < $end) {
+    //         $this->timeSlots[] = date('h:i A', $start);
+    //         $start = strtotime("+{$this->interval} minutes", $start);
+    //     }
+    // }
+
+
+
 
 
     public function render()
     {
         $serviceCategory = MServiceCategory::with('services')->where('status',true)->get();
-
         $this->deposit = SettingWeb::where('name','=','deposit')->first();
 
 
 
         return view('livewire.book',compact('serviceCategory'));
+    }
+
+
+
+    public function selectedDate($date){
+        $this->selectedDate = $date;
+
+        // Search Date Based on "exampleDataBookigDate"
+        $result = $this->exampleDataBookigDate->where('date','=',$date);
+        $this->indexDate = $result->keys()->first();
+
+
+
+
     }
 
 
@@ -99,10 +174,10 @@ class Book extends Component
     {
         $this->resetFlags();
         switch ($currentStep) {
-            case 'service':
-                $this->flagPickDateAndTime = true;
-                break;
             case 'pickDateAndTime':
+                $this->flagService= true;
+                break;
+            case 'service':
                 $this->flagInformationClient = true;
                 break;
             case 'informationClient':
@@ -118,11 +193,11 @@ class Book extends Component
     {
         $this->resetFlags();
         switch ($currentStep) {
-            case 'pickDateAndTime':
-                $this->flagService = true;
+            case 'service':
+                $this->flagPickDateAndTime = true;
                 break;
             case 'informationClient':
-                $this->flagPickDateAndTime = true;
+                $this->flagService = true;
                 break;
             case 'summary':
                 $this->flagInformationClient = true;

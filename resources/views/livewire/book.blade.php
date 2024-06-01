@@ -10,8 +10,83 @@
 
 
 
-        <!-- Service Selection -->
-        <div x-data="{ open: @entangle('flagService') }">
+
+
+
+
+
+
+        <!-- Date and Time Selection -->
+        <div x-data="{ open: @entangle('flagPickDateAndTime') }">
+            <div x-show="open" x-transition>
+                <h2 class="mb-4 text-xl font-bold">Pick Date and Time</h2>
+                <!-- Date and time selection form goes here -->
+                <div class="my-5">
+
+                    <div class="flex gap-4">
+                        <div class="">
+                            <h1>Dates</h1>
+                            @livewire('component.module.date-picker-calender')
+                        </div>
+                        <div class="">
+                            <h1>Time</h1>
+
+
+                            {{-- <div class="grid grid-cols-3 gap-4">
+                                @foreach($timeSlots as $slot)
+
+                                   @php
+                                    $inputId = 'timeSlot-' . str_replace(':', '-', str_replace(' ', '-', $slot));
+                                @endphp
+
+                                    <label for="{{ $inputId }}" class="flex items-center justify-center p-2 border rounded-md cursor-pointer border-[#fadde1]">
+                                        <input type="radio" id="{{ $inputId }}" name="timeSlot" value="{{ $slot }}" class="mr-2">
+                                        {{ $slot }}
+                                    </label>
+                            @endforeach
+                            </div> --}}
+                            @if($indexDate !== null)
+                            <div class="grid grid-cols-3 gap-4">
+
+                                @foreach ($exampleDataBookigDate[$indexDate]['time'] as $key => $bookingTime )
+
+                                @php
+                                    $inputId = 'timeSlot-' . str_replace(':', '-', str_replace(' ', '-', $key)) . $indexDate;
+                                @endphp
+
+                                <label for="{{ $inputId }}" class="flex items-center justify-center p-2 border rounded-md cursor-pointer border-[#fadde1] {{ ($bookingTime['status'] == true)?'bg-gray-300 border-none' : '' }}">
+                                    <input {{ ($bookingTime['status'] == true)?'disabled' : '' }} type="radio" id="{{ $inputId }}" name="timeSlot" value="{{ $bookingTime['value'] }}" class="mr-2">
+                                    {{ $bookingTime['value'] }}
+                                </label>
+
+
+
+
+                                @endforeach
+
+                            </div>
+                            @endif
+
+
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                {{-- <button wire:click="back('')"
+                    class="px-4 py-2 mr-2 text-white bg-gray-500 rounded">Back</button> --}}
+                <button wire:click="next('pickDateAndTime')"
+                    class="px-4 py-2 text-white bg-blue-500 rounded">Next</button>
+            </div>
+        </div>
+
+
+         <!-- Service Selection -->
+         <div x-data="{ open: @entangle('flagService') }">
             <div x-show="open" x-transition>
                 <div x-data="{ openCategory: null }" class="">
 
@@ -36,7 +111,7 @@
 
                      {{-- Info  --}}
 
-                    <div class="   ">
+                    <div class="">
 
                         @php
                             // Calculate Total Price & Deducted Price
@@ -125,28 +200,15 @@
                     </div>
                 @endforeach
 
-                    <button {{ (empty($selectedServices))? 'disabled':'' }} wire:click="next('service')" class="px-4 py-2 text-white  {{ (empty($selectedServices))? 'bg-gray-500':'bg-blue-500' }} rounded ">Next</button>
+                    <button wire:click="back('service')"
+                    class="px-4 py-2 mr-2 text-white bg-gray-500 rounded">Back</button>
+                <button wire:click="next('service')"
+                    class="px-4 py-2 text-white bg-blue-500 rounded">Next</button>
                 </div>
 
             </div>
         </div>
 
-
-
-
-
-
-        <!-- Date and Time Selection -->
-        <div x-data="{ open: @entangle('flagPickDateAndTime') }">
-            <div x-show="open" x-transition>
-                <h2 class="mb-4 text-xl font-bold">Pick Date and Time</h2>
-                <!-- Date and time selection form goes here -->
-                <button wire:click="back('pickDateAndTime')"
-                    class="px-4 py-2 mr-2 text-white bg-gray-500 rounded">Back</button>
-                <button wire:click="next('pickDateAndTime')"
-                    class="px-4 py-2 text-white bg-blue-500 rounded">Next</button>
-            </div>
-        </div>
 
         <!-- Client Information -->
         <div x-data="{ open: @entangle('flagInformationClient') }">
