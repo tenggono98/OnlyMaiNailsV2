@@ -1,4 +1,8 @@
 {
+  "_index-CLQ_oLGC.js": {
+    "file": "assets/index-CLQ_oLGC.js",
+    "name": "index"
+  },
   "resources/css/app-admin.css": {
     "file": "assets/app-admin-F6AyQVMI.css",
     "src": "resources/css/app-admin.css",
@@ -10,9 +14,24 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-BfXZqW0F.js",
+    "file": "assets/app-BviQEX4l.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "imports": [
+      "_index-CLQ_oLGC.js"
+    ]
+  },
+  "resources/js/datepicker.js": {
+    "file": "assets/datepicker-CzIeVoJV.js",
+    "name": "datepicker",
+    "src": "resources/js/datepicker.js",
+    "isEntry": true,
+    "imports": [
+      "_index-CLQ_oLGC.js"
+    ],
+    "css": [
+      "assets/datepicker-BArvkMiJ.css"
+    ]
   }
 }
