@@ -84,7 +84,11 @@ class Book extends Component
 
     public function render()
     {
-        $serviceCategory = MServiceCategory::with('services')->where('status',true)->get();
+        $serviceCategory = MServiceCategory::with(['services' => function($q){
+            $q->where('status','=',true);
+        }])
+        ->where('status',true)
+        ->get();
         $this->deposit = SettingWeb::where('name','=','deposit')->first();
 
 
@@ -108,7 +112,7 @@ class Book extends Component
     public function toggleService($idService,$type_input)
     {
          // Find the service with its category
-         $service = MService::with('category')->find($idService);
+         $service = MService::with('category')->where('status','=',true)->find($idService);
 
         if($type_input == 'checkbox'){
 

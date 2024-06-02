@@ -32,19 +32,7 @@
                             <h1>Time</h1>
 
 
-                            {{-- <div class="grid grid-cols-3 gap-4">
-                                @foreach($timeSlots as $slot)
-
-                                   @php
-                                    $inputId = 'timeSlot-' . str_replace(':', '-', str_replace(' ', '-', $slot));
-                                @endphp
-
-                                    <label for="{{ $inputId }}" class="flex items-center justify-center p-2 border rounded-md cursor-pointer border-[#fadde1]">
-                                        <input type="radio" id="{{ $inputId }}" name="timeSlot" value="{{ $slot }}" class="mr-2">
-                                        {{ $slot }}
-                                    </label>
-                            @endforeach
-                            </div> --}}
+                          
                             @if($indexDate !== null)
                             <div class="grid grid-cols-3 gap-4">
 

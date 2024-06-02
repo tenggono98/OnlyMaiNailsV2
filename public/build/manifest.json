@@ -4,17 +4,17 @@
     "name": "index"
   },
   "resources/css/app-admin.css": {
-    "file": "assets/app-admin-F6AyQVMI.css",
+    "file": "assets/app-admin-C0ssd2Z5.css",
     "src": "resources/css/app-admin.css",
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-DoQp7u6u.css",
+    "file": "assets/app-Br7LlW3_.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-BviQEX4l.js",
+    "file": "assets/app-BLES79Us.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,

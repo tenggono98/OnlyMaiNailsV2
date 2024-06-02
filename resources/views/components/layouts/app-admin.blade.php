@@ -23,5 +23,7 @@
         </div>
 
     </body>
+    
+    <x-livewire-alert::scripts />
 
 </html>
