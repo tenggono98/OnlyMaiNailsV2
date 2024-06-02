@@ -83,3 +83,12 @@ h1,p,a , li{
     font-family: 'Roboto';
     letter-spacing: 1.5px;
 }
+
+
+/* .form-group{
+    @apply
+} */
+
+.form-control{
+    @apply border-[#fadde1] rounded-lg;
+}

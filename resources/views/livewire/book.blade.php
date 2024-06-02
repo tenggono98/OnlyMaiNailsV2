@@ -56,7 +56,7 @@
 
                                 <label for="{{ $inputId }}" class="flex items-center justify-center p-2 border rounded-md cursor-pointer border-[#fadde1] {{ ($bookingTime['status'] == true)?'bg-gray-300 border-none' : '' }}">
                                     <input {{ ($bookingTime['status'] == true)?'disabled' : '' }} type="radio" id="{{ $inputId }}" name="timeSlot" value="{{ $bookingTime['value'] }}" class="mr-2">
-                                    {{ $bookingTime['value'] }}
+                                    {{ Carbon\Carbon::parse($bookingTime['value'])->format('h:i A')  }}
                                 </label>
 
 
@@ -215,6 +215,60 @@
             <div x-show="open" x-transition>
                 <h2 class="mb-4 text-xl font-bold">Client Information</h2>
                 <!-- Client information form goes here -->
+
+                <div class="my-5">
+
+
+                <div class="">
+                    <label for="">Full Name</label><br>
+                    <input type="text" class="form-control" name="" id="" wire:model='clientName'>
+                </div>
+
+
+                <div class="">
+                    <label for="">Phone Number</label>
+                    <input type="number" name="" id="" wire:model='clientPhoneNumber'>
+                </div>
+
+
+                <div class="">
+                    <label for="">Email</label>
+                    <input type="email" name="" id="" wire:model='clientEmail'>
+                </div>
+
+
+                <div class="flex gap-3 py-5">
+                    <div class="flex-auto align-middle">
+                        <hr>
+                    </div>
+                    <div class="align-middle">
+                        <h1 class="">OR</h1>
+                    </div>
+                    <div class="flex-auto align-middle">
+                        <hr>
+                    </div>
+
+                </div>
+
+
+                <div class="py-5">
+                    <hr class="">
+                </div>
+
+
+                <div class="">
+                    <label for="">Instagram</label>
+                    <input type="text" name="" id="" wire:model='clientName'>
+
+                </div>
+
+            </div>
+
+
+
+
+
+
                 <button wire:click="back('informationClient')"
                     class="px-4 py-2 mr-2 text-white bg-gray-500 rounded">Back</button>
                 <button wire:click="next('informationClient')"

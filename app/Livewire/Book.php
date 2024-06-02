@@ -101,9 +101,6 @@ class Book extends Component
         $result = $this->exampleDataBookigDate->where('date','=',$date);
         $this->indexDate = $result->keys()->first();
 
-
-
-
     }
 
 
@@ -164,12 +161,10 @@ class Book extends Component
 
         // dd($this->selectedServices);
     }
-
     // ------------------------
 
 
     // Page Section
-
     public function next($currentStep)
     {
         $this->resetFlags();
@@ -212,6 +207,5 @@ class Book extends Component
         $this->flagInformationClient = false;
         $this->flagSummary = false;
     }
-
     // ------------------------
 }
