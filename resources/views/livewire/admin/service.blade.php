@@ -2,7 +2,7 @@
     {{-- The best athlete wants his opponent at his best. --}}
 
     <div class="">
-        <x-pages.admin.title-header-admin title="Master Service" />
+        <x-pages.admin.title-header-admin title="Service" />
 
 
         {{-- Fitlter Zone --}}
@@ -29,7 +29,7 @@
         <div class="flex justify-end ">
 
             <div >
-                <x-pages.btn value="Add" data-modal-target="add-modal" data-modal-toggle="add-modal"   />
+                <x-pages.btn value="Add" data-modal-target="add-modal" data-modal-toggle="add-modal" wire:click='resetForm()'   />
             </div>
 
         </div>
@@ -37,7 +37,7 @@
 
         {{-- Modal Zone --}}
 
-        <x-pages.modal.modal id='add-modal' title="New Service" submitFunction='save()' >
+        <x-pages.modal.modal  id='add-modal' title="{{ ($is_edit == false)?'New Service':'Edit Service' }}" submitFunction='save()' >
 
 
             <div class="grid grid-cols-2 gap-3">
@@ -63,7 +63,7 @@
                 </div>
                 <div class="pt-5">
 
-                    <x-pages.inputs.toggle id="serviceIsMerge" wire:model='isMerge'  label='Is Addons ?'/>
+                    <x-pages.inputs.toggle id="serviceIsMerge" wire:model='isMerge'  label='Is Addons ?' :checked="$isMerge"  />
                 </div>
 
             </div>
@@ -73,7 +73,7 @@
         {{-- Modal Zone --}}
 
 
-        <x-pages.table.table :header="['No','Category','Service Name','Price','status','Action']">
+        <x-pages.table.table :header="['No','Category','Service Name','Price','Addons','status','Action']">
             @foreach ($service as $key => $row)
             <x-pages.table.tr>
                 <x-pages.table.td>
@@ -89,6 +89,13 @@
                     ${{ $row->price_service }}
                 </x-pages.table.td>
                 <x-pages.table.td>
+                    @if($row->is_merge == true)
+                    <x-pages.badge type='success' value='True' />
+                @else
+                    <x-pages.badge type='danger' value='False' />
+                @endif
+                </x-pages.table.td>
+                <x-pages.table.td>
                     @if($row->status == true)
                         <x-pages.badge type='success' value='Active' />
                     @else
@@ -99,7 +106,7 @@
 
                     <div class="flex gap-2">
                         <div class="">
-                            <x-pages.btn value="Edit" type="info" />
+                            <x-pages.btn value="Edit" type="info" data-modal-target="add-modal" data-modal-toggle="add-modal" wire:click='edit({{ $row->id }})' />
                         </div>
                         @if($row->status == false)
                             <div class="">

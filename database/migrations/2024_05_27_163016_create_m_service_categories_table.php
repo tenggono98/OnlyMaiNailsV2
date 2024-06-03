@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name_service_categori');
             $table->foreignIdFor(User::class,'created_by')->nullable();
             $table->foreignIdFor(User::class,'updated_by')->nullable();
-            $table->enum('status',[true,false])->default(true);
+            $table->enum('status',[1,0])->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

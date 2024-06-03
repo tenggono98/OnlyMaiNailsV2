@@ -31,6 +31,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/schedule',\App\Livewire\Admin\Schedule::class)->name('admin.schedule');
         Route::get('/service',\App\Livewire\Admin\Service::class)->name('admin.service');
         Route::get('/setting',\App\Livewire\Admin\Setting::class)->name('admin.setting');
+        Route::get('/users',\App\Livewire\Admin\Setting::class)->name('admin.users');
+        Route::get('/profile',\App\Livewire\Admin\Setting::class)->name('admin.profile');
     });
 
 

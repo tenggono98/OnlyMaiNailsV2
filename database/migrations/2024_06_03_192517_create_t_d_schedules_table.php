@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\MServiceCategory;
 use App\Models\User;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\TBooking;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -13,17 +13,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('m_services', function (Blueprint $table) {
+        Schema::create('t_d_schedules', function (Blueprint $table) {
             $table->id();
-            $table->string('name_service');
-            $table->bigInteger('price_service');
-            $table->enum('is_merge',[1,0])->default(0);
-            $table->foreignIdFor(MServiceCategory::class);
+            $table->string('time');
+            $table->enum('is_book',[0,1])->default(0);
+            $table->foreignIdFor(TBooking::class)->nullable();
             $table->foreignIdFor(User::class,'created_by')->nullable();
             $table->foreignIdFor(User::class,'updated_by')->nullable();
             $table->enum('status',[1,0])->default(1);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('m_services');
+        Schema::dropIfExists('t_d_schedules');
     }
 };

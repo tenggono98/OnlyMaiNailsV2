@@ -16,14 +16,13 @@ return new class extends Migration
     {
         Schema::create('t_d_bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(TBooking::class)->nullable();
+            $table->foreignIdFor(TBooking::class);
             $table->foreignIdFor(MService::class)->nullable();
-            $table->String('costume_service')->nullable();
+            $table->string('costume_service')->nullable();
             $table->integer('price')->nullable();
-            $table->integer('qty');
             $table->foreignIdFor(User::class,'created_by')->nullable();
             $table->foreignIdFor(User::class,'updated_by')->nullable();
-            $table->enum('status',[true,false])->default(true);
+            $table->enum('status',[1,0])->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

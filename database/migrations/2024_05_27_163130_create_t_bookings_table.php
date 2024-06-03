@@ -22,11 +22,12 @@ return new class extends Migration
             $table->string('code_booking');
             $table->date('date_booking');
             $table->date('time_booking');
+            $table->enum('is_deposit_paid',[1,0])->default(0);
             $table->bigInteger('reschedule_booking_original_id')->nullable();
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(User::class,'created_by')->nullable();
             $table->foreignIdFor(User::class,'updated_by')->nullable();
-            $table->enum('status',[true,false,'reschedule'])->default(true);
+            $table->enum('status',[1,0,'reschedule'])->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

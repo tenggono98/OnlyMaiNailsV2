@@ -59,11 +59,18 @@ class Service extends Component
 
     public function save(){
 
+        // Validate Input
         $this->validate();
 
 
+        // Check if Edit Or Create
+        if($this->is_edit){
+            $service = MService::find($this->id_edit);
+        }else{
+         $service = new MService();
+        }
 
-        $service = new MService();
+        // Input Data
         $service->name_service = $this->serviceName;
         $service->m_service_category_id = $this->serviceCategory;
         $service->price_service = $this->servicePrice;
@@ -71,12 +78,35 @@ class Service extends Component
         $service->created_by = Auth::user()->id;
         $service->save();
 
+        // Alert if Success
         if($service){
-        $this->alert('success', 'Data has been add!');
+            if($this->is_edit)
+            $this->alert('success', 'Data has been updated!');
+            else
+            $this->alert('success', 'Data has been add!');
+
         $this->reset();
         }
        else
        $this->alert('warning', 'Data fails to be add!');
+
+
+
+    }
+
+    public function edit($id){
+        $getService = MService::find($id);
+
+        $this->id_edit = $id;
+        $this->is_edit = true;
+
+        // serviceName,$serviceCategory,$servicePrice,$isMerge = false;
+
+        $this->serviceName = $getService->name_service;
+        $this->serviceCategory = $getService->m_service_category_id;
+        $this->servicePrice = $getService->price_service;
+        $this->isMerge =  ($getService->is_merge == false)?false:true;
+
 
 
 
@@ -112,6 +142,10 @@ class Service extends Component
         $this->id_del = null;
 
 
+    }
+
+    public function resetForm(){
+        $this->reset();
     }
 
 

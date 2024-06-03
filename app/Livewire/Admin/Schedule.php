@@ -8,6 +8,6 @@ class Schedule extends Component
 {
     public function render()
     {
-        return view('livewire.admin.schedule');
+        return view('livewire.admin.schedule')->layout('components.layouts.app-admin');
     }
 }

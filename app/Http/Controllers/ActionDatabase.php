@@ -32,10 +32,12 @@ class ActionDatabase extends Controller
             // Find the model instance by id
             $model = $modelClass::find($id);
 
+            // dd($model->status);
+
             if($model->status == 1)
-                $model->status = '';
+                $model->status = '0';
             else
-                $model->status = 1;
+                $model->status = '1';
 
             $model->save();
             return true;
