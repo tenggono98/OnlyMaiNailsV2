@@ -3,13 +3,45 @@
     "file": "assets/index-CLQ_oLGC.js",
     "name": "index"
   },
+  "public/font/Cheque/Commercial/TTF/Cheque-Black.ttf": {
+    "file": "assets/Cheque-Black-BKamiKG1.ttf",
+    "src": "public/font/Cheque/Commercial/TTF/Cheque-Black.ttf"
+  },
+  "public/font/Cheque/Commercial/TTF/Cheque-Regular.ttf": {
+    "file": "assets/Cheque-Regular-Bk0FvV4c.ttf",
+    "src": "public/font/Cheque/Commercial/TTF/Cheque-Regular.ttf"
+  },
+  "public/font/Cheque/Commercial/WEB/Cheque-Black.eot": {
+    "file": "assets/Cheque-Black-BSJrthdR.eot",
+    "src": "public/font/Cheque/Commercial/WEB/Cheque-Black.eot"
+  },
+  "public/font/Cheque/Commercial/WEB/Cheque-Black.woff": {
+    "file": "assets/Cheque-Black-CIYXFDfK.woff",
+    "src": "public/font/Cheque/Commercial/WEB/Cheque-Black.woff"
+  },
+  "public/font/Cheque/Commercial/WEB/Cheque-Black.woff2": {
+    "file": "assets/Cheque-Black-WFCsTphX.woff2",
+    "src": "public/font/Cheque/Commercial/WEB/Cheque-Black.woff2"
+  },
+  "public/font/Cheque/Commercial/WEB/Cheque-Regular.eot": {
+    "file": "assets/Cheque-Regular-YX4tJbw0.eot",
+    "src": "public/font/Cheque/Commercial/WEB/Cheque-Regular.eot"
+  },
+  "public/font/Cheque/Commercial/WEB/Cheque-Regular.woff": {
+    "file": "assets/Cheque-Regular-Cfg3lbsW.woff",
+    "src": "public/font/Cheque/Commercial/WEB/Cheque-Regular.woff"
+  },
+  "public/font/Cheque/Commercial/WEB/Cheque-Regular.woff2": {
+    "file": "assets/Cheque-Regular-wDPnW2fi.woff2",
+    "src": "public/font/Cheque/Commercial/WEB/Cheque-Regular.woff2"
+  },
   "resources/css/app-admin.css": {
-    "file": "assets/app-admin-C0ssd2Z5.css",
+    "file": "assets/app-admin-CEPeIcDz.css",
     "src": "resources/css/app-admin.css",
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-Br7LlW3_.css",
+    "file": "assets/app-XIUhwytR.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
