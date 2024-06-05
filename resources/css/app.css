@@ -3,6 +3,19 @@
 @tailwind utilities;
 
 
+@font-face {
+    font-family: 'Cheque-Black';
+    src: url('/public/font/Cheque/Commercial/WEB/Cheque-Black.eot');
+    src: url('/public/font/Cheque/Commercial/WEB/Cheque-Black.eot?#iefix') format('embedded-opentype'),
+    url('/public/font/Cheque/Commercial/WEB/Cheque-Black.woff2') format('woff2'), url('/public/font/Cheque/Commercial/WEB/Cheque-Black.woff') format('woff'), url('/public/font/Cheque/Commercial/TTF/Cheque-Black.ttf') format('truetype');
+    }
+
+    @font-face {
+        font-family: 'Cheque-Regular';
+        src: url('/public/font/Cheque/Commercial/WEB/Cheque-Regular.eot');
+        src: url('/public/font/Cheque/Commercial/WEB/Cheque-Regular.eot?#iefix') format('embedded-opentype'),
+        url('/public/font/Cheque/Commercial/WEB/Cheque-Regular.woff2') format('woff2'), url('/public/font/Cheque/Commercial/WEB/Cheque-Regular.woff') format('woff'), url('/public/font/Cheque/Commercial/TTF/Cheque-Regular.ttf') format('truetype');
+        }
 
 
 
@@ -79,10 +92,17 @@
   }
 
 
-h1,p,a , li{
-    font-family: 'Roboto';
-    letter-spacing: 1.5px;
+h1 , h2{
+    font-family: 'Cheque-Black';
+    letter-spacing: 2.5px;
 }
+
+/* p,li{
+    font-family: 'Cheque-Black';
+    letter-spacing: 2.5px;
+} */
+
+
 
 
 /* .form-group{

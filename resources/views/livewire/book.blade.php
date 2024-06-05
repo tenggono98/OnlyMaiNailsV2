@@ -19,20 +19,20 @@
         <!-- Date and Time Selection -->
         <div x-data="{ open: @entangle('flagPickDateAndTime') }">
             <div x-show="open" x-transition>
-                <h2 class="mb-4 text-xl font-bold">Pick Date and Time</h2>
+                <h1 class="mb-4 text-xl ">Pick Date and Time</h1>
                 <!-- Date and time selection form goes here -->
                 <div class="my-5">
 
-                    <div class="flex gap-4">
+                    <div class="flex flex-col gap-4 lg:flex-row">
                         <div class="">
-                            <h1>Dates</h1>
+                            <p>Dates</p>
                             @livewire('component.module.date-picker-calender')
                         </div>
                         <div class="">
-                            <h1>Time</h1>
+                            <p>Time</p>
 
 
-                          
+
                             @if($indexDate !== null)
                             <div class="grid grid-cols-3 gap-4">
 
@@ -42,7 +42,7 @@
                                     $inputId = 'timeSlot-' . str_replace(':', '-', str_replace(' ', '-', $key)) . $indexDate;
                                 @endphp
 
-                                <label for="{{ $inputId }}" class="flex items-center justify-center p-2 border rounded-md cursor-pointer border-[#fadde1] {{ ($bookingTime['status'] == true)?'bg-gray-300 border-none' : '' }}">
+                                <label for="{{ $inputId }}" class="flex text-nowrap items-center justify-center p-2 border rounded-md cursor-pointer border-[#fadde1] {{ ($bookingTime['status'] == true)?'bg-gray-300 border-none' : '' }}">
                                     <input {{ ($bookingTime['status'] == true)?'disabled' : '' }} type="radio" id="{{ $inputId }}" name="timeSlot" value="{{ $bookingTime['value'] }}" class="mr-2">
                                     {{ Carbon\Carbon::parse($bookingTime['value'])->format('h:i A')  }}
                                 </label>
@@ -80,7 +80,7 @@
 
 
 
-                    <h2 class="mb-4 text-xl font-bold">Select Service</h2>
+                    <h1 class="mb-4 text-xl ">Select Service</h1>
                     <!-- Service selection form goes here -->
 
                     <div class="flex flex-col">
@@ -111,12 +111,12 @@
 
                         <div class="flex flex-col gap-3 my-3 lg:flex-row ">
                             <div class="border border-[#fadde1] p-3 rounded-lg">
-                                <h1 class="text-xl">Total Price (Before Deducted)</h1>
+                                <p class="text-xl">Total Price (Before Deducted)</p>
                                 <p class="text-4xl">$ {{ $total_price ?? 0 }}</p>
                             </div>
 
                             <div class="border border-[#fadde1] p-3 rounded-lg">
-                                <h1 class="text-xl">Total Payment (After Deducted)</h1>
+                                <p class="text-xl">Total Payment (After Deducted)</p>
                                 <p class="text-4xl">$ {{  ((int)$total_price > 0)?  (int)$total_price - (int)$this->deposit->value  : 0 }}</p>
                             </div>
 
@@ -133,7 +133,7 @@
                             <div x-on:click="openCategory = openCategory === {{ $key }} ? null : {{ $key }}"
                                 :class="openCategory === {{ $key }} ? 'border-white bg-[#fadde1]' : 'border-[#fadde1]'"
                                 class="flex-auto p-4 border rounded-lg hover:cursor-pointer hover:border-white hover:bg-[#fadde1]">
-                                <h1>{{ $cat->name_service_categori}}</h1>
+                                <p>{{ $cat->name_service_categori}}</p>
                             </div>
                         @endforeach
                     </div>
@@ -201,7 +201,7 @@
         <!-- Client Information -->
         <div x-data="{ open: @entangle('flagInformationClient') }">
             <div x-show="open" x-transition>
-                <h2 class="mb-4 text-xl font-bold">Client Information</h2>
+                <h2 class="mb-4 text-xl ">Client Information</h2>
                 <!-- Client information form goes here -->
 
                 <div class="my-5">
@@ -267,7 +267,7 @@
         <!-- Summary -->
         <div x-data="{ open: @entangle('flagSummary') }">
             <div x-show="open" x-transition>
-                <h2 class="mb-4 text-xl font-bold">Summary</h2>
+                <h2 class="mb-4 text-xl ">Summary</h2>
                 <!-- Summary of all selections goes here -->
                 <button wire:click="back('summary')" class="px-4 py-2 mr-2 text-white bg-gray-500 rounded">Back</button>
                 <button wire:click="next('summary')" class="px-4 py-2 text-white bg-green-500 rounded">Submit</button>

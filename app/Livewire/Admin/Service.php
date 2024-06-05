@@ -25,12 +25,20 @@ class Service extends Component
 
     // Input Variable
     #[Validate('required')]
-    public $serviceName,$serviceCategory,$servicePrice,$isMerge = false;
+    public $serviceName,$serviceCategory,$isMerge = false;
+
+    #[Validate('required|numeric')]
+    public $servicePrice;
 
 
     // Listeners Component
     protected $listeners = [
         'deleteRow'
+    ];
+
+    protected $queryString = [
+        'searchName' => ['except' => ''],
+        'searchCategory' => ['except' => '']
     ];
 
 
@@ -54,6 +62,11 @@ class Service extends Component
 
 
         return view('livewire.admin.service',compact('service','category'))->layout('components.layouts.app-admin');
+    }
+
+    public function search()
+    {
+        // This method is intentionally left blank to allow form submission to trigger reactivity
     }
 
 

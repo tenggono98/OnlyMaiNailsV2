@@ -6,21 +6,27 @@
 
 
         {{-- Fitlter Zone --}}
+        <form wire:submit.prevent="search">
         <div class="flex gap-4 my-3">
 
             <div class="flex-auto">
-                <x-pages.inputs.search placeholder='Search Service Name' wire:model.live='searchName'/>
+                <x-pages.inputs.search placeholder='Search Service Name' wire:model='searchName'/>
             </div>
             <div class="flex-auto">
-                <x-pages.inputs.select wire:model.live='searchCategory'>
+                <x-pages.inputs.select wire:model='searchCategory'>
                         <option value="">Select Category</option>
                     @foreach ($category as $item )
                         <option value="{{ $item->id }}">{{ $item->name_service_categori }}</option>
                     @endforeach
                 </x-pages.inputs.select>
             </div>
+            <div class="flex items-center">
+                <x-pages.btn value="Find" action='submit'  />
+            </div>
+
 
         </div>
+        </form>
 
         {{-- Fitlter Zone --}}
 
@@ -35,44 +41,9 @@
         </div>
         {{-- Action Zone --}}
 
-        {{-- Modal Zone --}}
-
-        <x-pages.modal.modal  id='add-modal' title="{{ ($is_edit == false)?'New Service':'Edit Service' }}" submitFunction='save()' >
 
 
-            <div class="grid grid-cols-2 gap-3">
-                <div class="">
-                    <label for="">Service Category</label>
-                    <x-pages.inputs.select wire:model='serviceCategory'>
-                        <option value="">Select Category</option>
-                        @foreach ($category as $item)
-                            <option value="{{ $item->id }}">{{ $item->name_service_categori }}</option>
-                        @endforeach
-                    </x-pages.inputs.select>
-                   <x-pages.inputs.error error='serviceCategory' />
-                </div>
-                <div class="">
-                    <label for="">Service Name</label>
-                    <x-pages.inputs.text wire:model='serviceName'/>
-                    <x-pages.inputs.error error='serviceName' />
-                </div>
-                <div class="">
-                    <label for="">Service Price</label>
-                    <x-pages.inputs.currency wire:model='servicePrice' />
-                    <x-pages.inputs.error error='servicePrice' />
-                </div>
-                <div class="pt-5">
-
-                    <x-pages.inputs.toggle id="serviceIsMerge" wire:model='isMerge'  label='Is Addons ?' :checked="$isMerge"  />
-                </div>
-
-            </div>
-
-        </x-pages.modal.modal>
-
-        {{-- Modal Zone --}}
-
-
+        {{-- Table Zone --}}
         <x-pages.table.table :header="['No','Category','Service Name','Price','Addons','status','Action']">
             @foreach ($service as $key => $row)
             <x-pages.table.tr>
@@ -133,6 +104,47 @@
 
 
         </x-pages.table.table>
+        {{-- Table Zone --}}
+
+
 
     </div>
+
+
+      {{-- Modal Zone --}}
+
+      <x-pages.modal.modal  id='add-modal' title="{{ ($is_edit == false)?'New Service':'Edit Service' }}" submitFunction='save()' >
+
+
+        <div class="grid grid-cols-2 gap-3">
+            <div class="">
+                <label for="">Service Category</label>
+                <x-pages.inputs.select wire:model='serviceCategory'>
+                    <option value="">Select Category</option>
+                    @foreach ($category as $item)
+                        <option value="{{ $item->id }}">{{ $item->name_service_categori }}</option>
+                    @endforeach
+                </x-pages.inputs.select>
+               <x-pages.inputs.error error='serviceCategory' />
+            </div>
+            <div class="">
+                <label for="">Service Name</label>
+                <x-pages.inputs.text wire:model='serviceName'/>
+                <x-pages.inputs.error error='serviceName' />
+            </div>
+            <div class="">
+                <label for="">Service Price</label>
+                <x-pages.inputs.currency wire:model='servicePrice' />
+                <x-pages.inputs.error error='servicePrice' />
+            </div>
+            <div class="pt-5">
+
+                <x-pages.inputs.toggle id="serviceIsMerge" wire:model='isMerge'  label='Is Addons ?' :checked="$isMerge"  />
+            </div>
+
+        </div>
+
+    </x-pages.modal.modal>
+
+    {{-- Modal Zone --}}
 </div>

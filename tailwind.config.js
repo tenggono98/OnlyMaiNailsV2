@@ -8,7 +8,9 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         "./node_modules/flowbite/**/*.js",
+
     ],
+
 
     theme: {
         extend: {
@@ -18,5 +20,11 @@ export default {
         },
     },
 
-    plugins: [forms,require('flowbite/plugin')],
+    safelist: [
+        '!duration-[0ms]',
+        '!delay-[0ms]',
+        'html.js :where([class*="taos:"]:not(.taos-init))'
+      ],
+
+    plugins: [forms,require('flowbite/plugin'),require('taos/plugin')],
 };
