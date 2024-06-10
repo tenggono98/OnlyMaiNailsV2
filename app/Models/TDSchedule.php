@@ -11,6 +11,6 @@ class TDSchedule extends Model
     use HasFactory ;
 
     public function date(){
-        return $this->belongsTo(TSchedule::class,'t_booking_id');
+        return $this->belongsTo(TSchedule::class,'t_schedule_id');
     }
 }

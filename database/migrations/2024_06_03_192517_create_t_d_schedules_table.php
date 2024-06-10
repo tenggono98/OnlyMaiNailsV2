@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use App\Models\TBooking;
+use App\Models\TSchedule;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -17,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('time');
             $table->enum('is_book',[0,1])->default(0);
+            $table->foreignIdFor(TSchedule::class);
             $table->foreignIdFor(TBooking::class)->nullable();
             $table->foreignIdFor(User::class,'created_by')->nullable();
             $table->foreignIdFor(User::class,'updated_by')->nullable();

@@ -207,53 +207,72 @@
                 <h2 class="mb-4 text-xl ">Client Information</h2>
                 <!-- Client information form goes here -->
 
-                <div class="my-5">
+                <div class="flex flex-col gap-3 p-4 my-5 border-[#fadde1] border rounded-lg">
 
 
-                <div class="">
-                    <label for="">Full Name</label><br>
-                    <input type="text" class="form-control" name="" id="" wire:model='clientName'>
-                </div>
-
-
-                <div class="">
-                    <label for="">Phone Number</label>
-                    <input type="number" name="" id="" wire:model='clientPhoneNumber'>
-                </div>
-
-
-                <div class="">
-                    <label for="">Email</label>
-                    <input type="email" name="" id="" wire:model='clientEmail'>
-                </div>
-
-
-                <div class="flex gap-3 py-5">
-                    <div class="flex-auto align-middle">
-                        <hr>
-                    </div>
-                    <div class="align-middle">
-                        <h1 class="">OR</h1>
-                    </div>
-                    <div class="flex-auto align-middle">
-                        <hr>
+                    <div class="flex-auto">
+                        <label for="">Full Name</label><br>
+                        <input type="text" class="w-full form-control"  name="" id="" wire:model='clientName'>
                     </div>
 
+
+                    <div class="">
+                        <label for="">Phone Number</label>
+                        <input type="number" name="" id="" class="w-full form-control" wire:model='clientPhoneNumber'>
+                    </div>
+
+
+                    <div class="">
+                        <label for="">Email</label>
+                        <input type="email" name="" id="" class="w-full form-control" wire:model='clientEmail'>
+                    </div>
+
+
+                    <div class="flex items-center py-5">
+                        <div class="flex-auto">
+                            <hr class="border-t border-[#fadde1]">
+                        </div>
+                        <div class="px-4">
+                            <h1 class="text-lg text-center">OR</h1>
+                        </div>
+                        <div class="flex-auto">
+                            <hr class="border-t border-[#fadde1]">
+                        </div>
+                    </div>
+
+                    <div class="">
+                        <a href="{{ route('oauth.google') }}" class="w-full">
+                            <div class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">
+                                <div class="">
+                                    <svg class="w-8 h-8 text-red-500"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M17.788 5.108A9 9 0 1021 12h-8" /></svg>
+                                </div>
+                                <div class="flex items-center">
+                                    <p>Sign in with Google</p>
+                                </div>
+
+                            </div>
+                            </a>
+                    </div>
+
+
+
                 </div>
 
 
-                <div class="py-5">
-                    <hr class="">
+                <div class="mb-5">
+
+
+                    <div class="py-5">
+                        <hr class="border-t border-[#fadde1]">
+                    </div>
+
+
+                    <div class="">
+                        <label for="">Instagram</label>
+                        <input type="text" name="" class="w-full form-control" id="" wire:model='clientName'>
+
+                    </div>
                 </div>
-
-
-                <div class="">
-                    <label for="">Instagram</label>
-                    <input type="text" name="" id="" wire:model='clientName'>
-
-                </div>
-
-            </div>
 
 
 

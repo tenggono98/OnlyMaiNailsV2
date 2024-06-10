@@ -11,6 +11,6 @@ class TSchedule extends Model
     use HasFactory , SoftDeletes;
 
     public function times(){
-        return $this->hasMany(TDSchedule::class,'t_booking_id');
+        return $this->hasMany(TDSchedule::class,'t_schedule_id');
     }
 }

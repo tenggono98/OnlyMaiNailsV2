@@ -48,9 +48,6 @@ class Schedule extends Component
         if($this->searchStatus)
             $TScheduleData->where('status','=', ($this->searchStatus == 'active')? '1':'0');
 
-
-
-
         $TScheduleData = $TScheduleData->paginate(10);
 
 
@@ -85,7 +82,7 @@ class Schedule extends Component
         if($this->is_edit){
             $TSchedule = TSchedule::find($this->id_edit);
             // Delete Old Time
-            TDSchedule::where('t_booking_id','=',$this->id_edit)->delete();
+            TDSchedule::where('t_schedule_id','=',$this->id_edit)->delete();
             $TSchedule->updated_by = Auth::user()->id;
 
         }else{
@@ -106,7 +103,7 @@ class Schedule extends Component
             $TDSchedule = new TDSchedule();
             $TDSchedule->created_by = Auth::user()->id;
             $TDSchedule->time = $time;
-            $TDSchedule->t_booking_id = $TScheduleId;
+            $TDSchedule->t_schedule_id = $TScheduleId;
             $TDSchedule->save();
         }
 

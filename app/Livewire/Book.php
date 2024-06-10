@@ -41,16 +41,28 @@ class Book extends Component
         $this->deposit = SettingWeb::where('name','=','deposit')->first();
 
 
-        // Get Master Schedule for Calender
         $this->dataBookingDate = TSchedule::with(['times' => function ($query) {
-            // Get the current time
+            // Get current date and time
+            $currentDate = Carbon::today();
             $currentTime = Carbon::now()->format('H:i');
 
-            // Filter times less than or equal to the current time
-            $query->where('time', '>=', $currentTime);
+            // Join with TSchedule to get date_schedule
+            $query->join('t_schedules', 't_schedules.id', '=', 't_d_schedules.t_schedule_id')
+                  ->where(function($subQuery) use ($currentDate, $currentTime) {
+                      $subQuery->where(function($q) use ($currentDate, $currentTime) {
+                          // For today's schedules, filter times greater than or equal to the current time
+                          $q->whereDate('t_schedules.date_schedule', $currentDate)
+                            ->whereRelation('date','time', '>=', $currentTime);
+                      })
+                      ->orWhere(function($q) use ($currentDate) {
+                          // For future schedules, load all times
+                          $q->whereDate('t_schedules.date_schedule', '>', $currentDate);
+                      });
+                  });
         }])
-        ->whereDate('date_schedule','>=',Carbon::today())
-        ->where('status','=',1)->get();
+        ->whereDate('date_schedule', '>=', Carbon::today())
+        ->where('status', '=', 1)
+        ->get();
 
 
         return view('livewire.book',compact('serviceCategory'));
