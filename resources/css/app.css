@@ -92,10 +92,12 @@
   }
 
 
-h1 , h2{
+h1 , h2 {
     font-family: 'Cheque-Black';
     letter-spacing: 2.5px;
 }
+
+
 
 /* p,li{
     font-family: 'Cheque-Black';

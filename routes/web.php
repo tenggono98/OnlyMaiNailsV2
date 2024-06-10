@@ -24,25 +24,26 @@ Route::get('/user/login',\App\Livewire\Login::class)->name('user.login');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
-    Route::prefix('admin')->group(function () {
-        Route::get('/dashboard',\App\Livewire\Admin\Dashboard::class)->name('admin.dashboard');
-        Route::view('/profile', 'profile') ->middleware(['auth']) ->name('profile');
-        Route::get('/booking',\App\Livewire\Admin\Booking::class)->name('admin.booking');
-        Route::get('/schedule',\App\Livewire\Admin\Schedule::class)->name('admin.schedule');
-        Route::get('/service',\App\Livewire\Admin\Service::class)->name('admin.service');
-        Route::get('/setting',\App\Livewire\Admin\Setting::class)->name('admin.setting');
-        Route::get('/users',\App\Livewire\Admin\Setting::class)->name('admin.users');
-        Route::get('/profile',\App\Livewire\Admin\Setting::class)->name('admin.profile');
-    });
+        Route::prefix('admin')->group(function () {
+
+                Route::get('/dashboard',\App\Livewire\Admin\Dashboard::class)->name('admin.dashboard');
+                Route::view('/profile', 'profile') ->middleware(['auth']) ->name('profile');
+                Route::get('/booking',\App\Livewire\Admin\Booking::class)->name('admin.booking');
+                Route::get('/schedule',\App\Livewire\Admin\Schedule::class)->name('admin.schedule');
+                Route::get('/service',\App\Livewire\Admin\Service::class)->name('admin.service');
+                Route::get('/setting',\App\Livewire\Admin\Setting::class)->name('admin.setting');
+                Route::get('/users',\App\Livewire\Admin\Setting::class)->name('admin.users');
+                Route::get('/profile',\App\Livewire\Admin\Setting::class)->name('admin.profile');
+
+            });
+        });
+
+
+        Route::middleware(['auth', 'role:user'])->group(function () {
 
 
 
-});
-
-Route::middleware(['auth', 'role:user'])->group(function () {
-
-
-});
+        });
 
 
 

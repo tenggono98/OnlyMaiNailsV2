@@ -36,17 +36,17 @@
     "src": "public/font/Cheque/Commercial/WEB/Cheque-Regular.woff2"
   },
   "resources/css/app-admin.css": {
-    "file": "assets/app-admin-CEPeIcDz.css",
+    "file": "assets/app-admin-DjHhKCsU.css",
     "src": "resources/css/app-admin.css",
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-XIUhwytR.css",
+    "file": "assets/app-DjttxD7-.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-BLES79Us.js",
+    "file": "assets/app-3w9xoWUn.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -55,7 +55,7 @@
     ]
   },
   "resources/js/datepicker.js": {
-    "file": "assets/datepicker-CzIeVoJV.js",
+    "file": "assets/datepicker-DwzYrgdd.js",
     "name": "datepicker",
     "src": "resources/js/datepicker.js",
     "isEntry": true,

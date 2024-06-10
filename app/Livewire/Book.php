@@ -2,15 +2,18 @@
 
 namespace App\Livewire;
 
-use App\Models\MService;
-use App\Models\MServiceCategory;
-use App\Models\SettingWeb;
+use Carbon\Carbon;
 use Livewire\Component;
+use App\Models\MService;
+use App\Models\TSchedule;
+use App\Models\SettingWeb;
+use App\Models\TDSchedule;
+use App\Models\MServiceCategory;
 
 class Book extends Component
 {
 
-    public $selectedServices = [] , $selectedDate , $indexDate;
+    public $selectedServices = [] , $selectedDate , $indexDate , $dataBookingDate;
     public $total_price ;
 
     public $number_of_people = 1;
@@ -21,76 +24,33 @@ class Book extends Component
 
     protected $listeners = ['selectedDate'];
 
-
-    // public $startTime = '10:00 AM';
-    // public $endTime = '03:00 PM'; // Changed to 12-hour format
-    // public $interval = 30;
-    // public $timeSlots = [];
-
-
     public $exampleDataBookigDate ;
-
-    public function mount()
-    {
-
-        $this->exampleDataBookigDate = collect([
-            [
-                'id' => 0,
-                'date' => '2024-06-03',
-                'time' => collect([
-                    ['value' => '9:30', 'status' => true],
-                    ['value' => '12:30', 'status' => false],
-                    ['value' => '15:30', 'status' => false],
-                    ['value' => '18:30', 'status' => false],
-                ])
-            ],
-            [
-                'id' => 1,
-                'date' => '2024-06-04',
-                'time' => collect([
-                    ['value' => '9:30', 'status' => false],
-                    ['value' => '12:30', 'status' => false],
-                ])
-            ],
-            [
-                'id' => 2,
-                'date' => '2024-06-05',
-                'time' => collect([
-                    ['value' => '9:30', 'status' => false],
-                    ['value' => '12:30', 'status' => false],
-                    ['value' => '15:30', 'status' => false],
-                    ['value' => '18:30', 'status' => false],
-                ])
-            ]
-        ]);
-
-    }
-
-    // public function generateTimeSlots()
-    // {
-    //     $this->timeSlots = [];
-    //     $start = strtotime($this->startTime);
-    //     $end = strtotime($this->endTime);
-
-    //     while ($start < $end) {
-    //         $this->timeSlots[] = date('h:i A', $start);
-    //         $start = strtotime("+{$this->interval} minutes", $start);
-    //     }
-    // }
-
-
 
 
 
     public function render()
     {
+        // Get Master Service for table
         $serviceCategory = MServiceCategory::with(['services' => function($q){
             $q->where('status','=',true);
         }])
         ->where('status',true)
         ->get();
+
+        // Get Price for Deposit
         $this->deposit = SettingWeb::where('name','=','deposit')->first();
 
+
+        // Get Master Schedule for Calender
+        $this->dataBookingDate = TSchedule::with(['times' => function ($query) {
+            // Get the current time
+            $currentTime = Carbon::now()->format('H:i');
+
+            // Filter times less than or equal to the current time
+            $query->where('time', '>=', $currentTime);
+        }])
+        ->whereDate('date_schedule','>=',Carbon::today())
+        ->where('status','=',1)->get();
 
 
         return view('livewire.book',compact('serviceCategory'));
@@ -99,12 +59,14 @@ class Book extends Component
 
 
     public function selectedDate($date){
+        // Set Selected Date
         $this->selectedDate = $date;
+        $filteredBooks = array_filter($this->dataBookingDate->toArray(), function($schedule) use ($date) {
+            return $schedule["date_schedule"] === $date;
+        });
 
-        // Search Date Based on "exampleDataBookigDate"
-        $result = $this->exampleDataBookigDate->where('date','=',$date);
-        $this->indexDate = $result->keys()->first();
-
+        // dd($filteredBooks);
+        $this->indexDate = array_keys($filteredBooks)[0];
     }
 
 
@@ -121,7 +83,6 @@ class Book extends Component
                 return $selectedService['id'] === $idService;
             });
 
-            // dd($index);
 
             // If the service is already selected, remove it
             if ($index !== false) {
@@ -163,7 +124,6 @@ class Book extends Component
 
 
 
-        // dd($this->selectedServices);
     }
     // ------------------------
 

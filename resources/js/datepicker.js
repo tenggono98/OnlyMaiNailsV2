@@ -48,7 +48,6 @@ function refreshDatePicker(enabledDates ){
 }
 
 document.addEventListener('livewire:init', () => {
-    console.log('init');
     Livewire.on('enabledDatesUpdated', (event) => {
         console.log(event[0]);
         const enabledDates = event[0];

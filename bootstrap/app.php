@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use App\Http\Middleware\RoleCheck;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;

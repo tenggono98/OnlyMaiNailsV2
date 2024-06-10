@@ -8,7 +8,8 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/css/app-admin.css',
-                'resources/js/datepicker.js'
+                'resources/js/datepicker.js',
+
             ],
             refresh: true,
         }),

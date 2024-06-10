@@ -36,21 +36,24 @@
                             @if($indexDate !== null)
                             <div class="grid grid-cols-3 gap-4">
 
-                                @foreach ($exampleDataBookigDate[$indexDate]['time'] as $key => $bookingTime )
 
-                                @php
-                                    $inputId = 'timeSlot-' . str_replace(':', '-', str_replace(' ', '-', $key)) . $indexDate;
-                                @endphp
+                                    @foreach ($dataBookingDate[(int)$indexDate]->times as $key => $bookingTime )
 
-                                <label for="{{ $inputId }}" class="flex text-nowrap items-center justify-center p-2 border rounded-md cursor-pointer border-[#fadde1] {{ ($bookingTime['status'] == true)?'bg-gray-300 border-none' : '' }}">
-                                    <input {{ ($bookingTime['status'] == true)?'disabled' : '' }} type="radio" id="{{ $inputId }}" name="timeSlot" value="{{ $bookingTime['value'] }}" class="mr-2">
-                                    {{ Carbon\Carbon::parse($bookingTime['value'])->format('h:i A')  }}
-                                </label>
+                                    @php
+                                        $inputId = 'timeSlot-' . str_replace(':', '-', str_replace(' ', '-', $key)) . $indexDate;
+                                    @endphp
+
+                                    <label for="{{ $inputId }}" class="flex text-nowrap items-center justify-center p-2 border rounded-md cursor-pointer border-[#fadde1] {{ ($bookingTime->is_book == true)?'bg-gray-300 border-none' : '' }}">
+                                        <input {{ ($bookingTime->is_book == true)?'disabled' : '' }} type="radio" id="{{ $inputId }}" name="timeSlot" value="{{ $bookingTime->id }}" class="mr-2">
+                                        {{ Carbon\Carbon::parse($bookingTime->time)->format('h:i A')  }}
+                                    </label>
 
 
 
 
-                                @endforeach
+                                    @endforeach
+
+
 
                             </div>
                             @endif

@@ -17,8 +17,7 @@ class Service extends Component
 
 
     // Search Variable
-    public $searchName , $searchCategory;
-
+    public $searchName , $searchCategory , $searchStatus;
 
     // Component Variable
     public $id_del , $is_edit = false , $id_edit;
@@ -38,7 +37,8 @@ class Service extends Component
 
     protected $queryString = [
         'searchName' => ['except' => ''],
-        'searchCategory' => ['except' => '']
+        'searchCategory' => ['except' => ''],
+        'searchStatus' => ['except' => ''],
     ];
 
 
@@ -57,6 +57,12 @@ class Service extends Component
         // Search Category
         if($this->searchCategory)
             $service->where('m_service_category_id','=', $this->searchCategory);
+
+
+        // Search Status
+        if($this->searchStatus)
+            $service->where('status','=', ($this->searchStatus == 'active')? '1':'0');
+
 
         $service = $service->get();
 
@@ -119,9 +125,6 @@ class Service extends Component
         $this->serviceCategory = $getService->m_service_category_id;
         $this->servicePrice = $getService->price_service;
         $this->isMerge =  ($getService->is_merge == false)?false:true;
-
-
-
 
     }
 

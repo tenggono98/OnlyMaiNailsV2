@@ -2,25 +2,37 @@
 
 namespace App\Livewire\Admin;
 
+use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\TSchedule;
 use App\Models\TDSchedule;
+use Livewire\WithPagination;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ActionDatabase;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
-use Livewire\WithPagination;
 
 class Schedule extends Component
 {
     use LivewireAlert , WithPagination;
 
+
+    // Component Search
+    public $searchStartDate , $searchEndDate , $searchStatus;
+
     // Component Variable
     public $id_del , $is_edit = false , $id_edit , $timeCount = 1;
-    //   Component Input
+    // Component Input
     #[Validate('required')]
     public $timeArray = [] , $scheduleDate ;
+
+
+    protected $queryString = [
+        'searchStartDate' => ['except' => ''],
+        'searchEndDate' => ['except' => ''],
+        'searchStatus' => ['except' => '']
+    ];
 
 
 
@@ -29,11 +41,27 @@ class Schedule extends Component
         // Get All Schedule for Table
         $TScheduleData = TSchedule::with('times')->orderBy('id','desc');
 
+        // Search Start & End Date
+        if($this->searchStartDate && $this->searchEndDate)
+            $TScheduleData->whereBetween('date_schedule',[$this->searchStartDate,$this->searchEndDate]);
 
-        $TScheduleData = $TScheduleData->paginate(1);
+        if($this->searchStatus)
+            $TScheduleData->where('status','=', ($this->searchStatus == 'active')? '1':'0');
+
+
+
+
+        $TScheduleData = $TScheduleData->paginate(10);
+
 
 
         return view('livewire.admin.schedule',compact('TScheduleData'))->layout('components.layouts.app-admin');
+    }
+
+
+    public function search()
+    {
+        // This method is intentionally left blank to allow form submission to trigger reactivity
     }
 
 
@@ -111,11 +139,6 @@ class Schedule extends Component
         foreach($TSchedule->times as $t){
             $this->timeArray[] = $t->time;
         }
-
-
-
-
-
     }
 
     public function addTimeModal(){
@@ -131,9 +154,6 @@ class Schedule extends Component
 
     public function toggleStatus($id){
         $action = ActionDatabase::toggleStatusSingleModel('TSchedule',$id);
-
-
-
 
         if($action)
          $this->alert('success', 'Status has been change!');
