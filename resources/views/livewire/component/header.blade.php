@@ -54,7 +54,7 @@
             <div class="flex items-center justify-center ">
                 <ul class="flex justify-center gap-5 uppercase list-none">
                     <li><a href="{{ Route('home') }}">Home V2</a></li>
-                    <li><a href="">Our Services</a></li>
+                    <li><a href="{{ Route('services') }}">Our Services</a></li>
                     <li><a href="">Contact Us</a></li>
                     <li><a href="{{ Route('book') }}">Book</a></li>
                 </ul>
@@ -80,7 +80,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="" class="flex flex-col items-center justify-between block h-full p-2 text-center">
+                        <a href="{{ Route('services') }}" class="flex flex-col items-center justify-between block h-full p-2 text-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 3.75v16.5M2.25 12h19.5M6.375 17.25a4.875 4.875 0 0 0 4.875-4.875V12m6.375 5.25a4.875 4.875 0 0 1-4.875-4.875V12m-9 8.25h16.5a1.5 1.5 0 0 0 1.5-1.5V5.25a1.5 1.5 0 0 0-1.5-1.5H3.75a1.5 1.5 0 0 0-1.5 1.5v13.5a1.5 1.5 0 0 0 1.5 1.5Zm12.621-9.44c-1.409 1.41-4.242 1.061-4.242 1.061s-.349-2.833 1.06-4.242a2.25 2.25 0 0 1 3.182 3.182ZM10.773 7.63c1.409 1.409 1.06 4.242 1.06 4.242S9 12.22 7.592 10.811a2.25 2.25 0 1 1 3.182-3.182Z" />
                             </svg>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 // Route::view('/', 'welcome');
 
 Route::get('/',\App\Livewire\Homepage::class)->name('home');
+Route::get('/services',\App\Livewire\Services::class)->name('services');
 Route::get('/book',\App\Livewire\Book::class)->name('book');
 Route::get('/user/login',\App\Livewire\Login::class)->name('user.login');
 
