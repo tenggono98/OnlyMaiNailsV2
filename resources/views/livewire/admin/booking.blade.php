@@ -127,6 +127,9 @@
                                                 data-modal-toggle="add-modal" >
                                                 Edit
                                             </button>
+                                            <button class="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100" wire:click="bookmarkGoogleCalendar({{ $row->user_id }},{{ $row->id }})" >
+                                                Reschedule
+                                            </button>
                                             @if ($row->status == false)
                                                 <button class="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100" wire:click="toggleStatus({{ $row->id }})">
                                                     Activate

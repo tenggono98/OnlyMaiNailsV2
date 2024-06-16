@@ -36,17 +36,17 @@
     "src": "public/font/Cheque/Commercial/WEB/Cheque-Regular.woff2"
   },
   "resources/css/app-admin.css": {
-    "file": "assets/app-admin-Dj8IBrnb.css",
+    "file": "assets/app-admin-B3yENI3u.css",
     "src": "resources/css/app-admin.css",
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-DGBqpl0S.css",
+    "file": "assets/app-DXA_S6-E.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-3w9xoWUn.js",
+    "file": "assets/app-B6rPiFKG.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
