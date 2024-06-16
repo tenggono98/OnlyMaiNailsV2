@@ -10,7 +10,7 @@
 
          {{-- SERVICES ZONE --}}
 
-    <section id="services" class="px-32">
+    <section id="services" class="lg:px-32">
 
         <div class="">
 
