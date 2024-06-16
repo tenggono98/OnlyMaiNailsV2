@@ -105,6 +105,7 @@ class Service extends Component
             $this->alert('success', 'Data has been add!');
 
         $this->reset();
+        $this->dispatch('closeModal',['id'=>'add-modal']);
         }
        else
        $this->alert('warning', 'Data fails to be add!');
@@ -114,6 +115,7 @@ class Service extends Component
     }
 
     public function edit($id){
+        $this->reset();
         $getService = MService::find($id);
 
         $this->id_edit = $id;

@@ -20,11 +20,12 @@
 
             <ul class="flex justify-between w-full gap-4 lg:flex lg:justify-center ">
                 <li>Hello, <span class="font-semibold">{{ Auth::user()->name }}</span></li>
-                <div class="hidden lg:flex">
+                <div class="hidden gap-4 lg:flex">
                     <li class="cursor-pointer">Booking History</li>
                     <li class="cursor-pointer">Change Password</li>
                 </div>
                     <li class="cursor-pointer"><a wire:click="logout" >Logout</a></li>
+
 
             </ul>
 

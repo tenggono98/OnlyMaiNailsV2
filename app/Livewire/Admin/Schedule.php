@@ -34,6 +34,8 @@ class Schedule extends Component
         'searchStatus' => ['except' => '']
     ];
 
+    
+
 
 
     public function render()
@@ -99,7 +101,6 @@ class Schedule extends Component
 
         // Create The Detail Schedule (Time)
         foreach($this->timeArray as $time){
-
             $TDSchedule = new TDSchedule();
             $TDSchedule->created_by = Auth::user()->id;
             $TDSchedule->time = $time;
@@ -115,6 +116,7 @@ class Schedule extends Component
             $this->alert('success', 'Data has been add!');
 
         $this->reset();
+        $this->dispatch('closeModal',['id'=>'add-modal']);
         }
        else
        $this->alert('warning', 'Data fails to be add!');

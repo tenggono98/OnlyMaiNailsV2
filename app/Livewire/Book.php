@@ -9,22 +9,27 @@ use App\Models\TSchedule;
 use App\Models\SettingWeb;
 use App\Models\TDSchedule;
 use App\Models\MServiceCategory;
+use App\Livewire\Actions\Logout;
 
 class Book extends Component
 {
 
-    public $selectedServices = [] , $selectedDate , $indexDate , $dataBookingDate;
+    // Variable Input
+    public $selectedServices = [] , $selectedDate , $indexDate , $timeBooking , $dataBookingDate;
+
+    // Variable Input (Client Information)
+    public $fullNameClient, $emailClient, $phoneNumberClient , $igClient , $passwordClient , $confrimPasswordClient;
+
     public $total_price ;
 
     public $number_of_people = 1;
 
     public $deposit ;
 
-    public $flagService = false, $flagPickDateAndTime = true, $flagInformationClient = false, $flagSummary = false;
+    public $flagService = false, $flagPickDateAndTime = false, $flagInformationClient = true, $flagSummary = false;
 
     protected $listeners = ['selectedDate'];
 
-    public $exampleDataBookigDate ;
 
 
 
@@ -41,28 +46,35 @@ class Book extends Component
         $this->deposit = SettingWeb::where('name','=','deposit')->first();
 
 
+
         $this->dataBookingDate = TSchedule::with(['times' => function ($query) {
             // Get current date and time
             $currentDate = Carbon::today();
             $currentTime = Carbon::now()->format('H:i');
 
+
             // Join with TSchedule to get date_schedule
-            $query->join('t_schedules', 't_schedules.id', '=', 't_d_schedules.t_schedule_id')
-                  ->where(function($subQuery) use ($currentDate, $currentTime) {
-                      $subQuery->where(function($q) use ($currentDate, $currentTime) {
-                          // For today's schedules, filter times greater than or equal to the current time
-                          $q->whereDate('t_schedules.date_schedule', $currentDate)
-                            ->whereRelation('date','time', '>=', $currentTime);
-                      })
-                      ->orWhere(function($q) use ($currentDate) {
-                          // For future schedules, load all times
-                          $q->whereDate('t_schedules.date_schedule', '>', $currentDate);
-                      });
-                  });
+            $query->where(function($subQuery) use ($currentDate, $currentTime) {
+
+                $subQuery->where(function($q) use ($currentDate, $currentTime) {
+                    // For today's schedules, filter times greater than or equal to the current time
+                    $q->whereRelation('date','date_schedule','=', $currentDate)
+                    ->where('time', '>=', $currentTime);
+                })
+                ->orWhere(function($q) use ($currentDate) {
+                    // For future schedules, load all times
+                    $q->whereRelation('date','date_schedule','>', $currentDate);
+                });
+
+            });
         }])
         ->whereDate('date_schedule', '>=', Carbon::today())
         ->where('status', '=', 1)
         ->get();
+
+        // dd( Carbon::now()->format('H:i'));
+        // dd($this->dataBookingDate[0]->times);
+
 
 
         return view('livewire.book',compact('serviceCategory'));
@@ -144,14 +156,15 @@ class Book extends Component
     public function next($currentStep)
     {
         $this->resetFlags();
+        //  $flagService = false, $flagPickDateAndTime = false, $flagInformationClient = true, $flagSummary = false;
         switch ($currentStep) {
+            case 'informationClient':
+                $this->flagPickDateAndTime= true;
+                break;
             case 'pickDateAndTime':
-                $this->flagService= true;
+                $this->flagService = true;
                 break;
             case 'service':
-                $this->flagInformationClient = true;
-                break;
-            case 'informationClient':
                 $this->flagSummary = true;
                 break;
             case 'summary':
@@ -163,15 +176,17 @@ class Book extends Component
     public function back($currentStep)
     {
         $this->resetFlags();
+        //  $flagService = false, $flagPickDateAndTime = false, $flagInformationClient = true, $flagSummary = false;
+
         switch ($currentStep) {
+            case 'pickDateAndTime':
+                $this->flagInformationClient = true;
+                break;
             case 'service':
                 $this->flagPickDateAndTime = true;
                 break;
-            case 'informationClient':
-                $this->flagService = true;
-                break;
             case 'summary':
-                $this->flagInformationClient = true;
+                $this->flagService = true;
                 break;
         }
     }
@@ -182,6 +197,13 @@ class Book extends Component
         $this->flagPickDateAndTime = false;
         $this->flagInformationClient = false;
         $this->flagSummary = false;
+    }
+
+    public function logout(Logout $logout): void
+    {
+        $logout();
+
+        $this->redirect('/', navigate: true);
     }
     // ------------------------
 }

@@ -28,4 +28,15 @@
 
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script> --}}
 
+    {{-- <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('closeModal', (event) => {
+            document.querySelector('.modal').close();
+            });
+        });
+    </script> --}}
+
+    
+
+
 </html>

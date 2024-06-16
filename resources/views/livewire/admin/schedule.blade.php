@@ -3,6 +3,7 @@
     <x-pages.admin.title-header-admin title="Schedule" />
 
 
+
         {{-- Filter Zone --}}
         <form  wire:submit.prevent="search">
             <div class="flex flex-col gap-4 my-3 lg:flex lg:flex-row">
@@ -10,8 +11,6 @@
 
 
                 @livewire('component.module.date-picker-range')
-
-
 
 
 

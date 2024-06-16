@@ -18,8 +18,8 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(TBooking::class);
             $table->foreignIdFor(MService::class)->nullable();
-            $table->string('costume_service')->nullable();
-            $table->integer('price')->nullable();
+            $table->string('name_service')->nullable();
+            $table->integer('price_service')->nullable();
             $table->foreignIdFor(User::class,'created_by')->nullable();
             $table->foreignIdFor(User::class,'updated_by')->nullable();
             $table->enum('status',[1,0])->default(1);

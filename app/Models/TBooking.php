@@ -15,4 +15,16 @@ class TBooking extends Model
     public function client(){
         return $this->belongsTo(User::class,'user_id');
     }
+
+    public function detailService(){
+        return $this->hasMany(TDBooking::class,'t_booking_id');
+    }
+
+    public function scheduleDateBook(){
+        return $this->belongsTo(TSchedule::class,'t_schedule_id');
+    }
+
+    public function scheduleTimeBook(){
+        return $this->belongsTo(TDSchedule::class,'t_d_schedule_id');
+    }
 }

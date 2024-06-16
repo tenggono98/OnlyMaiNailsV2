@@ -5,7 +5,7 @@
 <div class="flex items-center gap-2 p-4 border-t border-gray-200 rounded-b md:p-5 dark:border-gray-600">
     <div class="flex-auto">
         @if($type == "form")
-        <x-pages.btn value='Submit'  action='submit' data-modal-hide="{{ $id }}" />
+        <x-pages.btn value='Submit'  action='submit' wire:click='$refresh'  />
         @endif
     </div>
     <div class="">
