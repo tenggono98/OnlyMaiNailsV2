@@ -3,22 +3,39 @@
 namespace App\Livewire;
 
 use Carbon\Carbon;
+use App\Models\User;
 use Livewire\Component;
 use App\Models\MService;
 use App\Models\TSchedule;
 use App\Models\SettingWeb;
 use App\Models\TDSchedule;
-use App\Models\MServiceCategory;
 use App\Livewire\Actions\Logout;
+use App\Models\MServiceCategory;
+use Livewire\Attributes\Validate;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class Book extends Component
 {
+    use LivewireAlert;
 
     // Variable Input
     public $selectedServices = [] , $selectedDate , $indexDate , $timeBooking , $dataBookingDate;
 
     // Variable Input (Client Information)
-    public $fullNameClient, $emailClient, $phoneNumberClient , $igClient , $passwordClient , $confrimPasswordClient;
+    #[Validate('required|min:3', as: 'Full Name')]
+    public $fullNameClient;
+    #[Validate('required|min:3|email|unique:users,email', as: 'Email')]
+    public $emailClient;
+    #[Validate('required|min:3|unique:users,phone', as: 'Phone Number')]
+    public $phoneNumberClient;
+    public $igClient;
+    #[Validate('required|min:6|required_with:confrimPasswordClient|same:confrimPasswordClient', as: 'Password')]
+    public $passwordClient;
+    #[Validate('required|min:6|required_with:passwordClient|same:passwordClient', as: 'Confrim Password')]
+    public $confrimPasswordClient;
 
     public $total_price ;
 
@@ -29,6 +46,7 @@ class Book extends Component
     public $flagService = false, $flagPickDateAndTime = false, $flagInformationClient = true, $flagSummary = false;
 
     protected $listeners = ['selectedDate'];
+
 
 
 
@@ -155,14 +173,39 @@ class Book extends Component
     // Page Section
     public function next($currentStep)
     {
-        $this->resetFlags();
+        // $this->resetFlags();
         //  $flagService = false, $flagPickDateAndTime = false, $flagInformationClient = true, $flagSummary = false;
         switch ($currentStep) {
             case 'informationClient':
-                $this->flagPickDateAndTime= true;
+
+                if(Auth::user() == null)
+                    $this->alert('info','please create account first');
+
+                $this->validate();
+
+                // Register New User
+                $user = new User();
+                $user->name = $this->fullNameClient;
+                $user->email = $this->emailClient;
+                $user->password = Hash::make($this->passwordClient);
+                $user->role = 'user';
+                if($this->igClient)
+                    $user->ig_tag = $this->igClient;
+
+
+                $user->save();
+                $user->sendEmailVerificationNotification();
+                event(new Registered($user));
+
+                $this->alert('success','Please verify the email by check your email inbox');
+
+                if(Auth::user() !== null)
+                    $this->flagPickDateAndTime= true;
+
                 break;
             case 'pickDateAndTime':
                 $this->flagService = true;
+
                 break;
             case 'service':
                 $this->flagSummary = true;
@@ -175,7 +218,7 @@ class Book extends Component
 
     public function back($currentStep)
     {
-        $this->resetFlags();
+        // $this->resetFlags();
         //  $flagService = false, $flagPickDateAndTime = false, $flagInformationClient = true, $flagSummary = false;
 
         switch ($currentStep) {
@@ -206,4 +249,6 @@ class Book extends Component
         $this->redirect('/', navigate: true);
     }
     // ------------------------
+
+
 }

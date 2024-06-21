@@ -9,6 +9,55 @@
 
             <h1 class="my-5 font-semibold">Welcome Back</h1>
 
+            <form wire:submit='login'>
+                @csrf
+
+                <div class="flex flex-col gap-3 p-4 my-5 border-[#fadde1] border rounded-lg">
+
+                    <div class="flex-auto">
+                        <label for="">Email</label><br>
+                        <input type="email" class="w-full form-control" name="" id=""
+                            wire:model='email'>
+                        <x-pages.inputs.error error='email' />
+                    </div>
+
+                    <div class="flex-auto">
+                        <label for="">Password</label><br>
+                        <input type="password" class="w-full form-control" name="" id=""
+                            wire:model='password'>
+                        <x-pages.inputs.error error='password' />
+                    </div>
+
+                </div>
+
+                <div class="flex w-full gap-3">
+
+                    <div class="flex-auto">
+
+                        <button  type="submit"
+                            class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">Login</button>
+
+                    </div>
+
+                </div>
+
+
+
+            </form>
+
+
+            <div class="flex items-center py-5">
+                <div class="flex-auto">
+                    <hr class="border-t border-[#fadde1]">
+                </div>
+                <div class="px-4">
+                    <h1 class="text-lg text-center">OR</h1>
+                </div>
+                <div class="flex-auto">
+                    <hr class="border-t border-[#fadde1]">
+                </div>
+            </div>
+
             <a href="{{ route('oauth.google') }}" class="w-full">
             <div class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">
                 <div class="">

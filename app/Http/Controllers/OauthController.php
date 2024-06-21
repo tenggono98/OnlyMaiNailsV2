@@ -26,7 +26,6 @@ class OauthController extends Controller
             if($finduser){
 
                 Auth::login($finduser);
-
                 return redirect('/');
 
             }else{

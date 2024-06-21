@@ -4,7 +4,7 @@
     <div class="">
         <x-pages.admin.title-header-admin title="Booking" />
 
-
+        <button wire:click='sendEmailToClient()'>TEst</button>
         {{-- Filter Zone --}}
         <form  wire:submit.prevent="search">
             <div class="flex flex-col gap-4 my-3 lg:flex lg:flex-row">
@@ -16,12 +16,24 @@
 
 
                 <div class="flex-auto ">
+                    <x-pages.inputs.text placeholder='Search Code' wire:model='searchBookingCode' />
+                </div>
+
+                <div class="flex-auto ">
+                    <x-pages.inputs.select  wire:model='searchDepositStatus'>
+                        <option value="">Select Status Deposit</option>
+                        <option value="paid">Paid</option>
+                        <option value="unpaid">Unpaid</option>
+                    </x-pages.inputs.select>
+                </div>
+                <div class="flex-auto ">
                     <x-pages.inputs.select  wire:model='searchStatus'>
                         <option value="">Select Status</option>
                         <option value="active">Active</option>
                         <option value="deactivate">Deactivate</option>
                     </x-pages.inputs.select>
                 </div>
+
 
 
                 <div class="flex items-center">
@@ -120,6 +132,7 @@
                                     <!-- Menu -->
                                     <div x-show="open" class="absolute left-0 w-auto mt-2 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5" @mouseenter="open = true"  @click.away="open = false" @mouseleave="open = false">
                                         <div class="flex flex-col py-1">
+
                                             <button class="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100" wire:click="bookmarkGoogleCalendar({{ $row->user_id }},{{ $row->id }})" >
                                                 Google Calender
                                             </button>
@@ -154,23 +167,29 @@
                     <x-pages.table.tr>
                         <x-pages.table.td colspan='6'>
                             <div class="flex gap-10 ">
-                                <div class="min-w-48">
-                                    <p class="font-semibold">Services</p>
-                                    <ul>
-                                        @foreach ($row->detailService as $serv)
-                                        <li>({{ $serv->service->category->name_service_categori }}) {{ $serv->name_service }}</li>
-                                        @endforeach
-                                    </ul>
-
-                                </div>
 
                                 <div class="">
                                     <p class="font-semibold">Deposit Payment</p>
-                                    @if ($row->is_deposit_paid == true)
-                                    <x-pages.badge type='success' value='Paid' />
-                                    @else
-                                        <x-pages.badge type='danger' value='No Paid' />
-                                    @endif
+                                    <div class="flex flex-col gap-2">
+                                        <div class="">
+                                            @if ($row->is_deposit_paid == true)
+                                            <x-pages.badge type='success' value='Paid'  />
+                                            @else
+                                                <x-pages.badge type='danger' value='No Paid'  />
+                                            @endif
+                                        </div>
+                                        @if ($row->is_deposit_paid == false)
+                                        <div class="">
+                                            <x-pages.btn type='success' value=' Verify Deposit' wire:click='confirmDepositPayment({{ $row->id }})'  wire:confirm="Are you sure you want verify to  this deposit status?" />
+                                        </div>
+                                        @else
+                                        <div class="">
+                                            <x-pages.btn type='danger' value=' Revoke Deposit' wire:click='confirmDepositPayment({{ $row->id }})'  wire:confirm="Are you sure you want to  revoke this deposit status?" />
+                                        </div>
+                                        @endif
+                                    </div>
+
+
                                 </div>
 
                                 <div class="flex flex-col ">
@@ -195,8 +214,6 @@
 
                                 </div>
 
-
-
                                 <div class="">
                                     <p class="font-semibold">With Tax?</p>
                                     @if ($row->total_price_after_tax_booking !== null)
@@ -204,6 +221,16 @@
                                     @else
                                         <x-pages.badge type='danger' value='No' />
                                     @endif
+                                </div>
+
+                                <div class="min-w-48">
+                                    <p class="font-semibold">Services</p>
+                                    <ul>
+                                        @foreach ($row->detailService as $serv)
+                                        <li class="text-lg">({{ $serv->service->category->name_service_categori }}) {{ $serv->name_service }}</li>
+                                        @endforeach
+                                    </ul>
+
                                 </div>
 
                             </div>

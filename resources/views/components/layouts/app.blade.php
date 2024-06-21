@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
     <title>{{ $title ?? 'OnlyMaiNails' }}</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('img/logo.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,10 +29,13 @@
     </div>
 
 
+
     @vite('resources/js/datepicker.js')
     <script src="https://unpkg.com/taos@1.0.5/dist/taos.js"></script>
 
 </body>
+
+<x-livewire-alert::scripts />
 
 
 

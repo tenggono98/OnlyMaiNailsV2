@@ -13,369 +13,359 @@
 
 
 
+        <form wire:submit="save">
+            @csrf
+
+            <!-- Client Information -->
+            <div x-data="{ open: @entangle('flagInformationClient') }">
+                <div x-show="open" x-transition>
+                    <h2 class="mb-4 text-xl ">Client Information</h2>
+                    <!-- Client information form goes here -->
+
+                    @if (!Auth::user())
+                        <div class="flex flex-col gap-3 p-4 my-5 border-[#fadde1] border rounded-lg">
+
+
+                            <div class="flex-auto">
+                                <label for="">Full Name <span class="text-xs text-red-600">*</span></label><br>
+                                <input type="text" class="w-full form-control" name="" id=""
+                                    wire:model='fullNameClient'>
+                                <x-pages.inputs.error error='fullNameClient' />
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+
+                                <div class="">
+                                    <label for="">Phone Number <span
+                                            class="text-xs text-red-600">*</span></label>
+                                    <input type="number" name="" id="" class="w-full form-control"
+                                        wire:model='phoneNumberClient'>
+                                    <x-pages.inputs.error error='phoneNumberClient' />
+                                </div>
+
+
+                                <div class="">
+                                    <label for="">Email <span class="text-xs text-red-600">*</span></label>
+                                    <input type="email" name="" id="" class="w-full form-control"
+                                        wire:model='emailClient'>
+                                    <x-pages.inputs.error error='emailClient' />
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                                <div class="">
+                                    <label for="">Password <span class="text-xs text-red-600">*</span></label>
+                                    <input type="password" name="" id="" class="w-full form-control"
+                                        wire:model='passwordClient'>
+                                    <x-pages.inputs.error error='passwordClient' />
+                                </div>
+
+                                <div class="">
+                                    <label for="">Confirm password <span
+                                            class="text-xs text-red-600">*</span></label>
+                                    <input type="password" name="" id="" class="w-full form-control"
+                                        wire:model='confrimPasswordClient'>
+                                    <x-pages.inputs.error error='confrimPasswordClient' />
+                                </div>
+
+                            </div>
+
+                            <div class="">
+                                <label for="">Instagram</label>
+                                <input type="text" name="" class="w-full form-control" id=""
+                                    wire:model='igClient'>
+
+                            </div>
+
+
+                            <div class="flex items-center py-5">
+                                <div class="flex-auto">
+                                    <hr class="border-t border-[#fadde1]">
+                                </div>
+                                <div class="px-4">
+                                    <h1 class="text-lg text-center">OR</h1>
+                                </div>
+                                <div class="flex-auto">
+                                    <hr class="border-t border-[#fadde1]">
+                                </div>
+                            </div>
+
+                            <div class="">
+                                <a href="{{ route('oauth.google') }}" class="w-full">
+                                    <div
+                                        class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">
+                                        <div class="">
+                                            <svg class="w-8 h-8 text-red-500" width="24" height="24"
+                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" />
+                                                <path d="M17.788 5.108A9 9 0 1021 12h-8" />
+                                            </svg>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <p>Sign in with Google</p>
+                                        </div>
+
+                                    </div>
+                                </a>
+                            </div>
 
 
 
-        <!-- Date and Time Selection -->
-        <div x-data="{ open: @entangle('flagPickDateAndTime') }">
-            <div x-show="open" x-transition>
-                <h1 class="mb-4 text-xl ">Pick Date and Time</h1>
-                <!-- Date and time selection form goes here -->
-                <div class="my-5">
-
-                    <div class="flex flex-col gap-4 lg:flex-row">
-                        <div class="">
-                            <p>Dates</p>
-                            @livewire('component.module.date-picker-calender')
                         </div>
-                        <div class="">
-                            <p>Time</p>
+                    @else
+                        <div class="p-4 my-5 border-[#fadde1] border rounded-lg">
+                            <h1>Hello, {{ Auth::user()->name }}!</h1>
+                            <p>Is this your account? If not, you can switch to a different one.</p>
+                            <a wire:click="logout"
+                                class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer my-3">Logout</a>
+                            @if (Auth::user()->phone == null)
+                                <p class="my-2 font-bold">You're need to fill in some required information</p>
+                                <div class="">
+                                    <label for="">Phone Number <span
+                                            class="text-xs text-red-600">*</span></label>
+                                    <input type="number" name="" id="" class="w-full form-control"
+                                        wire:model='clientPhoneNumber'>
+                                </div>
+                            @endif
 
-
-
-                            @if ($indexDate !== null)
-                                <div class="grid grid-cols-3 gap-4">
-
-
-                                    @foreach ($dataBookingDate[(int) $indexDate]->times as $key => $bookingTime)
-                                        @php
-                                            $inputId =
-                                                'timeSlot-' .
-                                                str_replace(':', '-', str_replace(' ', '-', $key)) .
-                                                $indexDate;
-                                        @endphp
-
-                                        <label for="{{ $inputId }}"
-                                            class="flex text-nowrap items-center justify-center p-2 border rounded-md cursor-pointer border-[#fadde1] {{ $bookingTime->is_book == true ? 'bg-gray-300 border-none' : '' }}">
-                                            <input wire:model.live='timeBooking'
-                                                {{ $bookingTime->is_book == true ? 'disabled' : '' }} type="radio"
-                                                id="{{ $inputId }}" name="timeSlot" value="{{ $bookingTime->id }}"
-                                                class="mr-2">
-                                            {{ Carbon\Carbon::parse($bookingTime->time)->format('h:i A') }}
-                                        </label>
-                                    @endforeach
-
-
+                            @if (Auth::user()->phone == null)
+                                <div class="">
+                                    <label for="">Instagram</label>
+                                    <input type="text" name="" class="w-full form-control" id=""
+                                        wire:model='clientName'>
 
                                 </div>
                             @endif
 
-
-
-
                         </div>
-
-                    </div>
-
-
-                </div>
-
-                <div class="flex w-full gap-3">
-
-                    <div class="">
-                        <button wire:click="back('pickDateAndTime')"
-                            class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">Back</button>
-                    </div>
-                    <div class="flex-auto">
-                        <button wire:click="next('pickDateAndTime')"
-                            class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">Next</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- Service Selection -->
-        <div x-data="{ open: @entangle('flagService') }">
-            <div x-show="open" x-transition>
-                <div x-data="{ openCategory: null }" class="">
+                    @endif
 
 
 
-                    <h1 class="mb-4 text-xl ">Select Service</h1>
-                    <!-- Service selection form goes here -->
-
-                    <div class="flex flex-col">
-
-                        <label for="">Number Of People</label>
-                        <select name="number_of_people" id="number_of_people" wire:model.live='number_of_people'>
-                            <option value="1">1</option>
-                            @for ($i = 2; $i < 99; $i++)
-                                <option value="{{ $i }}">{{ $i }}</option>
-                            @endfor
-                        </select>
-
-                    </div>
 
 
 
-                    {{-- Info  --}}
-
-                    <div class="">
-
-                        @php
-                            // Calculate Total Price & Deducted Price
-                            // dd($number_of_people);
-                            foreach ($this->selectedServices as $key => $selected) {
-                                $total_price += (int) $selected['price'] * $number_of_people;
-                            }
-                        @endphp
-
-                        <div class="flex flex-col gap-3 my-3 lg:flex-row ">
-                            <div class="border border-[#fadde1] p-3 rounded-lg">
-                                <p class="text-xl">Total Price (Before Deducted)</p>
-                                <p class="text-4xl">$ {{ $total_price ?? 0 }}</p>
-                            </div>
-
-                            <div class="border border-[#fadde1] p-3 rounded-lg">
-                                <p class="text-xl">Total Payment (After Deducted)</p>
-                                <p class="text-4xl">$
-                                    {{ (int) $total_price > 0 ? (int) $total_price - (int) $this->deposit->value : 0 }}
-                                </p>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    {{-- Info --}}
 
 
 
-                    {{-- Category --}}
-                    <div class="flex flex-col gap-4 mt-10 mb-2 lg:flex-row">
-                        @foreach ($serviceCategory as $key => $cat)
-                            <div x-on:click="openCategory = openCategory === {{ $key }} ? null : {{ $key }}"
-                                :class="openCategory === {{ $key }} ? 'border-white bg-[#fadde1]' : 'border-[#fadde1]'"
-                                class="flex-auto p-4 border rounded-lg hover:cursor-pointer hover:border-white hover:bg-[#fadde1]">
-                                <p>{{ $cat->name_service_categori }}</p>
-                            </div>
-                        @endforeach
-                    </div>
-                    {{-- -------------- --}}
-
-                    @foreach ($serviceCategory as $key => $cat)
-                        {{-- Category Item --}}
-                        <div x-bind:class="openCategory !== {{ $key }} ? 'hidden' : ''"
-                            class="border rounded-lg border-[#fadde1] mb-10 mt-2">
-                            @foreach ($cat->services as $serv)
-                                <label for="{{ $cat->id }}-{{ $serv->id }}">
-                                    <div
-                                        class="flex justify-between p-2 hover:cursor-pointer hover:border-white hover:bg-[#fadde1]">
-                                        <div>
-                                            {{ $serv->name_service }}
-                                        </div>
-                                        <div class="flex items-center justify-center p-2">
-                                            <div>
-                                                @if ($serv->is_merge == true)
-                                                    <input wire:click='toggleService({{ $serv->id }},"checkbox")'
-                                                        id="{{ $cat->id }}-{{ $serv->id }}" type="checkbox"
-                                                        class="w-42" @if (in_array($serv->id, array_column($selectedServices, 'id'))) checked @endif>
-                                                @else
-                                                    <input wire:click='toggleService({{ $serv->id }},"radio")'
-                                                        id="{{ $cat->id }}-{{ $serv->id }}"
-                                                        name="{{ $cat->id }}" type="radio" class="w-42"
-                                                        @if (in_array($serv->id, array_column($selectedServices, 'id'))) checked @endif>
-                                                @endif
-                                            </div>
-                                            <div class="flex items-center ml-2">
-                                                <div>
-                                                    <p class="p-0 m-0 text-sm">${{ $serv->price_service }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </label>
-                            @endforeach
-                        </div>
-                    @endforeach
 
                     <div class="flex w-full gap-3">
-                        <div class="">
-                            <button wire:click="back('service')"
-                                class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">Back</button>
-                        </div>
+
                         <div class="flex-auto">
 
-                            <button wire:click="next('service')"
+                            <button wire:click="next('informationClient')" type="button"
                                 class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">Next</button>
 
                         </div>
 
                     </div>
-
-
                 </div>
-
             </div>
-        </div>
 
 
-        <!-- Client Information -->
-        <div x-data="{ open: @entangle('flagInformationClient') }">
-            <div x-show="open" x-transition>
-                <h2 class="mb-4 text-xl ">Client Information</h2>
-                <!-- Client information form goes here -->
+            <!-- Date and Time Selection -->
+            <div x-data="{ open: @entangle('flagPickDateAndTime') }">
+                <div x-show="open" x-transition>
+                    <h1 class="mb-4 text-xl ">Pick Date and Time</h1>
+                    <!-- Date and time selection form goes here -->
+                    <div class="my-5">
 
-                @if (!Auth::user())
-                    <div class="flex flex-col gap-3 p-4 my-5 border-[#fadde1] border rounded-lg">
+                        <div class="flex flex-col gap-4 lg:flex-row">
+                            <div class="">
+                                <p>Dates</p>
+                                @livewire('component.module.date-picker-calender')
+                            </div>
+                            <div class="">
+                                <p>Time</p>
 
 
+
+                                @if ($indexDate !== null)
+                                    <div class="grid grid-cols-3 gap-4">
+
+
+                                        @foreach ($dataBookingDate[(int) $indexDate]->times as $key => $bookingTime)
+                                            @php
+                                                $inputId =
+                                                    'timeSlot-' .
+                                                    str_replace(':', '-', str_replace(' ', '-', $key)) .
+                                                    $indexDate;
+                                            @endphp
+
+                                            <label for="{{ $inputId }}"
+                                                class="flex text-nowrap items-center justify-center p-2 border rounded-md cursor-pointer border-[#fadde1] {{ $bookingTime->is_book == true ? 'bg-gray-300 border-none' : '' }}">
+                                                <input wire:model.live='timeBooking'
+                                                    {{ $bookingTime->is_book == true ? 'disabled' : '' }}
+                                                    type="radio" id="{{ $inputId }}" name="timeSlot"
+                                                    value="{{ $bookingTime->id }}" class="mr-2">
+                                                {{ Carbon\Carbon::parse($bookingTime->time)->format('h:i A') }}
+                                            </label>
+                                        @endforeach
+
+
+
+                                    </div>
+                                @endif
+
+
+
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="flex w-full gap-3">
+
+                        <div class="">
+                            <button wire:click="back('pickDateAndTime')" type="button"
+                                class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">Back</button>
+                        </div>
                         <div class="flex-auto">
-                            <label for="">Full Name <span class="text-xs text-red-600">*</span></label><br>
-                            <input type="text" class="w-full form-control" name="" id=""
-                                wire:model='clientName'>
+                            <button wire:click="next('pickDateAndTime')" type="button"
+                                class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">Next</button>
                         </div>
-
-                        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-
-                            <div class="">
-                                <label for="">Phone Number <span class="text-xs text-red-600">*</span></label>
-                                <input type="number" name="" id="" class="w-full form-control"
-                                    wire:model='clientPhoneNumber'>
-                            </div>
+                    </div>
+                </div>
+            </div>
 
 
-                            <div class="">
-                                <label for="">Email <span class="text-xs text-red-600">*</span></label>
-                                <input type="email" name="" id="" class="w-full form-control"
-                                    wire:model='clientEmail'>
-                            </div>
-                        </div>
+            <!-- Service Selection -->
+            <div x-data="{ open: @entangle('flagService') }">
+                <div x-show="open" x-transition>
+                    <div x-data="{ openCategory: null }" class="">
 
-                        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-                            <div class="">
-                                <label for="">Password <span class="text-xs text-red-600">*</span></label>
-                                <input type="password" name="" id="" class="w-full form-control"
-                                    wire:model='clientEmail'>
-                            </div>
 
-                            <div class="">
-                                <label for="">Confirm password <span class="text-xs text-red-600">*</span></label>
-                                <input type="password" name="" id="" class="w-full form-control"
-                                    wire:model='clientEmail'>
-                            </div>
+
+                        <h1 class="mb-4 text-xl ">Select Service</h1>
+                        <!-- Service selection form goes here -->
+
+                        <div class="flex flex-col">
+
+                            <label for="">Number Of People</label>
+                            <select name="number_of_people" id="number_of_people" wire:model.live='number_of_people'>
+                                <option value="1">1</option>
+                                @for ($i = 2; $i < 99; $i++)
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                            </select>
 
                         </div>
 
 
 
 
-                        <div class="flex items-center py-5">
-                            <div class="flex-auto">
-                                <hr class="border-t border-[#fadde1]">
-                            </div>
-                            <div class="px-4">
-                                <h1 class="text-lg text-center">OR</h1>
-                            </div>
-                            <div class="flex-auto">
-                                <hr class="border-t border-[#fadde1]">
-                            </div>
-                        </div>
 
-                        <div class="">
-                            <a href="{{ route('oauth.google') }}" class="w-full">
-                                <div
-                                    class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">
-                                    <div class="">
-                                        <svg class="w-8 h-8 text-red-500" width="24" height="24"
-                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" />
-                                            <path d="M17.788 5.108A9 9 0 1021 12h-8" />
-                                        </svg>
-                                    </div>
-                                    <div class="flex items-center">
-                                        <p>Sign in with Google</p>
-                                    </div>
 
+
+                        {{-- Category --}}
+                        <div class="flex flex-col gap-4 mt-10 mb-2 lg:flex-row">
+                            @foreach ($serviceCategory as $key => $cat)
+                                <div x-on:click="openCategory = openCategory === {{ $key }} ? null : {{ $key }}"
+                                    :class="openCategory === {{ $key }} ? 'border-white bg-[#fadde1]' :
+                                        'border-[#fadde1]'"
+                                    class="flex-auto p-4 border rounded-lg hover:cursor-pointer hover:border-white hover:bg-[#fadde1]">
+                                    <p>{{ $cat->name_service_categori }}</p>
                                 </div>
-                            </a>
+                            @endforeach
+                        </div>
+                        {{-- -------------- --}}
+
+                        @foreach ($serviceCategory as $key => $cat)
+                            {{-- Category Item --}}
+                            <div x-bind:class="openCategory !== {{ $key }} ? 'hidden' : ''"
+                                class="border rounded-lg border-[#fadde1] mb-10 mt-2">
+                                @foreach ($cat->services as $serv)
+                                    <label for="{{ $cat->id }}-{{ $serv->id }}">
+                                        <div
+                                            class="flex justify-between p-2 hover:cursor-pointer hover:border-white hover:bg-[#fadde1]">
+                                            <div>
+                                                {{ $serv->name_service }}
+                                            </div>
+                                            <div class="flex items-center justify-center p-2">
+                                                <div>
+                                                    @if ($serv->is_merge == true)
+                                                        <input
+                                                            wire:click='toggleService({{ $serv->id }},"checkbox")'
+                                                            id="{{ $cat->id }}-{{ $serv->id }}"
+                                                            type="checkbox" class="w-42"
+                                                            @if (in_array($serv->id, array_column($selectedServices, 'id'))) checked @endif>
+                                                    @else
+                                                        <input wire:click='toggleService({{ $serv->id }},"radio")'
+                                                            id="{{ $cat->id }}-{{ $serv->id }}"
+                                                            name="{{ $cat->id }}" type="radio" class="w-42"
+                                                            @if (in_array($serv->id, array_column($selectedServices, 'id'))) checked @endif>
+                                                    @endif
+                                                </div>
+                                                <div class="flex items-center ml-2">
+                                                    <div>
+                                                        <p class="p-0 m-0 text-sm">${{ $serv->price_service }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </label>
+                                @endforeach
+                            </div>
+                        @endforeach
+
+                        <div class="flex w-full gap-3">
+                            <div class="">
+                                <button wire:click="back('service')" type="button"
+                                    class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">Back</button>
+                            </div>
+                            <div class="flex-auto">
+
+                                <button wire:click="next('service')" type="button"
+                                    class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">Next</button>
+
+                            </div>
+
                         </div>
 
 
-
                     </div>
-                @else
-                    <div class="p-4 my-5 border-[#fadde1] border rounded-lg">
-                        <h1>Hello, {{ Auth::user()->name }}!</h1>
-                        <p>Is this your account? If not, you can switch to a different one.</p>
-                        <a wire:click="logout"
-                            class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer my-3">Logout</a>
+
+                </div>
+            </div>
 
 
-                        @if(Auth::user()->phone == null)
 
-                        <p class="my-2 font-bold">You're need to fill in some required information</p>
+
+            <!-- Summary -->
+            <div x-data="{ open: @entangle('flagSummary') }">
+                <div x-show="open" x-transition>
+                    <h2 class="mb-4 text-xl ">Summary</h2>
+                    <!-- Summary of all selections goes here -->
+
+
+
+
+
+
+
+
+
+                    <div class="flex w-full gap-3">
                         <div class="">
-                            <label for="">Phone Number <span class="text-xs text-red-600">*</span></label>
-                            <input type="number" name="" id="" class="w-full form-control"
-                                wire:model='clientPhoneNumber'>
+                            <button wire:click="back('summary')" type="button"
+                                class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">Back</button>
+                        </div>
+                        <div class="flex-auto">
+
+                            <button wire:click="next('summary')" type="submit"
+                                class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">Submit</button>
+
                         </div>
 
-                        @endif
-
-                    </div>
-                @endif
-
-
-                <div class="mb-5">
-
-
-                    <div class="py-5">
-                        <hr class="border-t border-[#fadde1]">
-                    </div>
-
-
-                    <div class="">
-                        <label for="">Instagram</label>
-                        <input type="text" name="" class="w-full form-control" id=""
-                            wire:model='clientName'>
-
-                    </div>
-                </div>
-
-
-
-
-
-
-
-
-                <div class="flex w-full gap-3">
-
-                    <div class="flex-auto">
-
-                        <button wire:click="next('informationClient')"
-                            class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">Next</button>
-
                     </div>
 
                 </div>
             </div>
-        </div>
-
-        <!-- Summary -->
-        <div x-data="{ open: @entangle('flagSummary') }">
-            <div x-show="open" x-transition>
-                <h2 class="mb-4 text-xl ">Summary</h2>
-                <!-- Summary of all selections goes here -->
-
-                <div class="flex w-full gap-3">
-                    <div class="">
-                        <button wire:click="back('summary')"
-                            class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">Back</button>
-                    </div>
-                    <div class="flex-auto">
-
-                        <button wire:click="next('summary')"
-                            class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">Submit</button>
-
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
+        </form>
     </div>
 
 
