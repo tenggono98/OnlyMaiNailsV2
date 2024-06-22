@@ -9,7 +9,82 @@
     <div class="container p-4 mx-auto">
 
 
+         <!-- Policies -->
+         <div x-data="{ open: @entangle('flagPolicies') }">
+            <div x-show="open" x-transition>
+                <h1 class="mb-4 text-xl ">Our Policies</h1>
+                <!-- Policies form goes here -->
 
+
+                <div class="my-5">
+
+
+                <h1>Cancellations + Reschedules</h1>
+
+                <ul class="mb-4">
+                    <li>Cancellations and/or reschedules within less than 24h notice will result in a forfeited deposit.</li>
+                    <li>No shows will also result in a forfeited deposit.</li>
+                </ul>
+
+
+
+                <h1>Deposit</h1>
+
+                    <ul class="mb-4">
+                        <li> All clients are required to send a <span class="font-semibold"> ${{ $deposit->value }} deposit to book an appointment</span>.</li>
+                        <li>Please send via e-transfer to maixesthetics@gmail.com within 2h of booking, or appointment will not be solidified.</li>
+                        <li>Deposit will be subtracted from the total once the service is done.</li>
+                    </ul>
+
+
+
+                <h1>Payment</h1>
+
+                <p class="mb-4">Cash or E-transfer only</p>
+
+                <h1>Location</h1>
+
+                <p class="mb-4">Atelier House - 5885 Victoria Drive, Vancouver <br>
+                (There is very little parking at the front as the studio is on a busy street, but there are spots a little further down)
+                Not liable for any tickets/towing</p>
+                <iframe class="mb-4" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2605.402148459731!2d-123.06838252332336!3d49.23086427138506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54867511f1d735db%3A0xb592efb8e1da700f!2sAtelier%20House!5e0!3m2!1sen!2sid!4v1719058013808!5m2!1sen!2sid" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+
+                <h1>Other Info</h1>
+
+                <p class="mb-4">Please DM nail inspiration prior to the appointment for the best results!
+                If you need any further assistance with this text or have additional questions, feel free to ask!</p>
+
+
+                <div class="flex">
+                    <label for="agree-checkbox" class="flex items-center gap-2 p-2 align-middle">
+                    <div class="">
+                        <input type="checkbox" wire:model.live='agree_checkbox' value="accept" name="agree-checkbox" id="agree-checkbox" class="">
+                    </div>
+                    <div class="items-center">
+                        <p class="p-0 m-0">I have read and agree to all policies</p>
+                    </div>
+                    </label>
+                </div>
+
+            </div>
+
+                <div class="flex w-full gap-3">
+
+                    <div class="flex-auto">
+
+                        <button wire:click="next('flagPolicies')"
+                        type="button"
+                        class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">
+                    Next
+
+                    </button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
 
 
@@ -19,7 +94,7 @@
             <!-- Client Information -->
             <div x-data="{ open: @entangle('flagInformationClient') }">
                 <div x-show="open" x-transition>
-                    <h2 class="mb-4 text-xl ">Client Information</h2>
+                    <h1 class="mb-4 text-xl ">Client Information</h1>
                     <!-- Client information form goes here -->
 
                     @if (!Auth::user())
@@ -125,37 +200,71 @@
                                     <label for="">Phone Number <span
                                             class="text-xs text-red-600">*</span></label>
                                     <input type="number" name="" id="" class="w-full form-control"
-                                        wire:model='clientPhoneNumber'>
+                                        wire:model='phoneNumberClient'>
+                                        <x-pages.inputs.error error='phoneNumberClient' />
                                 </div>
                             @endif
 
-                            @if (Auth::user()->phone == null)
+                            @if (Auth::user()->ig_tag == null)
                                 <div class="">
                                     <label for="">Instagram</label>
                                     <input type="text" name="" class="w-full form-control" id=""
-                                        wire:model='clientName'>
+                                        wire:model='igClient'>
 
                                 </div>
                             @endif
 
+                            <div class="my-3">
+                                <h1>Your Information</h1>
+                                <div class="flex flex-wrap gap-5 ">
+                                    <div class="">
+                                        <label for="">Full Name</label>
+                                        <p class="font-semibold">{{ Auth::user()->name }}</p>
+                                    </div>
+
+                                    <div class="">
+                                        <label for="">Email</label>
+                                        <p class="font-semibold">{{ Auth::user()->email }}</p>
+                                    </div>
+
+                                    <div class="">
+                                        <label for="">Phone Number</label>
+                                        <p class="font-semibold">{{ Auth::user()->phone }}</p>
+                                    </div>
+
+                                    <div class="">
+                                        <label for="">Instagram</label>
+                                        <p class="font-semibold">{{ Auth::user()->ig_tag }}</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="">
+                                <p>If you want to change the detail, please click this link <a href="{{ route('user.change_profile',['id' => Auth::user()->id]) }}" class="font-semibold underline underline-offset-4">Change Profile</a></p>
+                            </div>
+
                         </div>
                     @endif
-
-
-
-
-
-
-
-
-
 
                     <div class="flex w-full gap-3">
 
                         <div class="flex-auto">
 
-                            <button wire:click="next('informationClient')" type="button"
-                                class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">Next</button>
+                            <button wire:click="next('informationClient')"
+                            type="button"
+                            class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full flex">
+                        <!-- Default text -->
+                        <span wire:loading.remove wire:target="next">Next</span>
+
+
+                        @if(Auth::user() == null)
+                        <!-- Loading text with spinner -->
+                        <span wire:loading wire:target="next">
+                            Creating your Account...
+                        </span>
+                        @endif
+
+                        </button>
 
                         </div>
 
@@ -338,7 +447,7 @@
             <!-- Summary -->
             <div x-data="{ open: @entangle('flagSummary') }">
                 <div x-show="open" x-transition>
-                    <h2 class="mb-4 text-xl ">Summary</h2>
+                    <h1 class="mb-4 text-xl ">Summary</h1>
                     <!-- Summary of all selections goes here -->
 
 

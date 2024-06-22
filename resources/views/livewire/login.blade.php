@@ -27,6 +27,14 @@
                             wire:model='password'>
                         <x-pages.inputs.error error='password' />
                     </div>
+                    <div class="flex-auto ">
+                        <div class="float-end">
+                        <a href="" class="text-right hover:text-[#bca5a8]">Forget your password ?</a>
+
+                        </div>
+
+                    </div>
+
 
                 </div>
 
