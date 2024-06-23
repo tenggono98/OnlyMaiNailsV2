@@ -35,13 +35,17 @@
     "file": "assets/Cheque-Regular-wDPnW2fi.woff2",
     "src": "public/font/Cheque/Commercial/WEB/Cheque-Regular.woff2"
   },
+  "public/font/black_mango/TTF/BlackMango-Regular.ttf": {
+    "file": "assets/BlackMango-Regular-BbUHswAx.ttf",
+    "src": "public/font/black_mango/TTF/BlackMango-Regular.ttf"
+  },
   "resources/css/app-admin.css": {
     "file": "assets/app-admin-CIc0zygl.css",
     "src": "resources/css/app-admin.css",
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-DoZmp6uJ.css",
+    "file": "assets/app-DgwQA_lR.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
