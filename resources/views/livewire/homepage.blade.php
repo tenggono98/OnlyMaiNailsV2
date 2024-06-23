@@ -50,8 +50,7 @@
     <section id="banner" class="py-10 ">
 
         <div class="py-5 ">
-            <h1 class="text-4xl text-center animate-fade animate-once animate-delay-100">WELCOME TO <span
-                    class="leading-loose typed-out">ONLYMAINAILS</span> </h1>
+            <h1 class="text-4xl text-center animate-fade animate-once animate-delay-100">WELCOME TO ONLYMAINAILS </h1>
         </div>
 
 

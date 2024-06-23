@@ -17,6 +17,13 @@
         url('/public/font/Cheque/Commercial/WEB/Cheque-Regular.woff2') format('woff2'), url('/public/font/Cheque/Commercial/WEB/Cheque-Regular.woff') format('woff'), url('/public/font/Cheque/Commercial/TTF/Cheque-Regular.ttf') format('truetype');
         }
 
+        @font-face {
+            font-family: 'black_mango';
+            src: url('/public/font/black_mango/TTF/BlackMango-Regular.ttf');
+            }
+
+
+
 
 
 .roboto-thin {
@@ -93,8 +100,16 @@
 
 
 h1  {
-    font-family: 'Cheque-Black';
+    font-family: 'black_mango';
     letter-spacing: 2.5px;
+}
+
+p , li , span ,a, article , b {
+    font-family: "Open Sans", sans-serif !important;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
 }
 
 
