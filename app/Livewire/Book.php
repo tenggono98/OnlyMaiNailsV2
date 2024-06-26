@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Illuminate\Validation\ValidationException;
 
 class Book extends Component
 {
@@ -191,6 +192,11 @@ class Book extends Component
             case 'informationClient':
 
                 if (Auth::user() == null) {
+                    // Throttling checks (throws an exception if limit is exceeded)
+                    if ($this->hasTooManyRegistrationAttempts()) {
+                        return $this->sendLockoutResponse();
+                    }
+
                     $this->alert('info', 'Please create account first');
                     $this->validate();
 
@@ -207,11 +213,13 @@ class Book extends Component
                     $user->save();
                     $user->sendEmailVerificationNotification();
                     $this->alert('success', 'Please verify the email by check your email inbox');
+                    Auth::login($user);
+                    $this->resetFlags();
+                    $this->flagPickDateAndTime = true;
+                    $this->dispatch('refreshHeader');
 
                 }else{
                     if(Auth::user()->phone == null || Auth::user()->ig_tag ){
-                        // $this->alert('','Test');
-
                         $user = User::find(Auth::user()->id);
 
                         if(Auth::user()->phone == null && $this->phoneNumberClient !== null){
@@ -252,6 +260,34 @@ class Book extends Component
                 // Process the final step
                 break;
         }
+    }
+
+    protected function hasTooManyRegistrationAttempts()
+    {
+        $maxAttempts = 5;
+        $decayMinutes = 1;
+        return $this->limiter()->tooManyAttempts(
+            $this->throttleKey(), $maxAttempts, $decayMinutes
+        );
+    }
+
+    protected function sendLockoutResponse()
+    {
+        $seconds = $this->limiter()->availableIn($this->throttleKey());
+
+        throw ValidationException::withMessages([
+            'email' => [trans('auth.throttle', ['seconds' => $seconds])],
+        ]);
+    }
+
+    protected function limiter()
+    {
+        return app('Illuminate\Cache\RateLimiter');
+    }
+
+    protected function throttleKey()
+    {
+        return strtolower($this->emailClient) . '|' . request()->ip();
     }
 
     public function back($currentStep)

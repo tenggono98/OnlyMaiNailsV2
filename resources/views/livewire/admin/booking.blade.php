@@ -88,7 +88,7 @@
                             {{ $loop->iteration }}
                         </x-pages.table.td>
                         <x-pages.table.td>
-                            {{ $row->client->name }}
+                            {{ $row->client->name ?? '' }}
                         </x-pages.table.td>
                         <x-pages.table.td>
                             <div class="flex gap-3">
@@ -118,7 +118,7 @@
                             @endif
                         </x-pages.table.td>
 
-                        <x-pages.table.td >
+                        <x-pages.table.td>
 
                             <div x-data="{ open: false }" class="relative flex items-center" x-id="['menu-{{ $key }}']">
                                 <!-- Three Dots Button -->
@@ -130,7 +130,7 @@
                                     </button>
 
                                     <!-- Menu -->
-                                    <div x-show="open" class="absolute left-0 w-auto mt-2 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5" @mouseenter="open = true"  @click.away="open = false" @mouseleave="open = false">
+                                    <div x-show="open" class="absolute left-0 z-40 w-auto mt-2 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5" @mouseenter="open = true"  @click.away="open = false" @mouseleave="open = false">
                                         <div class="flex flex-col py-1">
 
                                             <button class="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100" wire:click="bookmarkGoogleCalendar({{ $row->user_id }},{{ $row->id }})" >

@@ -40,17 +40,17 @@
     "src": "public/font/black_mango/TTF/BlackMango-Regular.ttf"
   },
   "resources/css/app-admin.css": {
-    "file": "assets/app-admin-CIc0zygl.css",
+    "file": "assets/app-admin-CNwUgrgc.css",
     "src": "resources/css/app-admin.css",
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-DgwQA_lR.css",
+    "file": "assets/app-DVQv5VLH.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-B6rPiFKG.js",
+    "file": "assets/app-CKFlGIQ9.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,

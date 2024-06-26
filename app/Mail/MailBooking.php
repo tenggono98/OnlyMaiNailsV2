@@ -29,7 +29,7 @@ class MailBooking extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Booking OnlyMaiNails Mail',
+            subject: 'OnlyMaiNails Your Appointment is Confirmed!',
         );
     }
 

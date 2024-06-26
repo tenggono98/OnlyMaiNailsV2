@@ -17,6 +17,7 @@ use Livewire\Attributes\Modelable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\ActionDatabase;
+use App\Http\Controllers\Pdf\BookingComplete;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class Booking extends Component
@@ -222,6 +223,8 @@ class Booking extends Component
 
         // Get Booking Information
         $booking = TBooking::find($id);
+        // Get Booking Services Information
+        $detailBooking = TDBooking::with('service.category')->where('t_booking_id','=',$id)->get();
         // Update Booking Schedule time
         $scheduleTime = TDSchedule::find($booking->t_d_schedule_id);
 
@@ -231,6 +234,32 @@ class Booking extends Component
             $booking->is_deposit_paid = '1';
             // Update Schedule booking Status to "True"
             $scheduleTime->is_book = '1';
+
+            // Generate PDF
+            BookingComplete::createPDF($id);
+
+            // Send Email to Client
+                // Get File Information
+                $date_booking = \Carbon\Carbon::parse($booking->scheduleDateBook->date_schedule)->format('d-m-Y');
+                $uuid = $booking->uuid;
+                // download PDF file with download method
+                $fileName = 'PDF_Booking_Confirmation/OMN_Appointment_Confirmation_'.$date_booking.'_'.$uuid.'.pdf';
+
+
+            $mailData = [
+                'clientName' => $booking->client->name,
+                'booking_date' => \Carbon\Carbon::parse($booking->scheduleDateBook->date_schedule)->format('l , d F Y'),
+                'booking_time' => \Carbon\Carbon::parse($booking->scheduleTimeBook->time)->format('h:i A'),
+                'services' => $detailBooking->toArray(),
+                'files' => [
+                    public_path($fileName),
+                ]
+            ];
+
+            Mail::to('tenggono98@gmail.com')->send(new MailBooking($mailData));
+
+            $this->alert('success','Mail Has Been Send');
+
         } else {
             // Update Deposit Status to "False"
             $booking->is_deposit_paid = '0';

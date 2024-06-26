@@ -56,7 +56,7 @@ class Login extends Component
             RateLimiter::clear($key);
 
             // Redirect to the intended page or dashboard
-            return redirect()->intended('/book');
+            return redirect()->intended();
         }
 
         // Increment Rate Limiting counter

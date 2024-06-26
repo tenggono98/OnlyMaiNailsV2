@@ -109,9 +109,22 @@
         </div>
     </section>
 
-
-
-
+    @if(Auth::user())
+        @if(Auth::user()->email_verified_at == null && Auth::user()->gauth_id == null)
+            <div class="w-full p-4 bg-[#fadde1] border-t border-white">
+                <p class="text-center">
+                    Oops! Your email isn’t verified yet.
+                    <a
+                        wire:click='resendverified'
+                        class='underline cursor-pointer'>
+                        <span wire:loading.remove>Click here</span>
+                        <span wire:loading>Sending your email...</span>
+                    </a>
+                    to resend the verification link.
+                </p>
+            </div>
+        @endif
+    @endif
 
 
 </div>

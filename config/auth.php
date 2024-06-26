@@ -76,6 +76,10 @@ return [
             'model' => App\Models\Admin::class,
         ],
 
+        'redirects' => [
+            'login' => 'user.login',
+        ],
+
 
 
         // 'users' => [
