@@ -77,13 +77,10 @@
 
 
         {{-- Table Zone --}}
-
-
-
         <x-pages.table.table :header="['No', 'Client','Code','Date & Time','Status', 'Action']">
             @if (count($booking) > 0)
                 @foreach ($booking as $key => $row)
-                    <x-pages.table.tr>
+                    <x-pages.table.tr >
                         <x-pages.table.td>
                             {{ $loop->iteration }}
                         </x-pages.table.td>
@@ -111,10 +108,16 @@
                             {{ Carbon\Carbon::parse($row->scheduleDateBook->date_schedule )->format('l , d F Y') }} |  {{ Carbon\Carbon::parse($row->scheduleTimeBook->time)->format('h:i A') }}
                         </x-pages.table.td>
                         <x-pages.table.td >
-                            @if ($row->status == true)
+                            @if ($row->status == 1)
                                 <x-pages.badge type='success' value='Active' />
-                            @else
+                            @elseif($row->status == 0)
                                 <x-pages.badge type='danger' value='Deactivate' />
+                            @elseif($row->status == 'cancel')
+                            <x-pages.badge type='danger' value='Cancel' />
+                            @elseif($row->status == 'reschedule')
+                            <x-pages.badge type='info' value='Reschedule' />
+                            @elseif($row->status == 'completed')
+                            <x-pages.badge type='success' value='Complete' />
                             @endif
                         </x-pages.table.td>
 
@@ -130,7 +133,7 @@
                                     </button>
 
                                     <!-- Menu -->
-                                    <div x-show="open" class="absolute left-0 z-40 w-auto mt-2 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5" @mouseenter="open = true"  @click.away="open = false" @mouseleave="open = false">
+                                    <div x-show="open" class="absolute z-40 w-auto mt-2 bg-white rounded-md shadow-lg -left-20 ring-1 ring-black ring-opacity-5" @mouseenter="open = true"  @click.away="open = false" @mouseleave="open = false">
                                         <div class="flex flex-col py-1">
 
                                             <button class="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100" wire:click="bookmarkGoogleCalendar({{ $row->user_id }},{{ $row->id }})" >
@@ -232,6 +235,17 @@
                                     </ul>
 
                                 </div>
+                                <div class="">
+                                    <p class="font-semibold">Number of Person</p>
+                                    <p>{{ $row->qty_people_booking }}</p>
+                                    <p class="font-semibold">Created By</p>
+                                    <p>{{ $row->qty_people_booking }}</p>
+                                    <p class="font-semibold">Updated By</p>
+                                    <p>{{ $row->qty_people_booking }}</p>
+
+                                </div>
+
+
 
                             </div>
 
@@ -245,10 +259,6 @@
 
 
         </x-pages.table.table>
-
-
-
-
         {{-- Table Zone --}}
 
 
@@ -256,7 +266,6 @@
 
 
     {{-- Modal Zone --}}
-
     <x-pages.modal.modal  id='add-modal' title="{{ ($is_edit == false)?'New Booking':'Edit Booking' }}" submitFunction='save()' >
 
         <div class="">

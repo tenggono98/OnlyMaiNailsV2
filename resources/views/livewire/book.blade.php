@@ -31,7 +31,7 @@
                 <h1>Deposit</h1>
 
                     <ul class="mb-4">
-                        <li> All clients are required to send a <span class="font-semibold"> ${{ $deposit->value }} deposit to book an appointment</span>.</li>
+                        <li> All clients are required to send a <span class="font-semibold"> ${{ $deposit }} deposit to book an appointment</span>.</li>
                         <li>Please send via e-transfer to maixesthetics@gmail.com within 2h of booking, or appointment will not be solidified.</li>
                         <li>Deposit will be subtracted from the total once the service is done.</li>
                     </ul>
@@ -449,6 +449,59 @@
                 <div x-show="open" x-transition>
                     <h1 class="mb-4 text-xl ">Summary</h1>
                     <!-- Summary of all selections goes here -->
+
+
+
+
+                    <div class="grid grid-cols-1 mb-4 lg:grid-cols-2">
+
+                        <div class="">
+                            <h1 class="">Date Booking</h1>
+                            <p class="text-lg font-semibold">{{ \Carbon\Carbon::parse($selectedDate ?? '')->format('l , d F Y')  }}</p>
+                        </div>
+
+                        <div class="">
+                            <h1>Time Booking</h1>
+                            <p class="text-lg font-semibold">{{ \Carbon\Carbon::parse($selectedTime  ?? '')->format('h:i A') }}</p>
+                        </div>
+
+                    </div>
+
+
+                        <div class="mb-4">
+                            <h1>Service List</h1>
+                            <table class="w-full text-left border-collapse">
+                                <tbody>
+                                    @foreach ($selectedServices as $service)
+                                        <tr>
+                                            <td class="py-2 text-lg font-semibold border-b">{{ $service['name'] }}</td>
+                                            <td class="py-2 text-lg font-semibold text-right border-b">${{ number_format($service['price'], 2) }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="grid grid-cols-1 mb-4 lg:grid-cols-2">
+
+                            <div class="">
+                                <h1>Number of People:</h1>
+                                <p class="text-lg font-semibold">{{ $number_of_people }}</p>
+                            </div>
+
+                            <div class="">
+                                <h1>Total Price:</h1>
+                                <p class="text-lg font-semibold">${{ number_format($totalPriceBook, 2) }}</p>
+                            </div>
+
+                        </div>
+
+                        <div class="mb-4">
+                            <h1 class="text-lg">Total Payment (after $20 deposit):</h1>
+                            <p class="text-xl font-semibold">${{ number_format($totalPriceBook - $deposit, 2) }}</p>
+                        </div>
+
+
 
 
 

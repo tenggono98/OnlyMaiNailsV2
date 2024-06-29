@@ -29,7 +29,8 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->nullable();
             $table->foreignIdFor(User::class,'created_by')->nullable();
             $table->foreignIdFor(User::class,'updated_by')->nullable();
-            $table->enum('status',[1,0,'reschedule'])->default(1);
+            $table->enum('status',[1,0,'reschedule','cancel','completed'])->default(1);
+            $table->enum('confirm_payment',[1,0])->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

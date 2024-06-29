@@ -5,10 +5,13 @@ namespace App\Livewire\Component\Module;
 use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\TSchedule;
+use Livewire\Attributes\Modelable;
 use Livewire\Attributes\On;
 
 class DatePickerCalender extends Component
 {
+    #[Modelable]
+    public $dateBook;
 
 
     public function render()

@@ -6,14 +6,17 @@ use Carbon\Carbon;
 use App\Models\User;
 use Livewire\Component;
 use App\Models\MService;
+use App\Models\TBooking;
+use App\Models\TDBooking;
 use App\Models\TSchedule;
 use App\Models\SettingWeb;
 use App\Livewire\Actions\Logout;
 use App\Models\MServiceCategory;
+use App\Models\TDSchedule;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Illuminate\Validation\ValidationException;
@@ -25,7 +28,7 @@ class Book extends Component
 
 
     // Variable Input
-    public $selectedServices = [], $selectedDate, $indexDate, $timeBooking, $dataBookingDate;
+    public   $indexDate,  $dataBookingDate;
 
     // Variable Input (Policies)
     public $agree_checkbox;
@@ -42,15 +45,24 @@ class Book extends Component
     public $passwordClient;
     #[Validate('required|min:6|required_with:passwordClient|same:passwordClient', as: 'Confrim Password')]
     public $confrimPasswordClient;
+    // ---------------------------------
+
+    // Variable Input (Date & Time)
+    public $timeBooking, $dateBooking ,  $number_of_people = 1 , $selectedDate , $selectedTime;
+    // ----------------------------------
+
+    // Variable Input (Services)
+    public $totalPriceBook ,$selectedServices = [] ;
+
 
     // ---------------------------------
     public $total_price;
 
-    public $number_of_people = 1;
+
 
     public $deposit;
 
-    public $flagService = false,$flagPolicies = true, $flagPickDateAndTime = false, $flagInformationClient = false, $flagSummary = false;
+    public $flagService = false, $flagPolicies = true, $flagPickDateAndTime = false, $flagInformationClient = false, $flagSummary = false;
 
     protected $listeners = ['selectedDate'];
 
@@ -60,6 +72,13 @@ class Book extends Component
 
     public function render()
     {
+        // Set Time Booking
+        if($this->timeBooking)
+            $this->selectedTime = TDSchedule::find($this->timeBooking)->time;
+
+        // Set Price for Deposit
+        $this->deposit = SettingWeb::where('name', '=', 'deposit')->first()->value;
+
         // Get Master Service for table
         $serviceCategory = MServiceCategory::with(['services' => function ($q) {
             $q->where('status', '=', true);
@@ -67,8 +86,7 @@ class Book extends Component
             ->where('status', true)
             ->get();
 
-        // Get Price for Deposit
-        $this->deposit = SettingWeb::where('name', '=', 'deposit')->first();
+
 
 
 
@@ -99,6 +117,19 @@ class Book extends Component
         // dd( Carbon::now()->format('H:i'));
         // dd($this->dataBookingDate[0]->times);
 
+        // Calculate Booking Price
+         if ($this->selectedServices) {
+            $this->totalPriceBook = 0;
+            foreach ($this->selectedServices as $service) {
+                $this->totalPriceBook += $this->number_of_people * $service['price'];
+            }
+            // if ($this->tax) {
+            //     $getTax = SettingWeb::where('name', '=', 'tax')->first()->value;
+            //     $this->totalPriceBook = $this->totalPriceBook + ((int)$this->totalPriceBook * ((int)$getTax / 100));
+            // }
+        } else
+            $this->totalPriceBook = 0;
+
 
 
         return view('livewire.book', compact('serviceCategory'));
@@ -108,14 +139,54 @@ class Book extends Component
 
     public function selectedDate($date)
     {
-        // Set Selected Date
+        // Set Selected Date (Dates)
         $this->selectedDate = $date;
+
+        // Set Selected Date (ID)
+        $this->dateBooking = TSchedule::where('date_schedule', '=', $date)->first()->id;
+
+
         $filteredBooks = array_filter($this->dataBookingDate->toArray(), function ($schedule) use ($date) {
             return $schedule["date_schedule"] === $date;
         });
 
         // dd($filteredBooks);
         $this->indexDate = array_keys($filteredBooks)[0];
+    }
+
+    public function save()
+    {
+
+        $booking = new TBooking();
+        $booking->uuid = generateUUID(10);
+        $booking->code_booking = generateBookingCode(4);
+        $booking->created_by = Auth::user()->id;
+
+        $booking->t_schedule_id = $this->dateBooking;
+        $booking->t_d_schedule_id = $this->timeBooking;
+        $booking->user_id = Auth::user()->id;
+        $booking->qty_people_booking = $this->number_of_people;
+        $booking->total_price_booking = $this->totalPriceBook;
+        $booking->deposit_price_booking = SettingWeb::where('name', '=', 'Deposit')->first()->value;
+
+
+        $booking->save();
+
+        // Get ID for FK
+        $bookingId = $booking->id;
+
+        foreach ($this->selectedServices as $item) {
+            $detailBooking = new TDBooking();
+            // Set FK
+            $detailBooking->t_booking_id = $bookingId;
+
+            // Search service Name & Price
+            // $service = MService::find($item['id']);
+            $detailBooking->m_service_id = $item['id'];
+            $detailBooking->price_service = $item['price'];
+            $detailBooking->name_service = $item['name'];
+            $detailBooking->save();
+        }
     }
 
 
@@ -178,17 +249,16 @@ class Book extends Component
 
         //  $flagService = false, $flagPickDateAndTime = false, $flagInformationClient = true, $flagSummary = false;
         switch ($currentStep) {
-            case('flagPolicies'):
+            case ('flagPolicies'):
 
-                if($this->agree_checkbox == false){
-                    $this->alert('info','Please confirm the agree to all policies ');
+                if ($this->agree_checkbox == false) {
+                    $this->alert('info', 'Please confirm the agree to all policies ');
                     return false;
-                }
-                else{
+                } else {
                     $this->resetFlags();
                     $this->flagInformationClient = true;
                 }
-            break;
+                break;
             case 'informationClient':
 
                 if (Auth::user() == null) {
@@ -217,30 +287,25 @@ class Book extends Component
                     $this->resetFlags();
                     $this->flagPickDateAndTime = true;
                     $this->dispatch('refreshHeader');
-
-                }else{
-                    if(Auth::user()->phone == null || Auth::user()->ig_tag ){
+                } else {
+                    if (Auth::user()->phone == null || Auth::user()->ig_tag) {
                         $user = User::find(Auth::user()->id);
 
-                        if(Auth::user()->phone == null && $this->phoneNumberClient !== null){
-                        $validated = Validator::make(
-                            ['phoneNumberClient' => $this->phoneNumberClient],
-                            ['phoneNumberClient' => 'required']
-                        )->validate();
-                        $user->phone = $this->phoneNumberClient;
-                        $user->save();
-                        $this->alert('success', 'Your Data has been updated');
-
+                        if (Auth::user()->phone == null && $this->phoneNumberClient !== null) {
+                            $validated = Validator::make(
+                                ['phoneNumberClient' => $this->phoneNumberClient],
+                                ['phoneNumberClient' => 'required']
+                            )->validate();
+                            $user->phone = $this->phoneNumberClient;
+                            $user->save();
+                            $this->alert('success', 'Your Data has been updated');
                         }
 
-                        if(Auth::user()->ig_tag == null && $this->igClient !== null){
-                        $user->ig_tag = $this->igClient;
-                        $user->save();
-                        $this->alert('success', 'Your Data has been updated');
-
+                        if (Auth::user()->ig_tag == null && $this->igClient !== null) {
+                            $user->ig_tag = $this->igClient;
+                            $user->save();
+                            $this->alert('success', 'Your Data has been updated');
                         }
-
-
                     }
 
                     $this->resetFlags();
@@ -267,7 +332,9 @@ class Book extends Component
         $maxAttempts = 5;
         $decayMinutes = 1;
         return $this->limiter()->tooManyAttempts(
-            $this->throttleKey(), $maxAttempts, $decayMinutes
+            $this->throttleKey(),
+            $maxAttempts,
+            $decayMinutes
         );
     }
 

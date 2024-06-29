@@ -5,7 +5,7 @@
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
 
 
-    <div class="flex justify-between p-2 lg:p-5">
+    <div class="flex justify-between p-4 lg:p-5">
         <div class="">
             {{-- <h1 class="uppercase lg:text-2xl">Only Mai Nails</h1> --}}
         </div>
@@ -18,25 +18,62 @@
             </ul>
             @else
 
-            <ul class="flex justify-between w-full gap-4 lg:flex lg:justify-center ">
+            <ul class="flex items-center justify-between w-full gap-4 lg:flex lg:justify-center">
                 <li>Hello, <span class="font-semibold">{{ Auth::user()->name }}</span></li>
                 <div class="hidden gap-4 lg:flex">
                     <li class="cursor-pointer">Booking History</li>
                     <li class="cursor-pointer">Change Password</li>
                 </div>
                     <li class="cursor-pointer"><a wire:click="logout" >Logout</a></li>
+                    <li>
+                        <div class="relative">
+                            <button id="notificationButton" class="p-2 text-white bg-blue-600 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                                  </svg>
+                                  <span class="absolute top-0 left-0 flex items-center justify-center p-2 text-white transform -translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full notification-badge">3</span>
 
+                            </button>
+                            <div id="dropdown" class="absolute right-0 hidden w-64 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg">
+                                <div class="flex items-center justify-between p-4 border-b">
+                                    <div class="">
+                                        <h3 class="font-semibold">Notifications</h3>
+                                    </div>
+                                    <div class="">
+                                        <a class="font-semibold underline cursor-pointer">Read All</a>
+                                    </div>
+                                </div>
+                                <ul class="overflow-y-scroll h-52">
+                                    @for ($i = 0 ; $i < 10;$i++)
+                                    <li class="">
+                                        <a target="_blank" href="www.google.com" class="flex items-center justify-between p-4 space-x-2 hover:bg-gray-200 hover:cursor-pointer">
+                                        <div class="flex items-center space-x-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 lg:size-10">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                              </svg>
 
+                                            <div class="text-sm">Your payment has been confirmed.</div>
+                                        </div>
+                                        {{-- If not read yet --}}
+                                        <div class="">
+                                            <div class="p-1 bg-red-600 rounded-full">
+                                            </div>
+                                        </div>
+                                        {{-- If not read yet --}}
+                                        </a>
+                                    </li>
+                                    @endfor
+
+                                </ul>
+                                <div class="w-full p-4 text-center border-t">
+                                    <a class="font-semibold underline cursor-pointer">View More</a>
+
+                                </div>
+                            </div>
+                    </li>
             </ul>
-
-
             @endif
-
         </div>
-
-
-
-
     </div>
 
     <section id="nav-dekstop" class="bg-[#fadde1] p-5 hidden lg:block">
@@ -125,6 +162,36 @@
             </div>
         @endif
     @endif
+
+    <script>
+        const button = document.getElementById('notificationButton');
+        const dropdown = document.getElementById('dropdown');
+
+        // Toggle dropdown visibility on button click
+        button.addEventListener('click', function (event) {
+            dropdown.classList.toggle('hidden');
+            event.stopPropagation(); // Prevent the click from propagating to the document
+        });
+
+        // Prevent dropdown from closing when clicking inside it
+        dropdown.addEventListener('click', function (event) {
+            event.stopPropagation();
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (event) {
+            if (!dropdown.classList.contains('hidden') && !button.contains(event.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        // Optional: Close dropdown if the user presses the 'Escape' key
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && !dropdown.classList.contains('hidden')) {
+                dropdown.classList.add('hidden');
+            }
+        });
+    </script>
 
 
 </div>

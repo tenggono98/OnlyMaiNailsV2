@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('m_services', function (Blueprint $table) {
             $table->id();
+            $table->integebigInteger('order')->nullable();
             $table->string('name_service');
             $table->bigInteger('price_service');
             $table->enum('is_merge',[1,0])->default(0);
