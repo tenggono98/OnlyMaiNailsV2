@@ -8,6 +8,8 @@ class Header extends Component
 {
     public function render()
     {
+        // Get Notification
+
         return view('livewire.component.admin.header');
     }
 }

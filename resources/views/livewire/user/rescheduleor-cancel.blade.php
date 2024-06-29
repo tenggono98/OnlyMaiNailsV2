@@ -3,18 +3,14 @@
     <div class="">
         <h1 class="mb-3">Your Booking Information</h1>
         <div class="border border-[#fadde1] rounded-lg p-4">
-
             <a class="p-4 underline hover:text-[#fadde1]" target="_blank" href="{{ route('book') }}">Our Policies</a>
-
             <div class="grid grid-cols-1 gap-4 lg:grid-cols-4 ">
-
                 <div class="flex items-center gap-3 p-4">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="p-2 border rounded-full size-14 border-[#fadde1]">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
                     </svg>
-
                     <div class="">
                         <label for="">Date & Time</label>
                         <p class="font-semibold">
@@ -22,29 +18,22 @@
                             <br> {{ \Carbon\Carbon::parse($booking->scheduleTimeBook->time)->format('h:i A') }}
                         </p>
                     </div>
-
-
                 </div>
                 <div class="flex items-center gap-3 p-4">
-
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="p-2 border rounded-full size-14 border-[#fadde1]">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
                     </svg>
                     <div class="">
-
                         <label for="">List of Services</label>
                         <ul>
                             @foreach ($detailBooking as $item)
                                 <li class="font-semibold">({{ $item->service->category->name_service_categori }})
                                     {{ $item->name_service }}</li>
                             @endforeach
-
                         </ul>
                     </div>
-
-
                 </div>
                 <div class="flex items-center gap-3 p-4 ">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -57,7 +46,6 @@
                     <div class="">
                         <label for="">Code Booking</label>
                         <div class="flex items-center gap-2">
-
                             <div class="">
                                 <p class="font-semibold">{{ $booking->code_booking }}</p>
                             </div>
@@ -70,11 +58,8 @@
                             </button>
                         </div>
                     </div>
-
                 </div>
-
                 <div class="flex items-center gap-3 p-4">
-
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="p-2 border rounded-full size-14 border-[#fadde1]">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -84,18 +69,13 @@
                         <label for="">Quantity of Person</label>
                         <p class="font-semibold">{{ $booking->qty_people_booking }} Person</p>
                     </div>
-
-
                 </div>
-
                 <div class="flex items-center gap-3 p-4">
-
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="p-2 border rounded-full size-14 border-[#fadde1]">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
                     </svg>
-
                     <div class="">
                         <label for="">Status Deposit</label><br>
                         @if ($booking->is_deposit_paid == true)
@@ -104,55 +84,132 @@
                             <x-pages.badge type='danger' value='No Paid' />
                         @endif
                     </div>
-
-
                 </div>
-
                 <div class="flex items-center gap-3 p-4">
-
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="p-2 border rounded-full size-14 border-[#fadde1]">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
-
-
                     <div class="">
                         <label for="">Total Payment after Deducted </label><br>
                         <p class="font-semibold">(-${{ $booking->deposit_price_booking }})
                             ${{ $booking->total_price_booking - $booking->deposit_price_booking }}</p>
-
                     </div>
-
-
                 </div>
-
-
-
-
             </div>
+            {{-- Information Container --}}
+            <!-- Accordion Container -->
+            <div class="space-y-4 accordion-container">
+                <!-- Accordion Item 1: Booking an Appointment -->
+                <div x-data="{ open: false }" class="mb-4 border border-[#fadde1] rounded-md accordion-item">
+                    <button @click="open = !open"
+                        class="w-full p-4 text-left text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring">
+                        <div class="flex items-center justify-between">
+                            <span class="font-semibold">Booking an Appointment</span>
+                            <svg :class="{ 'transform rotate-180': open }" class="w-4 h-4 transition-transform"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </button>
+                    <div x-show="open" x-transition class="p-4 border-t border-[#fadde1]">
+                        <p>To secure your appointment, follow these simple steps:</p>
+                        <ul class="pl-6 list-disc">
+                            <li><strong>Select a Service</strong>: Browse our list of services and choose the one that
+                                suits your needs.</li>
+                            <li><strong>Choose a Date and Time</strong>: Pick a convenient date and time for your
+                                appointment.</li>
+                            <li><strong>Provide Your Details</strong>: Fill in your personal information to proceed with
+                                the booking.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Accordion Item 2: Deposit Requirement -->
+                <div x-data="{ open: false }" class="mb-4 border border-[#fadde1] rounded-md accordion-item">
+                    <button @click="open = !open"
+                        class="w-full p-4 text-left text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring">
+                        <div class="flex items-center justify-between">
+                            <span class="font-semibold">Deposit Requirement</span>
+                            <svg :class="{ 'transform rotate-180': open }" class="w-4 h-4 transition-transform"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </button>
+                    <div x-show="open" x-transition class="p-4 border-t border-[#fadde1]">
+                        <p>To confirm your appointment, a deposit is required. Here’s how to complete it:</p>
+                        <ul class="pl-6 list-disc">
+                            <li><strong>Deposit Amount</strong>: All clients must send a deposit of <span
+                                    class="font-semibold">${{ $deposit }}</span> to book an appointment.</li>
+                            <li><strong>E-Transfer Instructions</strong>:
+                                <ul class="pl-6 list-disc">
+                                    <li>Send the deposit via e-transfer to <span
+                                            class="font-semibold">maixesthetics@gmail.com</span>.</li>
+                                    <li>Ensure to send the deposit within <span class="font-semibold">2 hours</span> of
+                                        booking to secure your appointment.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Deposit Policy</strong>:
+                                <ul class="pl-6 list-disc">
+                                    <li>The deposit will be subtracted from the total cost once the service is
+                                        completed.</li>
+                                    <li>If the deposit is not received within 2 hours, the appointment will not be
+                                        confirmed.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Accordion Item 3: Payment Options -->
+                <div x-data="{ open: false }" class="mb-4 border border-[#fadde1] rounded-md accordion-item">
+                    <button @click="open = !open"
+                        class="w-full p-4 text-left text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring">
+                        <div class="flex items-center justify-between">
+                            <span class="font-semibold">Payment Options</span>
+                            <svg :class="{ 'transform rotate-180': open }" class="w-4 h-4 transition-transform"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </button>
+                    <div x-show="open" x-transition class="p-4 border-t border-[#fadde1]">
+                        <p>We offer two payment methods for your convenience:</p>
+                        <ul class="pl-6 list-disc">
+                            <li><strong>Cash Payment</strong>: Pay the remaining balance in cash at the time of your
+                                appointment.</li>
+                            <li><strong>E-Transfer</strong>: Complete the remaining balance via e-transfer to <span
+                                    class="font-semibold">maixesthetics@gmail.com</span>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {{-- Information Container --}}
+            <div class="grid grid-cols-2 gap-3 my-5 ">
+                <div class="">
 
-            <div class="grid grid-cols-1 gap-3 my-5 ">
+
                 @if ($booking->is_deposit_paid == true)
                     <x-pages.btn type='info' value=' Reschedule Booking' />
                 @else
-                    <x-pages.btn type='danger' value=' Cancel Booking'
-                        wire:confirm='Are you sure want to "Cancel" this Booking ' />
+                <x-pages.btn type='success' wire:click='confirmDeposit' value='Confirm Deposit'
+                wire:confirm='Are you sure want to Confirm Deposit for Booking' />
                 @endif
-                <div class="">
-
-                </div>
-
-
             </div>
 
-
-
-
-
+                <div class="">
+                    <x-pages.btn type='danger' value=' Cancel Booking'
+                    wire:confirm='Are you sure want to "Cancel" this Booking ' />
+                </div>
+            </div>
         </div>
     </div>
-
     {{-- Extra Script --}}
     <script>
         function copyText(text) {
@@ -161,5 +218,4 @@
         }
     </script>
     {{-- Extra Script --}}
-
 </div>

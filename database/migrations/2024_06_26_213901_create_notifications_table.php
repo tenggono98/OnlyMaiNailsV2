@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('title_notification');
             $table->text('description_notification');
             $table->enum('for_role_notification',['user','admin']);
-            $table->foreignIdFor(User::class);
+            $table->bigInteger('notif_for')->null();
+            $table->bigInteger('created_by');
             $table->text('url')->nullable();
             $table->enum('is_read',[1,0])->default(0);
             $table->timestamps();

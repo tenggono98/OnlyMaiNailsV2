@@ -140,6 +140,14 @@ class DatabaseSeeder extends Seeder
                 [
                     'name' => 'Deposit',
                     'value' => '20'
+                ],
+                [
+                    'name' => 'PaymentEmail',
+                    'value' => 'maixesthetics@gmail.com'
+                ],
+                [
+                    'name' => 'LimitDepositPayment_h',
+                    'value' => '2'
                 ]
             ]);
     }

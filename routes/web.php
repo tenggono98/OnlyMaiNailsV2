@@ -24,7 +24,7 @@ Route::get('/pdf_view', [BookingComplete::class, 'show'])->name('pdf.test_view')
     // Can be access as "Admin"
 
                 Route::get('/dashboard',\App\Livewire\Admin\Dashboard::class)->name('admin.dashboard');
-                Route::view('/profile', 'profile') ->middleware(['auth']) ->name('profile');
+                Route::view('/profile', 'profile')->middleware(['auth']) ->name('profile');
                 Route::get('/booking',\App\Livewire\Admin\Booking::class)->name('admin.booking');
                 Route::get('/schedule',\App\Livewire\Admin\Schedule::class)->name('admin.schedule');
                 Route::get('/service',\App\Livewire\Admin\Service::class)->name('admin.service');

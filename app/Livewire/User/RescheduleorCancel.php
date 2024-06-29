@@ -2,11 +2,13 @@
 
 namespace App\Livewire\User;
 
-use Jantinnerezo\LivewireAlert\LivewireAlert;
+use App\Models\Notification;
 use Livewire\Component;
 use App\Models\TBooking;
 use App\Models\TDBooking;
+use App\Models\SettingWeb;
 use Illuminate\Support\Facades\Auth;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class RescheduleorCancel extends Component
 {
@@ -14,10 +16,11 @@ class RescheduleorCancel extends Component
     use LivewireAlert;
 
     // Variable Data
-    public $booking , $detailBooking ;
+    public $booking , $detailBooking , $deposit;
 
     public function mount($uuid){
 
+        $this->deposit = SettingWeb::where('name', '=', 'deposit')->first()->value;
 
         try{
         $this->booking = TBooking::with('client')->where('uuid','=',$uuid)->first();
@@ -52,6 +55,22 @@ class RescheduleorCancel extends Component
 
 
 
+    }
+
+
+    public function confirmDeposit(){
+        // Create Notif for Admin
+        $notif = new Notification;
+
+        $notif->title_notification = 'Deposit Payment';
+        $notif->description_notification = 'Please confirm deposit payment for booking code : ' . $this->booking->code_booking .'';
+        $notif->for_role_notification = 'admin';
+        $notif->url = route('admin.booking',['searchBookingCode' => $this->booking->code_booking]);
+        $notif->created_by = Auth::id();
+        $notif->save();
+
+        if($notif)
+            $this->alert('success', 'Your schedule is being confirmed by our admin. Please wait a moment.');
     }
 
     public function notifCopy()
