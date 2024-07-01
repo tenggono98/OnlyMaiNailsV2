@@ -230,6 +230,8 @@ class Booking extends Component
         $scheduleTime = TDSchedule::find($booking->t_d_schedule_id);
 
 
+
+
         if ($booking->is_deposit_paid == false) {
             // Update Deposit Status to "True"
             $booking->is_deposit_paid = '1';
@@ -251,6 +253,7 @@ class Booking extends Component
                 'clientName' => $booking->client->name,
                 'booking_date' => \Carbon\Carbon::parse($booking->scheduleDateBook->date_schedule)->format('l , d F Y'),
                 'booking_time' => \Carbon\Carbon::parse($booking->scheduleTimeBook->time)->format('h:i A'),
+                'uuid' =>$uuid,
                 'services' => $detailBooking->toArray(),
                 'files' => public_path($fileName)
 
