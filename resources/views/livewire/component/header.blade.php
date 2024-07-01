@@ -25,51 +25,125 @@
                     <li class="cursor-pointer">Change Password</li>
                 </div>
                     <li class="cursor-pointer"><a wire:click="logout" >Logout</a></li>
-                    <li>
-                        <div class="relative">
-                            <button id="notificationButton" class="p-2 text-white bg-blue-600 rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-                                  </svg>
-                                  <span class="absolute top-0 left-0 flex items-center justify-center p-2 text-white transform -translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full notification-badge">3</span>
+                    <li class="">
+                        <div class="flex justify-end gap-5">
+                            <div class="inline-flex items-center ">
+                                <div class="relative">
+                                    <button id="notificationButton" class="p-2 text-white bg-blue-600 rounded-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                            stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                                        </svg>
+                                        @if(count($notification) > 0)
+                                        <span
+                                            class="absolute top-0 left-0 flex items-center justify-center p-2 text-white transform -translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full notification-badge"
+                                            wire:poll.10s>{{ count($notification->where('is_read', '=', '0')) }}</span>
+                                            @endif
 
-                            </button>
-                            <div id="dropdown" class="absolute right-0 hidden w-64 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg">
-                                <div class="flex items-center justify-between p-4 border-b">
-                                    <div class="">
-                                        <h3 class="font-semibold">Notifications</h3>
-                                    </div>
-                                    <div class="">
-                                        <a class="font-semibold underline cursor-pointer">Read All</a>
-                                    </div>
-                                </div>
-                                <ul class="overflow-y-scroll h-52">
-                                    @for ($i = 0 ; $i < 10;$i++)
-                                    <li class="">
-                                        <a target="_blank" href="www.google.com" class="flex items-center justify-between p-4 space-x-2 hover:bg-gray-200 hover:cursor-pointer">
-                                        <div class="flex items-center space-x-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 lg:size-10">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                              </svg>
-
-                                            <div class="text-sm">Your payment has been confirmed.</div>
+                                    </button>
+                                    <!-- Dropdown Container -->
+                                    <div id="dropdown"
+                                        class="absolute right-0 z-50 hidden w-64 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg"
+                                        wire:ignore.self wire:poll.10s>
+                                        <!-- Dropdown Header -->
+                                        <div class="flex items-center justify-between p-4 border-b">
+                                            <h3 class="font-semibold">Notifications</h3>
+                                            <a class="font-semibold text-blue-600 underline cursor-pointer"
+                                                wire:click="readAll()">Read All</a>
                                         </div>
-                                        {{-- If not read yet --}}
-                                        <div class="">
-                                            <div class="p-1 bg-red-600 rounded-full">
-                                            </div>
-                                        </div>
-                                        {{-- If not read yet --}}
-                                        </a>
-                                    </li>
-                                    @endfor
 
-                                </ul>
-                                <div class="w-full p-4 text-center border-t">
-                                    <a class="font-semibold underline cursor-pointer">View More</a>
+                                        <!-- Notification List -->
+                                        <ul class="overflow-y-auto h-52">
+                                            @if(count($notification) > 0)
+                                            @foreach ($notification as $notif)
+                                                <li class="p-0 m-0 border-b last:border-0">
+                                                    <a target="_blank" wire:click='readNotif({{ $notif->id }})'
+                                                        href="{{ $notif->url }}"
+                                                        class="flex items-center justify-between p-4 space-x-2 hover:bg-gray-100">
+                                                        <div class="flex items-center space-x-2">
+                                                            <div class="text-sm">
+                                                                <p class="font-semibold">{{ $notif->title_notification }}</p>
+                                                                <small>{{ $notif->description_notification }}</small>
+                                                            </div>
+                                                        </div>
+                                                        @if (!$notif->is_read)
+                                                            <div class="p-1 bg-red-600 rounded-full"></div>
+                                                        @endif
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                            @else
+                                                <li>
+                                                    <h2 class="py-5 font-semibold text-center">There is no new notification</h2>
+                                                </li>
+                                            @endif
+
+                                        </ul>
+
+                                        <!-- View More Link -->
+                                        <div class="w-full p-4 text-center border-t">
+                                            <button class="font-semibold text-blue-600 underline cursor-pointer"
+                                                wire:click='showMoreNotification()'>View More</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Styles for the Dropdown -->
+                                    <style>
+                                        #dropdown {
+                                            max-height: 400px;
+                                            /* Adjust as needed for overall max height */
+                                        }
+
+                                        #dropdown ul {
+                                            max-height: 200px;
+                                            /* Adjust as needed for notification list height */
+                                        }
+                                    </style>
 
                                 </div>
+
+
+
                             </div>
+                         
+
+
+                        </div>
+
+                        <script>
+                            const button = document.getElementById('notificationButton');
+                            const dropdown = document.getElementById('dropdown');
+
+                            // Toggle dropdown visibility on button click
+                            button.addEventListener('click', function(event) {
+                                dropdown.classList.toggle('hidden');
+                                event.stopPropagation(); // Prevent the click from propagating to the document
+                            });
+
+                            // Prevent dropdown from closing when clicking inside it
+                            dropdown.addEventListener('click', function(event) {
+                                event.stopPropagation();
+                            });
+
+                            // Close dropdown when clicking outside
+                            document.addEventListener('click', function(event) {
+                                if (!dropdown.classList.contains('hidden') && !button.contains(event.target)) {
+                                    dropdown.classList.add('hidden');
+                                }
+                            });
+
+                            // Optional: Close dropdown if the user presses the 'Escape' key
+                            document.addEventListener('keydown', function(event) {
+                                if (event.key === 'Escape' && !dropdown.classList.contains('hidden')) {
+                                    dropdown.classList.add('hidden');
+                                }
+                            });
+                        </script>
+
+
+
+
                     </li>
             </ul>
             @endif

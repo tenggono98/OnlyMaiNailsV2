@@ -329,16 +329,16 @@
                     <!-- Summary of all selections goes here -->
                     <div class="grid grid-cols-1 mb-4 lg:grid-cols-2">
                         <div class="">
-                            <h1 class="">Date Booking</h1>
+                            <h1 class="">Date</h1>
                             <p class="text-lg font-semibold">{{ \Carbon\Carbon::parse($selectedDate ?? '')->format('l , d F Y')  }}</p>
                         </div>
                         <div class="">
-                            <h1>Time Booking</h1>
+                            <h1>Time</h1>
                             <p class="text-lg font-semibold">{{ \Carbon\Carbon::parse($selectedTime  ?? '')->format('h:i A') }}</p>
                         </div>
                     </div>
                         <div class="mb-4">
-                            <h1>Service List</h1>
+                            <h1>Service</h1>
                             <table class="w-full text-left border-collapse">
                                 <tbody>
                                     @foreach ($selectedServices as $service)
@@ -370,7 +370,7 @@
                                 class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">Back</button>
                         </div>
                         <div class="flex-auto">
-                            <button wire:click="next('summary')" type="submit"
+                            <button wire:click="next('summary')" type="submit" wire:confim='Are you sure you want to proceed with your order?'
                                 class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">Submit</button>
                         </div>
                     </div>

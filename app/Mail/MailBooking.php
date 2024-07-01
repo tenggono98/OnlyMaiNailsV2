@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Attachment;
 
 class MailBooking extends Mailable
 {
@@ -50,6 +51,8 @@ class MailBooking extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        return [
+             Attachment::fromPath($this->mailData['files']),
+        ];
     }
 }

@@ -1,3 +1,4 @@
+
 @props([
     'title' => 'Title Page'
 ])

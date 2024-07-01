@@ -12,6 +12,7 @@ use App\Models\TDBooking;
 use App\Models\TSchedule;
 use App\Models\SettingWeb;
 use App\Models\TDSchedule;
+use App\Models\Notification;
 use Livewire\Attributes\Validate;
 use Livewire\Attributes\Modelable;
 use Illuminate\Support\Facades\Auth;
@@ -251,12 +252,23 @@ class Booking extends Component
                 'booking_date' => \Carbon\Carbon::parse($booking->scheduleDateBook->date_schedule)->format('l , d F Y'),
                 'booking_time' => \Carbon\Carbon::parse($booking->scheduleTimeBook->time)->format('h:i A'),
                 'services' => $detailBooking->toArray(),
-                'files' => [
-                    public_path($fileName),
-                ]
-            ];
+                'files' => public_path($fileName)
 
-            Mail::to('tenggono98@gmail.com')->send(new MailBooking($mailData));
+            ];
+            // Send Email to Client
+            Mail::to($booking->client->email)->send(new MailBooking($mailData));
+
+
+            // Send Notification
+            $notif = new Notification;
+            $notif->title_notification = 'Deposit Payment Confirm';
+            $notif->description_notification = 'Your deposit payment for booking code : ' . $booking->code_booking .' Has been confirm';
+            $notif->referance_id = $booking->uuid;
+            $notif->for_role_notification = 'user';
+            $notif->notif_for = $booking->client->id;
+            $notif->url = route('user.reschedule_or_cancel',[$booking->uuid]);
+            $notif->created_by = Auth::id();
+            $notif->save();
 
             $this->alert('success','Mail Has Been Send');
 
@@ -265,6 +277,18 @@ class Booking extends Component
             $booking->is_deposit_paid = '0';
             // Update Schedule booking Status to "False"
             $scheduleTime->is_book = '0';
+
+              // Send Notification
+              $notif = new Notification;
+              $notif->title_notification = 'Deposit Payment Cancel';
+              $notif->description_notification = 'Your deposit payment for booking code : ' . $booking->code_booking .' Has been Cancel';
+              $notif->referance_id = $booking->uuid;
+              $notif->for_role_notification = 'user';
+              $notif->notif_for = $booking->client->id;
+              $notif->url = route('user.reschedule_or_cancel',[$booking->uuid]);
+              $notif->created_by = Auth::id();
+              $notif->save();
+
         }
 
         $booking->save();

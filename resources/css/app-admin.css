@@ -2,3 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.notification-badge {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.75rem;
+    line-height: 1.5rem;
+}

@@ -12,9 +12,12 @@
     </head>
     <body class="bg-gray-100 ">
 
+         <!-- Include the Livewire component for title update -->
+        @livewire('component.module.title-updater')
+
         @livewire('component.admin.header')
 
-        <div class="p-4 sm:ml-64">
+        <div class="p-4 sm:ml-64" wire:ignore.self>
             {{ $slot }}
         </div>
 
@@ -36,7 +39,7 @@
         });
     </script> --}}
 
-    
+
 
 
 </html>
