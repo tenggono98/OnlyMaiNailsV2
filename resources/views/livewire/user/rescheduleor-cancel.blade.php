@@ -98,7 +98,74 @@
                     </div>
                 </div>
             </div>
-            {{-- Information Container --}}
+
+            <div class="border border-[#fadde1] rounded-lg p-4">
+
+                @if($booking->is_deposit_paid == false)
+                {{-- Time Limit --}}
+                <div class="p-4 my-5 border rounded-lg">
+
+
+                   {{-- <h2>Time limit for Deposit</h2>
+
+                    <div class="flex justify-around gap-5 mx-auto w-60">
+                        <div class="text-2xl font-semibold text-red-400">
+                            <h2>02</h2>
+                        </div>
+                        <div class="">
+                            :
+                        </div>
+
+                        <div class="text-2xl font-semibold text-red-400">
+                            <h2>59</h2>
+                        </div>
+
+                        <div class="">
+                            :
+                        </div>
+
+                        <div class="text-2xl font-semibold text-red-400">
+                            <h2>60</h2>
+                        </div>
+
+                    </div> --}}
+
+                     <!-- Title Section -->
+                    <h2 class="mb-4 text-2xl font-bold text-center">Deposit Payment Deadline</h2>
+
+                    <!-- Explanation Text -->
+                    <p class="mb-10 text-center text-gray-600">
+                        Please pay the deposit before the timer runs out. If you miss the deadline, your transaction will be canceled. <br><br>
+                        Remember to include your <b>booking code</b> shown above, so we can confirm your payment and booking.
+                    </p>
+
+                    <!-- Timer Section -->
+                    <div class="flex justify-center mb-10" wire:poll.1s="checkTimeRemaining">
+                        <div class="p-6 text-4xl font-semibold bg-[#fadde1] rounded-xl shadow-lg timer">
+                            @php
+                            $hours = floor($timeRemaining / 3600);
+                            $minutes = floor(($timeRemaining % 3600) / 60);
+                            $seconds = $timeRemaining % 60;
+                        @endphp
+
+                        <span>{{ str_replace('-','',str_pad($hours, 2, '0', STR_PAD_LEFT)) }}</span>
+                        <span>:</span>
+                        <span>{{ str_replace('-','',str_pad($minutes, 2, '0', STR_PAD_LEFT)) }}</span>
+                        <span>:</span>
+                        <span>{{ str_replace('-','',str_pad($seconds, 2, '0', STR_PAD_LEFT)) }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Additional Info Below Timer -->
+                    <p class="text-center text-gray-600">
+                        If the time reaches zero, your booking will be automatically <b class="text-red-600"> canceled </b>, and you will need to make a new booking.
+                    </p>
+
+                </div>
+                {{-- Time Limit --}}
+                @endif
+
+                  {{-- Information Container --}}
             <!-- Accordion Container -->
             <div class="space-y-4 accordion-container">
                 <!-- Accordion Item 1: Booking an Appointment -->
@@ -191,6 +258,15 @@
                 </div>
             </div>
             {{-- Information Container --}}
+
+            </div>
+
+
+
+
+
+
+
             <div class="grid grid-cols-2 gap-3 my-5 ">
                 <div class="">
 
