@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Livewire;
-
 use Livewire\Component;
 use Illuminate\Support\Str;
 use App\Livewire\Forms\LoginForm;
@@ -10,25 +8,21 @@ use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
-
-
 class Login extends Component
 {
     public $email;
     public $password;
-
     public $remember = false;
 
+    public function mount(){
+        if(!Auth::user()){
+            return redirect('home');
+        }
+    }
     public function render()
     {
-
-
-
-
         return view('livewire.login');
     }
-
-
     public function login()
     {
         // Validasi input
@@ -36,7 +30,6 @@ class Login extends Component
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
         // Implementasi Rate Limiting (opsional)
         $key = 'login-attempts:' . Str::lower($this->email);
         if (RateLimiter::tooManyAttempts($key, 5)) {
@@ -47,28 +40,21 @@ class Login extends Component
                 ]),
             ]);
         }
-
         // Attempt login
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
             session()->regenerate();
-
             // Clear Rate Limiting after successful login
             RateLimiter::clear($key);
-
             // Redirect to the intended page or dashboard
             return redirect()->intended();
         }
-
         // Increment Rate Limiting counter
         RateLimiter::hit($key);
-
         // Jika login gagal
         throw ValidationException::withMessages([
             'email' => __('auth.failed'),
         ]);
     }
-
-
     //  /**
     //  * Ensure the authentication request is not rate limited.
     //  */
@@ -77,11 +63,8 @@ class Login extends Component
     //     if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
     //         return;
     //     }
-
     //     event(new Lockout(request()));
-
     //     $seconds = RateLimiter::availableIn($this->throttleKey());
-
     //     // throw ValidationException::withMessages([
     //     //     'form.email' => trans('auth.throttle', [
     //     //         'seconds' => $seconds,
@@ -89,7 +72,6 @@ class Login extends Component
     //     //     ]),
     //     // ]);
     // }
-
     // /**
     //  * Get the authentication rate limiting throttle key.
     //  */

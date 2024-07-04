@@ -29,7 +29,7 @@
                     </div>
                     <div class="flex-auto ">
                         <div class="float-end">
-                        <a href="" class="text-right hover:text-[#bca5a8]">Forget your password ?</a>
+                        <a href="{{ route('password.request') }}" class="text-right hover:text-[#bca5a8]">Forget your password ?</a>
 
                         </div>
 
