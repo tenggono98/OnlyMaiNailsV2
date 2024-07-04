@@ -80,7 +80,7 @@
                                     <div class="py-2 lg:py-0">
                                         @if ($item->status == 1)
                                             @if ($item->confirm_payment == '0')
-                                             <x-pages.badge type='warning' value='Waiting Payment Deposit' />
+                                             <x-pages.badge type='danger' value='Waiting Payment Deposit' />
                                             @elseif($item->confirm_payment == '1')
                                             <x-pages.badge type='success' value='Waiting Admin Confirmation' />
                                             @else
