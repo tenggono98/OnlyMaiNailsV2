@@ -136,3 +136,7 @@ p , li , span ,a, article , b {
 .form-control{
     @apply border-[#fadde1] rounded-lg;
 }
+
+.btn-normal{
+    @apply bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer ;
+}

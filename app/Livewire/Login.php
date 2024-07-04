@@ -2,9 +2,6 @@
 namespace App\Livewire;
 use Livewire\Component;
 use Illuminate\Support\Str;
-use App\Livewire\Forms\LoginForm;
-use Livewire\Attributes\Validate;
-use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
@@ -15,8 +12,8 @@ class Login extends Component
     public $remember = false;
 
     public function mount(){
-        if(!Auth::user()){
-            return redirect('home');
+        if(Auth::user()){
+            return redirect(route('home'));
         }
     }
     public function render()

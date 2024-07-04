@@ -1,10 +1,5 @@
-
-
 <div>
-
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
-
-
     <div class="flex justify-between p-4 lg:p-5">
         <div class="">
             {{-- <h1 class="uppercase lg:text-2xl">Only Mai Nails</h1> --}}
@@ -17,12 +12,11 @@
                 <li class="cursor-pointer"><a class="w-full" href="{{ route('user.login') }}">Sign Up</a></li>
             </ul>
             @else
-
             <ul class="flex items-center justify-between w-full gap-4 lg:flex lg:justify-center">
                 <li>Hello, <span class="font-semibold">{{ Auth::user()->name }}</span></li>
                 <div class="hidden gap-4 lg:flex">
-                    <li class="cursor-pointer">Booking History</li>
-                    <li class="cursor-pointer">Change Password</li>
+                    <li class="cursor-pointer"><a href="{{ route('user.history_booking') }}">Booking History</a></li>
+                    <li class="cursor-pointer"><a href="{{ route('user.change_profile') }}">Change Profile</a></li>
                 </div>
                     <li class="cursor-pointer"><a wire:click="logout" >Logout</a></li>
                     <li class="">
@@ -40,7 +34,6 @@
                                             class="absolute top-0 left-0 flex items-center justify-center p-2 text-white transform -translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full notification-badge"
                                             wire:poll.10s>{{ count($notification->where('is_read', '=', '0')) }}</span>
                                             @endif
-
                                     </button>
                                     <!-- Dropdown Container -->
                                     <div id="dropdown"
@@ -52,7 +45,6 @@
                                             <a class="font-semibold text-blue-600 underline cursor-pointer"
                                                 wire:click="readAll()">Read All</a>
                                         </div>
-
                                         <!-- Notification List -->
                                         <ul class="overflow-y-auto h-52">
                                             @if(count($notification) > 0)
@@ -78,61 +70,45 @@
                                                     <h2 class="py-5 font-semibold text-center">There is no new notification</h2>
                                                 </li>
                                             @endif
-
                                         </ul>
-
                                         <!-- View More Link -->
                                         <div class="w-full p-4 text-center border-t">
                                             <button class="font-semibold text-blue-600 underline cursor-pointer"
                                                 wire:click='showMoreNotification()'>View More</button>
                                         </div>
                                     </div>
-
                                     <!-- Styles for the Dropdown -->
                                     <style>
                                         #dropdown {
                                             max-height: 400px;
                                             /* Adjust as needed for overall max height */
                                         }
-
                                         #dropdown ul {
                                             max-height: 200px;
                                             /* Adjust as needed for notification list height */
                                         }
                                     </style>
-
                                 </div>
-
-
-
                             </div>
-                         
-
-
                         </div>
-
                         <script>
                             const button = document.getElementById('notificationButton');
                             const dropdown = document.getElementById('dropdown');
-
                             // Toggle dropdown visibility on button click
                             button.addEventListener('click', function(event) {
                                 dropdown.classList.toggle('hidden');
                                 event.stopPropagation(); // Prevent the click from propagating to the document
                             });
-
                             // Prevent dropdown from closing when clicking inside it
                             dropdown.addEventListener('click', function(event) {
                                 event.stopPropagation();
                             });
-
                             // Close dropdown when clicking outside
                             document.addEventListener('click', function(event) {
                                 if (!dropdown.classList.contains('hidden') && !button.contains(event.target)) {
                                     dropdown.classList.add('hidden');
                                 }
                             });
-
                             // Optional: Close dropdown if the user presses the 'Escape' key
                             document.addEventListener('keydown', function(event) {
                                 if (event.key === 'Escape' && !dropdown.classList.contains('hidden')) {
@@ -140,43 +116,30 @@
                                 }
                             });
                         </script>
-
-
-
-
                     </li>
             </ul>
             @endif
         </div>
     </div>
-
     <section id="nav-dekstop" class="bg-[#fadde1] p-5 hidden lg:block">
-
-
         <div class="flex justify-between w-full ">
-
             {{-- Logo --}}
             <div class="">
                 <img src="{{ asset('img/transparant-logo.png') }}" class="h-28" alt="">
             </div>
             {{-- Logo --}}
-
             {{-- Menu --}}
             <div class="flex items-center justify-center ">
                 <ul class="flex justify-center gap-5 uppercase list-none">
-                    <li><a href="{{ Route('home') }}">Home V2</a></li>
+                    <li><a href="{{ Route('home') }}">Home</a></li>
                     <li><a href="{{ Route('services') }}">Our Services</a></li>
                     <li><a href="">Contact Us</a></li>
                     <li><a href="{{ Route('book') }}">Book</a></li>
                 </ul>
             </div>
             {{-- Menu --}}
-
         </div>
-
     </section>
-
-
     <section id="nav-mobile" class="bg-[#fadde1] p-5 lg:hidden fixed bottom-0 w-full z-10">
         <div class="flex justify-between w-full p-2">
             {{-- Menu --}}
@@ -219,7 +182,6 @@
             {{-- Menu --}}
         </div>
     </section>
-
     @if(Auth::user())
         @if(Auth::user()->email_verified_at == null && Auth::user()->gauth_id == null)
             <div class="w-full p-4 bg-[#fadde1] border-t border-white">
@@ -236,29 +198,24 @@
             </div>
         @endif
     @endif
-
     <script>
         const button = document.getElementById('notificationButton');
         const dropdown = document.getElementById('dropdown');
-
         // Toggle dropdown visibility on button click
         button.addEventListener('click', function (event) {
             dropdown.classList.toggle('hidden');
             event.stopPropagation(); // Prevent the click from propagating to the document
         });
-
         // Prevent dropdown from closing when clicking inside it
         dropdown.addEventListener('click', function (event) {
             event.stopPropagation();
         });
-
         // Close dropdown when clicking outside
         document.addEventListener('click', function (event) {
             if (!dropdown.classList.contains('hidden') && !button.contains(event.target)) {
                 dropdown.classList.add('hidden');
             }
         });
-
         // Optional: Close dropdown if the user presses the 'Escape' key
         document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape' && !dropdown.classList.contains('hidden')) {
@@ -266,6 +223,4 @@
             }
         });
     </script>
-
-
 </div>

@@ -129,9 +129,7 @@ class Book extends Component
             $detailBooking->name_service = $item['name'];
             $detailBooking->save();
         }
-
         $uuidBooking = $booking->uuid;
-
         return redirect(route('user.reschedule_or_cancel',['uuid' => $uuidBooking]));
     }
     // Service Section

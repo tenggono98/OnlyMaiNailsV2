@@ -371,7 +371,15 @@
                         </div>
                         <div class="flex-auto">
                             <button wire:click="next('summary')" type="submit" wire:confim='Are you sure you want to proceed with your order?'
-                                class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">Submit</button>
+                                class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">
+
+                                <!-- Default text -->
+                                <span wire:loading.remove wire:target="save">Submit</span>
+                                <!-- Loading text with spinner -->
+                                <span wire:loading wire:target="save" class="animate-pulse">
+                                    Creating your Appointment...
+                                </span>
+                            </button>
                         </div>
                     </div>
                 </div>

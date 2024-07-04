@@ -1,65 +1,64 @@
 <?php
-
 namespace App\Livewire\User;
-
+use App\Models\User;
 use Livewire\Component;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 class ChangeProfile extends Component
 {
-
-    public $userId , $user;
-
+    use LivewireAlert;
+    public $userId, $user;
     // Variable User
-    public $fullNameClient, $phoneNumberClient, $igTagClient, $oldPassword , $password , $confirmPassword;
-
-    public function mount($id){
-         // Check if the authenticated user ID matches the ID in the route
-         if (Auth::id() != $id) {
-            abort(403, 'Unauthorized action.');
-        }
-
-
-
-        // Get Information
-        $this->userId = $id;
-        $this->user = \App\Models\User::findOrFail($this->userId);
-
+    public $fullNameClient, $phoneNumberClient, $igTagClient, $oldPassword, $password, $confirmPassword;
+    public function mount()
+    {
+        // // Check if the authenticated user ID matches the ID in the route
+        //  if (Auth::id() != $id) {
+        //     abort(403, 'Unauthorized action.');
+        // }
+        $this->user = Auth::user();
         // Fills Data Inputs
         $this->fullNameClient = $this->user->name;
         $this->phoneNumberClient = $this->user->phone;
         $this->igTagClient = $this->user->ig_tag;
     }
-
     public function render()
     {
-
         return view('livewire.user.change-profile');
     }
-
-    public function save(){
-        
-
-        // get User information
-        $user = \App\Models\User::findOrFail($this->userId);
-
-        $user->name = $this->fullNameClient;
-        $user->phone = $this->phoneNumberClient;
-        $user->ig_tag = $this->igTagClient;
-
-
-        // Check if user changing they password
-        if($this->oldPassword){
-
-            // Check if Old Password is match with the user password now
-
-            // If true change the password with the new one, if not throw error
-
-
+    public function save()
+    {
+        $this->user->name = $this->fullNameClient;
+        $this->user->phone = $this->phoneNumberClient;
+        $this->user->ig_tag = $this->igTagClient;
+        // Check if old password is provided
+        if ($this->oldPassword !== null) {
+           Validator::make(
+                // Data to validate...
+                ['oldPassword' => $this->oldPassword, 'password' => $this->password , 'confirmPassword' => $this->confirmPassword],
+                // Validation rules to apply...
+                ['oldPassword' => 'required',
+                'password' => 'required|required_with:confirmPassword|same:confirmPassword',
+                'confirmPassword' => 'required|required_with:password|same:password'],
+             )->validate();
+            // Check if old password matches the current password
+            if (Hash::check($this->oldPassword, $this->user->password)) {
+                // If old password is correct, change to new password
+                $this->user->password = Hash::make($this->password);
+            } else {
+                // If old password does not match, throw an error
+                $this->alert('warning', 'The old password is incorrect.');
+                $this->reset('oldPassword','password','confirmPassword');
+            }
         }
-
-
-
+        $this->user->save();
+        if ($this->user) {
+            $this->alert('success', 'Your Data has been updated!');
+        } else {
+            $this->alert('warning', 'Oops,wrong please try again later.');
+        }
     }
 }
