@@ -81,9 +81,9 @@
                                         @if ($item->status == 1)
                                             @if ($item->confirm_payment == '0')
                                              <x-pages.badge type='danger' value='Waiting Payment Deposit' />
-                                            @elseif($item->confirm_payment == '1')
+                                            @elseif($item->confirm_payment == '1'  && $item->is_deposit_paid == '0')
                                             <x-pages.badge type='success' value='Waiting Admin Confirmation' />
-                                            @else
+                                            @elseif($item->confirm_payment == '1' && $item->is_deposit_paid == '1')
                                              <x-pages.badge type='success' value='Ongoing' />
                                             @endif
                                         @elseif($item->status == 0)

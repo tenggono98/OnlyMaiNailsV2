@@ -55,8 +55,9 @@ class HistoryBooking extends Component
                     break;
                 case '1&1':
                     # code...
-                    $bookingData->where('status','=','1')->where('confirm_payment','=','1');
+                    $bookingData->where('status','=','1')->where('confirm_payment','=','1')->where('is_deposit_paid','=','0');
                     break;
+
             }
         }
         // Get Data
