@@ -85,6 +85,9 @@
                                             <x-pages.badge type='success' value='Waiting admin confirmation' />
                                             @elseif($item->confirm_payment == '1' && $item->is_deposit_paid == '1')
                                              <x-pages.badge type='success' value='Ongoing' />
+                                             @else
+                                             <x-pages.badge type='success' value='Ongoing' />
+
                                             @endif
                                         @elseif($item->status == 0)
                                             <x-pages.badge type='danger' value='Deactivate' />

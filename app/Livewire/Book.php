@@ -21,7 +21,7 @@ class Book extends Component
 {
     use LivewireAlert;
     // Variable Input
-    public   $indexDate,  $dataBookingDate;
+    public   $indexDate,  $dataBookingDate , $deposit;
     // Variable Input (Policies)
     public $agree_checkbox;
     // Variable Input (Client Information)
@@ -43,8 +43,9 @@ class Book extends Component
     // Variable Input (Services)
     public $totalPriceBook ,$selectedServices = [] , $total_price;
     // ---------------------------------
-    public $deposit;
-    public $flagService = false, $flagPolicies = true, $flagPickDateAndTime = false, $flagInformationClient = false, $flagSummary = false;
+    // Variable Views Section
+    public $flagPolicies = true, $flagInformationClient = false, $flagPickDateAndTime = false, $flagService = false,  $flagSummary = false;
+     // ---------------------------------
     protected $listeners = ['selectedDate'];
     public function render()
     {

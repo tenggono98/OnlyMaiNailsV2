@@ -148,6 +148,10 @@ class DatabaseSeeder extends Seeder
                 [
                     'name' => 'LimitDepositPayment_h',
                     'value' => '2'
+                ],
+                [
+                    'name' => 'Currency',
+                    'value' => '$'
                 ]
             ]);
     }

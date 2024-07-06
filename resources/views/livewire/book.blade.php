@@ -370,7 +370,7 @@
                                 class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">Back</button>
                         </div>
                         <div class="flex-auto">
-                            <button wire:click="next('summary')" type="submit" wire:confim='Are you sure you want to proceed with your order?'
+                            <button wire:click="next('summary')" type='submit'  wire:confirm='Are you sure you want to proceed with your order?'
                                 class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">
 
                                 <!-- Default text -->

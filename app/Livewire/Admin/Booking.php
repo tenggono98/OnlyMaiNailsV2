@@ -103,6 +103,12 @@ class Booking extends Component
         if ($this->is_edit) {
             $booking = TBooking::find($this->id_edit);
             $booking->updated_by = Auth::user()->id;
+            // Get old Schedule set it to NOT BOOKING and Set booking to new selected schedule
+            if($booking->scheduleTimeBook->id !==  $this->timeBook){
+                $booking->scheduleTimeBook->is_book = '0';
+                $booking->scheduleTimeBook->save();
+            }
+            // Delete old Detail Booking
             TDBooking::where('t_booking_id', '=', $this->id_edit)->delete();
         } else {
             $booking = new TBooking();
@@ -134,6 +140,10 @@ class Booking extends Component
             $detailBooking->name_service = $item['name_service'];
             $detailBooking->save();
         }
+        // Set Time Booking
+        $scheduleTime = TDSchedule::find($this->timeBook);
+        $scheduleTime->is_book = '1';
+        $scheduleTime->save();
         if ($booking) {
             if ($this->is_edit)
                 $this->alert('success', 'Data has been updated!');
@@ -285,7 +295,8 @@ class Booking extends Component
         $this->googleCalendarLink .= "&dates={$startDateTime}/{$endDateTime}";
         $this->googleCalendarLink .= "&details={$details}";
         // $this->googleCalendarLink .= "&location=" . urlencode("Your Business Location");
-        $this->googleCalendarLink .= "&ctz=America/Vancover"; // Adjust timezone as needed
+        // $this->googleCalendarLink .= "&ctz=America/Vancover"; // Adjust timezone as needed
+        $this->googleCalendarLink .= "&ctz=" . env("APP_TIMEZONE", ""); // Adjust timezone as needed
         $this->googleCalendarLink .= "&add=" . urlencode("$clientEmail"); // Customer Email
         $this->dispatch('googleRedirect', ['link' => $this->googleCalendarLink]);
     }

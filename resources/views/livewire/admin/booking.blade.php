@@ -151,13 +151,16 @@
                                         </div>
                                         @if ($row->is_deposit_paid == false)
                                         <div class="">
-                                            <x-pages.btn type='success' value=' Verify Deposit'
-                                            wire:click='confirmDepositPayment({{ $row->id }})'
+                                            <x-pages.btn type="success" value="Verify Deposit"
+                                            wire:click="confirmDepositPayment({{ $row->id }})"
                                             wire:confirm="Are you sure you want to verify this deposit status?"
-                                            wire:loading.attr="disabled">
-                                            <span wire:loading wire:target="confirmDepositPayment({{ $row->id }})">Loading...</span>
-                                            <span wire:loading.remove>Verify Deposit</span>
-                               </x-pages.btn>
+                                            wire:loading.attr="disabled"
+                                            wire:target="confirmDepositPayment">
+                                            <!-- Default text -->
+                                            <span wire:loading.remove wire:target="confirmDepositPayment">Verify Deposit</span>
+                                            <!-- Loading text with spinner -->
+                                            <span wire:loading wire:target="confirmDepositPayment" class="animate-pulse">Loading...</span>
+                                        </x-pages.btn>
                                         </div>
                                         @else
                                         <div class="">
