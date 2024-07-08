@@ -27,4 +27,14 @@ class TBooking extends Model
     public function scheduleTimeBook(){
         return $this->belongsTo(TDSchedule::class,'t_d_schedule_id');
     }
+
+    public function admin_created(){
+        return $this->belongsTo(User::class,'created_by');
+    }
+
+    public function admin_updated(){
+        return $this->belongsTo(User::class,'updated_by');
+    }
+
+
 }

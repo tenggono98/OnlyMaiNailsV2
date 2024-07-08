@@ -247,6 +247,22 @@ class Booking extends Component
     public function rescheduleBooking()
     {
     }
+    public function completeBooking($uuid){
+        $booking = TBooking::find($uuid);
+
+        if($booking->status !== 'completed')
+        $booking->status = 'completed';
+        else
+        $booking->status = '1';
+
+        $booking->save();
+
+        if($booking)
+            $this->alert('success','The booking has been completed');
+        else
+            $this->alert('danger','Oops, something when wrong please try again');
+
+    }
     public function resetForm()
     {
        $this->resetExcept($this->exludeResetVariable);
