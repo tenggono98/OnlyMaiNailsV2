@@ -21,7 +21,7 @@ class Book extends Component
 {
     use LivewireAlert;
     // Variable Input
-    public   $indexDate,  $dataBookingDate, $deposit;
+    public   $indexDate,  $dataBookingDate, $deposit ,$tax;
     // Variable Input (Policies)
     public $agree_checkbox;
     // Variable Input (Client Information)
@@ -86,12 +86,12 @@ class Book extends Component
             foreach ($this->selectedServices as $service) {
                 $this->totalPriceBook += $this->number_of_people * $service['price'];
             }
-            if ($this->tax) {
+
                 $getTax = SettingWeb::where('name', '=', 'tax')->first()->value;
                 if ($getTax > 0) {
                     $this->totalPriceBook = $this->totalPriceBook + ((int)$this->totalPriceBook * ((int)$getTax / 100));
                 }
-            }
+            
         } else
             $this->totalPriceBook = 0;
         return view('livewire.book', compact('serviceCategory'));
