@@ -226,7 +226,7 @@
                                             of your
                                             appointment.</li>
                                         <li><strong>E-Transfer</strong>: Complete the remaining balance via e-transfer
-                                            to <span class="font-semibold">maixesthetics@gmail.com</span>.</li>
+                                            to <span class="font-semibold">{{ $paymentEmail }}</span>.</li>
                                     </ul>
                                 </div>
                             </div>
@@ -235,19 +235,26 @@
                     </div>
                 </div>
             </div>
-            <div class="grid grid-cols-2 gap-3 my-5 ">
-                <div class="">
-                    @if ($booking->is_deposit_paid == true)
-                        <x-pages.btn  value=' Reschedule Booking'
-                        data-modal-target="reschedule-modal"
-                        data-modal-toggle="reschedule-modal"
-                        />
-                    @else
-                        <x-pages.btn type='success' wire:click='confirmDeposit' value='Confirm Deposit'
-                            wire:confirm='Are you sure want to Confirm Deposit for Booking' />
-                    @endif
-                </div>
-                <div class="">
+
+
+            <div class="flex gap-3 my-5 ">
+                        @if ($booking->is_deposit_paid == true && $booking->created_at < \Carbon\Carbon::today() )
+                            @if($booking->scheduleDateBook->date_schedule > \Carbon\Carbon::today() && $booking->scheduleTimeBook->time > \Carbon\Carbon::now()->format('H:i:m') && $booking->reschedule_flag_booking == '0')
+                            <div class="flex-auto">
+                                <x-pages.btn  value=' Reschedule Booking'
+                                data-modal-target="reschedule-modal"
+                                data-modal-toggle="reschedule-modal"
+                                />
+                            </div>
+
+                            @endif
+                        @else
+                        <div class="flex-auto">
+                            <x-pages.btn type='success' wire:click='confirmDeposit' value='Confirm Deposit'
+                                wire:confirm='Are you sure want to Confirm Deposit for Booking' />
+                        </div>
+                        @endif
+                <div class="flex-auto">
                     <x-pages.btn type='danger' value=' Cancel Booking'
                         wire:confirm='Are you sure want to "Cancel" this Booking ' />
                 </div>

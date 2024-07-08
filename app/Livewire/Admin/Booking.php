@@ -83,7 +83,9 @@ class Booking extends Component
             }
             if ($this->tax) {
                 $getTax = SettingWeb::where('name', '=', 'tax')->first()->value;
+                if($getTax > 0){
                 $this->totalPriceBook = $this->totalPriceBook + ((int)$this->totalPriceBook * ((int)$getTax / 100));
+                }
             }
         } else
             $this->totalPriceBook = 0;

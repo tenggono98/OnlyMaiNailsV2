@@ -79,7 +79,7 @@
                                 <div class="">
                                     <div class="py-2 lg:py-0">
                                         @if ($item->status == 1)
-                                            @if ($item->confirm_payment == '0')
+                                            @if ($item->confirm_payment == '0' &&  $item->is_deposit_paid == '0')
                                              <x-pages.badge type='danger' value='Waiting payment deposit' />
                                             @elseif($item->confirm_payment == '1'  && $item->is_deposit_paid == '0')
                                             <x-pages.badge type='success' value='Waiting admin confirmation' />
@@ -87,7 +87,6 @@
                                              <x-pages.badge type='success' value='Ongoing' />
                                              @else
                                              <x-pages.badge type='success' value='Ongoing' />
-
                                             @endif
                                         @elseif($item->status == 0)
                                             <x-pages.badge type='danger' value='Deactivate' />

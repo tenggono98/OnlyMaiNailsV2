@@ -13,7 +13,7 @@
         }
 
         body {
-            background-color: #eaebed;
+            background-color: #eaebed !important;
             font-family: sans-serif;
             font-size: 14px;
             line-height: 1.4;
@@ -42,7 +42,7 @@
 
         /* Main content area */
         .main {
-            background: #ffffff;
+            background: #ffffff !important;
             border-radius: 3px;
             width: 100%;
             padding: 20px;

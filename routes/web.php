@@ -22,8 +22,9 @@ Route::get('/pdf_view', [BookingComplete::class, 'show'])->name('pdf.test_view')
             Route::get('/schedule',\App\Livewire\Admin\Schedule::class)->name('admin.schedule');
             Route::get('/service',\App\Livewire\Admin\Service::class)->name('admin.service');
             Route::get('/setting',\App\Livewire\Admin\Setting::class)->name('admin.setting');
-            Route::get('/users',\App\Livewire\Admin\Setting::class)->name('admin.users');
-            Route::get('/profile',\App\Livewire\Admin\Setting::class)->name('admin.profile');
+            Route::get('/users',\App\Livewire\Admin\Users::class)->name('admin.users');
+            Route::get('/users/{type}',\App\Livewire\Admin\Users::class)->name('admin.users.type');
+            Route::get('/profile',\App\Livewire\Admin\Profile::class)->name('admin.profile');
         });
          // Can be access as "User"
          Route::middleware(['redirectToUserLogin', 'role:user'])->group(function () {

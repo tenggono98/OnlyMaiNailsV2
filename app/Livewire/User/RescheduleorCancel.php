@@ -55,25 +55,31 @@ class RescheduleorCancel extends Component
         // Updated TBooking to Cancel By "Customer" (Look in Updated By)
     }
     public function rescheduleBooking(){
-        // Set Booking
+        // Get Booking Info
         $booking = TBooking::where('uuid','=',$this->booking->uuid)->first();
-        // dd($booking);
-        // Old Time Booking is_book
-        $newScheduleTime = TDSchedule::find($booking->t_d_schedule_id);
-        $newScheduleTime->is_book = '0';
-        // New Time Booking is_book
-        $oldScheduleTime = TDSchedule::find($this->timeBook);
-        $oldScheduleTime->is_book = '1';
-        // Updated Booking date &  time
-        $booking->t_schedule_id = $this->dateBook;
-        $booking->t_d_schedule_id = $this->timeBook;
-        $booking->save();
-        $newScheduleTime->save();
-        $oldScheduleTime->save();
-        if($booking && $newScheduleTime && $oldScheduleTime){
-            $this->dispatch('closeModal', ['id' => 'reschedule-modal']);
-            return redirect(route('user.reschedule_or_cancel',['uuid'=>$this->booking->uuid]))->with('message_reschedule','Your reschedule has been saved');
+        if($booking->reschedule_flag_booking == '0'){
+              // Set Booking Flag Reschedule
+            $booking->reschedule_flag_booking = '1';
+            // Old Time Booking is_book
+            $newScheduleTime = TDSchedule::find($booking->t_d_schedule_id);
+            $newScheduleTime->is_book = '0';
+            // New Time Booking is_book
+            $oldScheduleTime = TDSchedule::find($this->timeBook);
+            $oldScheduleTime->is_book = '1';
+            // Updated Booking date &  time
+            $booking->t_schedule_id = $this->dateBook;
+            $booking->t_d_schedule_id = $this->timeBook;
+            $booking->save();
+            $newScheduleTime->save();
+            $oldScheduleTime->save();
+            if($booking && $newScheduleTime && $oldScheduleTime){
+                $this->dispatch('closeModal', ['id' => 'reschedule-modal']);
+                return redirect(route('user.reschedule_or_cancel',['uuid'=>$this->booking->uuid]))->with('message_reschedule','Your reschedule has been saved');
+            }
+        }else{
+            alert('danger','This booking is already reschedule once');
         }
+
     }
     public function selectedDate($selectedDate)
     {

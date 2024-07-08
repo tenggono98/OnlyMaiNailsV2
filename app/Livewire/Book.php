@@ -21,7 +21,7 @@ class Book extends Component
 {
     use LivewireAlert;
     // Variable Input
-    public   $indexDate,  $dataBookingDate , $deposit;
+    public   $indexDate,  $dataBookingDate, $deposit;
     // Variable Input (Policies)
     public $agree_checkbox;
     // Variable Input (Client Information)
@@ -38,19 +38,19 @@ class Book extends Component
     public $confrimPasswordClient;
     // ---------------------------------
     // Variable Input (Date & Time)
-    public $timeBooking, $dateBooking ,  $number_of_people = 1 , $selectedDate , $selectedTime;
+    public $timeBooking, $dateBooking,  $number_of_people = 1, $selectedDate, $selectedTime;
     // ----------------------------------
     // Variable Input (Services)
-    public $totalPriceBook ,$selectedServices = [] , $total_price;
+    public $totalPriceBook, $selectedServices = [], $total_price;
     // ---------------------------------
     // Variable Views Section
     public $flagPolicies = true, $flagInformationClient = false, $flagPickDateAndTime = false, $flagService = false,  $flagSummary = false;
-     // ---------------------------------
+    // ---------------------------------
     protected $listeners = ['selectedDate'];
     public function render()
     {
         // Set Time Booking
-        if($this->timeBooking)
+        if ($this->timeBooking)
             $this->selectedTime = TDSchedule::find($this->timeBooking)->time;
         // Set Price for Deposit
         $this->deposit = SettingWeb::where('name', '=', 'deposit')->first()->value;
@@ -81,15 +81,17 @@ class Book extends Component
             ->where('status', '=', 1)
             ->get();
         // Calculate Booking Price
-         if ($this->selectedServices) {
+        if ($this->selectedServices) {
             $this->totalPriceBook = 0;
             foreach ($this->selectedServices as $service) {
                 $this->totalPriceBook += $this->number_of_people * $service['price'];
             }
-            // if ($this->tax) {
-            //     $getTax = SettingWeb::where('name', '=', 'tax')->first()->value;
-            //     $this->totalPriceBook = $this->totalPriceBook + ((int)$this->totalPriceBook * ((int)$getTax / 100));
-            // }
+            if ($this->tax) {
+                $getTax = SettingWeb::where('name', '=', 'tax')->first()->value;
+                if ($getTax > 0) {
+                    $this->totalPriceBook = $this->totalPriceBook + ((int)$this->totalPriceBook * ((int)$getTax / 100));
+                }
+            }
         } else
             $this->totalPriceBook = 0;
         return view('livewire.book', compact('serviceCategory'));
@@ -131,7 +133,7 @@ class Book extends Component
             $detailBooking->save();
         }
         $uuidBooking = $booking->uuid;
-        return redirect(route('user.reschedule_or_cancel',['uuid' => $uuidBooking]));
+        return redirect(route('user.reschedule_or_cancel', ['uuid' => $uuidBooking]));
     }
     // Service Section
     public function toggleService($idService, $type_input)
