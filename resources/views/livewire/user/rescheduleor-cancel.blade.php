@@ -127,7 +127,7 @@
                                 <!-- Timer Section -->
                                 <div class="flex justify-center mb-10" wire:poll.1s="checkTimeRemaining">
                                     <div class="p-6 text-4xl font-semibold bg-[#fadde1] rounded-xl shadow-lg timer">
-                                        @php
+                                        {{-- @php
                                             $hours = floor($timeRemaining / 3600);
                                             $minutes = floor(($timeRemaining % 3600) / 60);
                                             $seconds = $timeRemaining % 60;
@@ -136,7 +136,9 @@
                                         <span>:</span>
                                         <span>{{ str_replace('-', '', str_pad($minutes, 2, '0', STR_PAD_LEFT)) }}</span>
                                         <span>:</span>
-                                        <span>{{ str_replace('-', '', str_pad($seconds, 2, '0', STR_PAD_LEFT)) }}</span>
+                                        <span>{{ str_replace('-', '', str_pad($seconds, 2, '0', STR_PAD_LEFT)) }}</span> --}}
+
+                                        {{ $timeRemaining }}
                                     </div>
                                 </div>
                                 <!-- Additional Info Below Timer -->
@@ -238,24 +240,32 @@
 
 
             <div class="flex gap-3 my-5 ">
-                        @if ($booking->is_deposit_paid == true && $booking->created_at < \Carbon\Carbon::today() )
-                            @if($booking->scheduleDateBook->date_schedule > \Carbon\Carbon::today() && $booking->scheduleTimeBook->time > \Carbon\Carbon::now()->format('H:i:m') && $booking->reschedule_flag_booking == '0')
+
+
+
+                        @if ($booking->is_deposit_paid == '1'  )
+
+                        @php
+                        $dateSchedule = \Carbon\Carbon::parse($booking->scheduleDateBook->date_schedule);
+                        $today = \Carbon\Carbon::today();
+                       
+                         @endphp
+                            @if($dateSchedule->gt($today) && $booking->reschedule_flag_booking == '0')
                             <div class="flex-auto">
-                                <x-pages.btn  value=' Reschedule Booking'
+                                <x-pages.btn-static  value=' Reschedule Booking'
                                 data-modal-target="reschedule-modal"
                                 data-modal-toggle="reschedule-modal"
                                 />
                             </div>
-
                             @endif
                         @else
                         <div class="flex-auto">
-                            <x-pages.btn type='success' wire:click='confirmDeposit' value='Confirm Deposit'
+                            <x-pages.btn-static type='success' wire:click='confirmDeposit' value='Confirm Deposit'
                                 wire:confirm='Are you sure want to Confirm Deposit for Booking' />
                         </div>
                         @endif
                 <div class="flex-auto">
-                    <x-pages.btn type='danger' value=' Cancel Booking'
+                    <x-pages.btn-static type='danger' value=' Cancel Booking'
                         wire:confirm='Are you sure want to "Cancel" this Booking ' />
                 </div>
             </div>

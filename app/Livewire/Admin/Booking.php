@@ -209,7 +209,7 @@ class Booking extends Component
             // Send Notification
             $notif = new Notification;
             $notif->title_notification = 'Deposit Payment Confirm';
-            $notif->description_notification = 'Your deposit payment for booking code : ' . $booking->code_booking .' Has been confirm';
+            $notif->description_notification = 'Your deposit payment for booking code : ' . $booking->code_booking .'. Has been confirm';
             $notif->referance_id = $booking->uuid;
             $notif->for_role_notification = 'user';
             $notif->notif_for = $booking->client->id;
@@ -225,7 +225,7 @@ class Booking extends Component
               // Send Notification
               $notif = new Notification;
               $notif->title_notification = 'Deposit Payment Cancel';
-              $notif->description_notification = 'Your deposit payment for booking code : ' . $booking->code_booking .' Has been Cancel';
+              $notif->description_notification = 'Your deposit payment for booking code : ' . $booking->code_booking .'. Has been cancel';
               $notif->referance_id = $booking->uuid;
               $notif->for_role_notification = 'user';
               $notif->notif_for = $booking->client->id;
@@ -250,8 +250,19 @@ class Booking extends Component
     public function completeBooking($uuid){
         $booking = TBooking::find($uuid);
 
-        if($booking->status !== 'completed')
-        $booking->status = 'completed';
+        if($booking->status !== 'completed'){
+         $booking->status = 'completed';
+         $notif = new Notification;
+         $notif->title_notification = 'Booking Complete';
+         $notif->description_notification = 'Your booking for booking code : ' . $booking->code_booking .'. Has been complete';
+         $notif->referance_id = $booking->uuid;
+         $notif->for_role_notification = 'user';
+         $notif->notif_for = $booking->client->id;
+         $notif->url = route('user.reschedule_or_cancel',[$booking->uuid]);
+         $notif->created_by = Auth::id();
+         $notif->save();
+
+        }
         else
         $booking->status = '1';
 

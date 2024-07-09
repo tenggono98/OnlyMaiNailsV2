@@ -72,12 +72,26 @@ class RescheduleorCancel extends Component
             $booking->save();
             $newScheduleTime->save();
             $oldScheduleTime->save();
+
+            // Create Notif to Admin
+            $admin = User::where('role','=','admin')->where('status','=',true)->get();
+        foreach($admin as $item){
+            $notif = new Notification;
+            $notif->title_notification = 'Reschedule Booking';
+            $notif->description_notification = 'Client has been reschedule booking code : ' . $this->booking->code_booking .'';
+            $notif->referance_id = $this->booking->uuid;
+            $notif->for_role_notification = 'admin';
+            $notif->notif_for = $item->id;
+            $notif->url = route('admin.booking',['searchBookingCode' => $this->booking->code_booking,'searchStartDate' => $this->booking->scheduleDateBook->date_schedule,'searchEndDate' => $this->booking->scheduleDateBook->date_schedule]);
+            $notif->created_by = Auth::id();
+            $notif->save();
+            }
             if($booking && $newScheduleTime && $oldScheduleTime){
                 $this->dispatch('closeModal', ['id' => 'reschedule-modal']);
                 return redirect(route('user.reschedule_or_cancel',['uuid'=>$this->booking->uuid]))->with('message_reschedule','Your reschedule has been saved');
             }
         }else{
-            alert('danger','This booking is already reschedule once');
+            $this->alert('danger','This booking is already reschedule once');
         }
 
     }
@@ -119,15 +133,16 @@ class RescheduleorCancel extends Component
     }
     public function initializeTimer()
     {
+        $getLimitPayment = SettingWeb::where('name','=','LimitDepositPayment_h')->first()->value;
         $createdAt = Carbon::parse($this->booking->created_at);
-        $deadline = $createdAt->addHours(2);
+        $deadline = $createdAt->addHours((int) $getLimitPayment);
         $now = Carbon::now();
         if ($now->greaterThanOrEqualTo($deadline)) {
             // If current time is past the deadline
             $this->timeRemaining = 0;
             $this->isExpired = true;
         } else {
-            $this->timeRemaining = $deadline->diffInSeconds($now);
+            $this->timeRemaining = $deadline->diff($now)->format('%H:%I:%S');
         }
         // Debugging statements to check values
         // Uncomment these lines to see values in logs or UI

@@ -178,39 +178,39 @@
                                 </div>
                                 <div class="flex flex-col ">
                                     <div class="">
-                                        <p class="font-semibold">Total Payment (After Deposit
+                                        <p class="">Total Payment (After Deposit
                                             ${{ $row->deposit_price_booking }})</p>
-                                        <p class="text-xl">$
+                                        <p class="text-xl font-semibold">$
                                             {{ $row->total_price_booking - $row->deposit_price_booking }}</p>
                                     </div>
                                     <div class="">
-                                        <p class="font-semibold">Total Payment (Before Deposit)</p>
-                                        <p class="text-xl">$ {{ $row->total_price_booking }}</p>
+                                        <p class="">Total Payment (Before Deposit)</p>
+                                        <p class="text-xl font-semibold">$ {{ $row->total_price_booking }}</p>
                                     </div>
                                     @if ($row->total_price_after_tax_booking !== null)
                                         <div class="">
-                                            <p class="font-semibold">Total Payment With Tax (Before Deposit)</p>
-                                            <p class="text-xl">$ {{ $row->total_price_after_tax_booking }}</p>
+                                            <p class="">Total Payment With Tax (Before Deposit)</p>
+                                            <p class="text-xl font-semibold">$ {{ $row->total_price_after_tax_booking }}</p>
                                         </div>
                                     @endif
                                 </div>
-                                <div class="min-w-48">
-                                    <p class="font-semibold">Services</p>
+                                <div class="min-w-48 w-fit">
+                                    <p class="">Services</p>
                                     <ul>
                                         @foreach ($row->detailService as $serv)
                                             <li class="text-lg">
-                                                ({{ $serv->service->category->name_service_categori }})
-                                                {{ $serv->name_service }}</li>
+                                                <p class="font-semibold text-wrap">({{ $serv->service->category->name_service_categori }})
+                                                {{ $serv->name_service }}</p></li>
                                         @endforeach
                                     </ul>
                                 </div>
-                                <div class="">
-                                    <p class="font-semibold">Number of Person</p>
-                                    <p>{{ $row->qty_people_booking }}</p>
-                                    <p class="font-semibold">Created By</p>
-                                    <p>{{ $row->admin_created->name ?? '-' }}</p>
-                                    <p class="font-semibold">Updated By</p>
-                                    <p>{{ $row->admin_updated->name ?? '-' }}</p>
+                                <div class="w-full">
+                                    <p class="">Number of Person</p>
+                                    <p class="font-semibold">{{ $row->qty_people_booking }}</p>
+                                    <p class="">Created By</p>
+                                    <p class="font-semibold">{{ $row->admin_created->name ?? '-' }} | {{  Str::upper($row->admin_created->role ?? '-') }}</p>
+                                    <p class="">Updated By</p>
+                                    <p class="font-semibold">{{ $row->admin_updated->name ?? '-' }}  {{ Str::upper($row->admin_updated->role ?? '-')  }}</p>
                                 </div>
                                 @if($row->status !== '0')
                                 <div class="flex flex-col w-full gap-3">

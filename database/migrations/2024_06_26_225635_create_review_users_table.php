@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('review_users', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(TBooking::class,'booking_uuid');
+            $table->foreignIdFor(TBooking::class);
             $table->enum('is_show_review',[1,0])->default(0);
             $table->text('description_review');
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class,'created_by');
             $table->timestamps();
         });
     }

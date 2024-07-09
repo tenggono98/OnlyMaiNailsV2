@@ -1,5 +1,7 @@
 <?php
 namespace App\Livewire\User;
+use App\Models\ReviewUser;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use App\Models\TBooking;
 use Illuminate\Support\Facades\Auth;
@@ -12,14 +14,19 @@ class HistoryBooking extends Component
         'codeSearch' => ['except' => ''],
         'statusSearch' => ['except' => ''],
     ];
+
+    public $exludeResetVariable = ['dateSearch','codeSearch','statusSearch','bookingData'];
     // Variable Search
     public $dateSearch  , $codeSearch, $statusSearch;
-    public $exludeResetVariable = ['dateSearch','codeSearch','statusSearch'];
     // Variable for Booking Table
     public $bookingData;
+    // Variable for Review
+    #[Validate('required')]
+    public $reviewDescription;
+    public $idBooking;
     public function mount(){
         // Get Booking Data for User
-        $bookingData = TBooking::where('user_id','=',Auth::id());
+        $bookingData = TBooking::with('review')->where('user_id','=',Auth::id());
         // Filter Date
         if ($this->dateSearch) {
             $bookingData->whereHas('scheduleDateBook', function ($query) {
@@ -57,7 +64,6 @@ class HistoryBooking extends Component
                     # code...
                     $bookingData->where('status','=','1')->where('confirm_payment','=','1')->where('is_deposit_paid','=','0');
                     break;
-
             }
         }
         // Get Data
@@ -67,12 +73,31 @@ class HistoryBooking extends Component
     {
         return view('livewire.user.history-booking');
     }
-
     public function clearSearch(){
         $this->dateSearch = null;
         $this->codeSearch = null;
         $this->statusSearch = null;
-
         return redirect(route('user.history_booking'));
+    }
+    public function setIdBooking($idBooking)
+{
+    $this->idBooking = $idBooking;
+}
+    public function leaveReview(){
+        $review = new ReviewUser();
+        $review->t_booking_id = $this->idBooking;
+        $review->is_show_review = '0';
+        $review->description_review = $this->reviewDescription;
+        $review->created_by = Auth::id();
+        $review->save();
+
+
+        if($review){
+            $this->alert('success','Your review has been submit');
+            $this->dispatch('closeModal', ['id' => 'review-modal']);
+            $this->resetExcept($this->exludeResetVariable);
+        }
+        else
+            $this->alert('danger','Oops, something when wrong. Please try again later');
     }
 }
