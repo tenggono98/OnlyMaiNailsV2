@@ -60,4 +60,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->role === 'user';
     }
+
+    public function total_order(){
+        return  $this->hasMany(TBooking::class);
+    }
 }

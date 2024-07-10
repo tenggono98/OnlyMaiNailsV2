@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
-
 class RescheduleorCancel extends Component
 {
     use LivewireAlert;
@@ -51,28 +50,48 @@ class RescheduleorCancel extends Component
     }
     public function cancelBooking($uuid){
         // Get Booking ID by "UUID"
+         $booking = TBooking::where('uuid','=',$this->booking->uuid)->first();
         // Reset Status Schedule and Detail Schedule
+        $newScheduleTime = TDSchedule::find($booking->t_d_schedule_id);
+        $newScheduleTime->is_book = '0';
         // Updated TBooking to Cancel By "Customer" (Look in Updated By)
+        $booking->status = 'cancel';
+        $booking->cancel_by_role = 'user';
+        $booking->cancel_by = Auth::id();
+        $booking->save();
+        $this->alert('success','This booking is updated to cancel');
     }
     public function rescheduleBooking(){
         // Get Booking Info
         $booking = TBooking::where('uuid','=',$this->booking->uuid)->first();
         if($booking->reschedule_flag_booking == '0'){
-              // Set Booking Flag Reschedule
-            $booking->reschedule_flag_booking = '1';
-            // Old Time Booking is_book
+            // Create New Booking
+            $newBooking = new TBooking();
+            $newBooking->uuid =  generateUUID(10);
+            $newBooking->code_booking =  generateBookingCode(4);
+            $newBooking->created_by =  Auth::user()->id;
+            $newBooking->t_schedule_id = $this->dateBook;
+            $newBooking->t_d_schedule_id = $this->timeBook;
+            $newBooking->user_id = Auth::user()->id;
+            $newBooking->qty_people_booking = $booking->qty_people_booking;
+            $newBooking->total_price_booking = $booking->total_price_booking;
+            $newBooking->deposit_price_booking = $booking->deposit_price_booking;
+            $newBooking->reschedule_flag_booking = '1';
+            $newBooking->reschedule_booking_original_id = $booking->id;
+             // Set Old Booking Flag Reschedule
+             $booking->reschedule_flag_booking = '1';
+             $booking->status = 'reschedule';
+            // Old Time Schedule is_book
             $newScheduleTime = TDSchedule::find($booking->t_d_schedule_id);
             $newScheduleTime->is_book = '0';
-            // New Time Booking is_book
+            // New Time Schedule is_book
             $oldScheduleTime = TDSchedule::find($this->timeBook);
             $oldScheduleTime->is_book = '1';
             // Updated Booking date &  time
-            $booking->t_schedule_id = $this->dateBook;
-            $booking->t_d_schedule_id = $this->timeBook;
             $booking->save();
+            $newBooking->save();
             $newScheduleTime->save();
             $oldScheduleTime->save();
-
             // Create Notif to Admin
             $admin = User::where('role','=','admin')->where('status','=',true)->get();
         foreach($admin as $item){
@@ -88,12 +107,11 @@ class RescheduleorCancel extends Component
             }
             if($booking && $newScheduleTime && $oldScheduleTime){
                 $this->dispatch('closeModal', ['id' => 'reschedule-modal']);
-                return redirect(route('user.reschedule_or_cancel',['uuid'=>$this->booking->uuid]))->with('message_reschedule','Your reschedule has been saved');
+                return redirect(route('user.reschedule_or_cancel',['uuid'=>$newBooking->uuid]))->with('message_reschedule','Your reschedule has been saved');
             }
         }else{
             $this->alert('danger','This booking is already reschedule once');
         }
-
     }
     public function selectedDate($selectedDate)
     {
