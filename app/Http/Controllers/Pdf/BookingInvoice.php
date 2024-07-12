@@ -3,44 +3,47 @@
 namespace App\Http\Controllers\Pdf;
 
 use App\Models\TBooking;
+use App\Models\TDBooking;
 use Illuminate\View\View;
 use App\Models\TDSchedule;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
-use App\Models\TDBooking;
 use Illuminate\Support\Facades\File;
+use Barryvdh\DomPDF\Facade\Pdf;
 
-class BookingComplete extends Controller
+class BookingInvoice extends Controller
 {
-
-
 
     public function show(): View
     {
-        // For Testing
-        $data = [
-            $masterBooking = TBooking::find('1'),
-            $detailBooking = TDBooking::with('service.category')->where('t_booking_id','=','1')->get(),
-        ];
 
-        return view('pdf.booking_complete',compact('data'));
+            $masterBooking = TBooking::find('2');
+            $detailBooking = TDBooking::with('service.category')->where('t_booking_id','=','2')->get();
+
+
+         // Prepare Information
+            $clientName = $masterBooking->client->name;
+            $booking_date = \Carbon\Carbon::parse($masterBooking->scheduleDateBook->date_schedule)->format('l ; d F Y');
+            $booking_time = \Carbon\Carbon::parse($masterBooking->scheduleTimeBook->time)->format('h:i A');
+            $list_order =$detailBooking->toArray();
+            $deposit_price = $masterBooking->deposit_price_booking;
+            $tax = $masterBooking->total_price_after_tax_booking ?? null;
+            $qty_people =  $masterBooking->qty_people_booking;
+            $invoice_number = 'XXXXX';
+
+
+
+
+        return view('pdf.booking_invoice',compact('clientName','booking_date','booking_time','list_order','deposit_price','tax','qty_people','invoice_number'));
     }
 
-
-
-    // Generate PDF
     public static function createPDF($id)
     {
         // Get Booking Information
         $masterBooking = TBooking::find($id);
         $detailBooking = TDBooking::with('service.category')->where('t_booking_id','=',$id)->get();
-        $scheduleTime = TDSchedule::find($masterBooking->t_d_schedule_id);
-
-        // dd($detailBooking);
-
 
         // Define the directory path
-        $directoryPath = 'PDF_Booking_Confirmation';
+        $directoryPath = 'PDF_Booking_Invoice';
 
         // Check if the directory exists, if not, create it
         if (!File::exists($directoryPath)) {
@@ -53,17 +56,15 @@ class BookingComplete extends Controller
             'booking_date' => \Carbon\Carbon::parse($masterBooking->scheduleDateBook->date_schedule)->format('l , d F Y'),
             'booking_time' => \Carbon\Carbon::parse($masterBooking->scheduleTimeBook->time)->format('h:i A'),
             'list_order' =>$detailBooking->toArray(),
-            'reschedule_token' => $masterBooking->uuid,
-            'qty_people' => $masterBooking->qty_people_booking,
             'deposit_price' => $masterBooking->deposit_price_booking,
             'tax' => $masterBooking->total_price_after_tax_booking ?? null
         ];
 
 
-        $pdf = Pdf::loadView('pdf.booking_complete',$data)->setOption(['dpi' => 150]);
+        $pdf = Pdf::loadView('pdf.booking_invoice',$data)->setOption(['dpi' => 150]);
         $date_booking = \Carbon\Carbon::parse($masterBooking->scheduleDateBook->date_schedule)->format('d-m-Y');
         $uuid = $masterBooking->uuid;
         // download PDF file with download method
-        return $pdf->save($directoryPath .'/OMN_Appointment_Confirmation_'.$date_booking.'_'.$uuid.'.pdf');
+        return $pdf->save($directoryPath .'/OMN_Invoice_'.$date_booking.'_'.$uuid.'.pdf');
       }
 }

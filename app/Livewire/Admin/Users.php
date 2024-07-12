@@ -11,7 +11,6 @@ class Users extends Component
     protected $queryString = [
         'type' => ['except' => '']
     ];
-
     public $exludeResetVariable = ['type'];
     public function mount($type = null){
         $this->userType = $type;
@@ -22,7 +21,14 @@ class Users extends Component
     {
         return view('livewire.admin.users')->layout('components.layouts.app-admin');
     }
-
+    public function edit(){
+        if($this->userType == 'admin')
+        {
+        }
+        elseif($this->userType == 'user')
+        {
+        }
+    }
     public function resetForm()
     {
        $this->resetExcept($this->exludeResetVariable);

@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\Pdf\BookingComplete;
+use App\Http\Controllers\Pdf\BookingInvoice;
 use App\Livewire\DraftUI\BookingMail;
 use Illuminate\Support\Facades\Route;
 // For Login
@@ -12,7 +13,7 @@ Route::get('/contact_us',\App\Livewire\ContactUs::class)->name('contact_us');
 Route::get('/draftui/mail_book',\App\Livewire\DraftUI\BookingMail::class)->name('draftui.mail_book');
 // PDF
 Route::get('/pdf', [BookingComplete::class, 'createPDF'])->name('pdf.test');
-Route::get('/pdf_view', [BookingComplete::class, 'show'])->name('pdf.test_view');
+Route::get('/pdf_view', [BookingInvoice::class, 'show'])->name('pdf.test_view');
     // Protected the route
         Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
             // Can be access as "Admin"

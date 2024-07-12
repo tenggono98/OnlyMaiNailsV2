@@ -167,9 +167,18 @@
             @endif
         @endif
     </div>
-    {{-- Modal Edit / Add Users (Admin) --}}
-    <x-pages.modal.modal id='add-admin-modal' title="{{ $is_edit == false ? 'New Schedule' : 'Edit Schedule' }}"
+    {{-- Modal Edit / Add Users (Admin / User) --}}
+    <x-pages.modal.modal id='add-admin-modal' title="{{ $is_edit == false ? 'New User' : 'Edit User' }}"
         submitFunction='save()'>
+
+
+
+
+
+
+
+
+
     </x-pages.modal.modal>
-    {{-- Modal Edit / Add Users (Admin) --}}
+    {{-- Modal Edit / Add Users (Admin / User) --}}
 </div>
