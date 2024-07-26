@@ -10,6 +10,11 @@ class ReviewUser extends Model
     use HasFactory;
 
     public function booking(){
-        return $this->hasOne(TBooking::class,'booking_uuid','uuid');
+        return $this->belongsTo(TBooking::class,'t_booking_id');
     }
+    public function user(){
+        return $this->belongsTo(User::class,'created_by');
+    }
+
+    
 }

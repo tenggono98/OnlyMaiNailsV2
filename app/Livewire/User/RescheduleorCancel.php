@@ -63,7 +63,7 @@ class RescheduleorCancel extends Component
     }
     public function rescheduleBooking(){
         // Get Booking Info
-        $booking = TBooking::where('uuid','=',$this->booking->uuid)->first();
+        $booking = TBooking::with('detailService')->where('uuid','=',$this->booking->uuid)->first();
         if($booking->reschedule_flag_booking == '0'){
             // Create New Booking
             $newBooking = new TBooking();
@@ -78,6 +78,8 @@ class RescheduleorCancel extends Component
             $newBooking->deposit_price_booking = $booking->deposit_price_booking;
             $newBooking->reschedule_flag_booking = '1';
             $newBooking->reschedule_booking_original_id = $booking->id;
+            $newBooking->is_deposit_paid  = '1' ;
+            $newBooking->confirm_payment  = '1' ;
              // Set Old Booking Flag Reschedule
              $booking->reschedule_flag_booking = '1';
              $booking->status = 'reschedule';
@@ -92,6 +94,15 @@ class RescheduleorCancel extends Component
             $newBooking->save();
             $newScheduleTime->save();
             $oldScheduleTime->save();
+            // Adding new schedule the services
+            foreach($booking->detailService as $service){
+                $tdService = new TDBooking();
+                $tdService->t_booking_id = $newBooking->id;
+                $tdService->m_service_id = $service->m_service_id;
+                $tdService->name_service = $service->name_service;
+                $tdService->price_service = $service->price_service;
+                $tdService->save();
+            }
             // Create Notif to Admin
             $admin = User::where('role','=','admin')->where('status','=',true)->get();
         foreach($admin as $item){

@@ -15,7 +15,7 @@ class Services extends Component
     {
 
         $this->services = MServiceCategory::with(['services' => function ($q){
-            $q->where('status','=','1');
+            $q->where('status','=','1')->orderBy('order','ASC');
         }])->where('status','=','1')->get();
 
 

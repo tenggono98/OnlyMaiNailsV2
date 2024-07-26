@@ -28,6 +28,10 @@ class TBooking extends Model
         return $this->belongsTo(TDSchedule::class,'t_d_schedule_id');
     }
 
+    public function reschedule(){
+        return $this->belongsTo(TBooking::class,'id','reschedule_booking_original_id') ;
+    }
+
     public function admin_created(){
         return $this->belongsTo(User::class,'created_by');
     }

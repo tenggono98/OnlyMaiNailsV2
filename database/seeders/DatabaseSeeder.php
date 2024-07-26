@@ -103,19 +103,19 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'name_service' => 'Basic Gel Manicure',
-                'order' => 5,
+                'order' => 1,
                 'price_service' => 50,
                 'm_service_category_id' => 4
             ],
             [
                 'name_service' => 'French Manicure',
-                'order' => 6,
+                'order' => 2,
                 'price_service' => 40,
                 'm_service_category_id' => 4
             ],
             [
                 'name_service' => 'Nail Designs',
-                'order' => 7,
+                'order' => 3,
                 'price_service' => 15,
                 'm_service_category_id' => 4
             ],
@@ -146,13 +146,22 @@ class DatabaseSeeder extends Seeder
                     'value' => 'maixesthetics@gmail.com'
                 ],
                 [
+                    'name' => 'PaymentAccount',
+                    'value' => 'maixesthetics'
+                ],
+                [
                     'name' => 'LimitDepositPayment_h',
                     'value' => '2'
                 ],
                 [
                     'name' => 'Currency',
                     'value' => '$'
-                ]
+                ],
+                [
+                    'name' => 'Address',
+                    'value' => 'Atelier House - 5885 Victoria Drive, Vancouver'
+                ],
+
             ]);
     }
 }

@@ -113,7 +113,8 @@
     <section id="review">
         <div class="grid gap-4 lg:grid-cols-3">
 
-            @for ($i = 0 ; $i < 2;$i++)
+            {{-- Review Comment - Start --}}
+            @foreach ($review as $r)
 
               {{-- Card  --}}
               <div class="p-4 border-[#fadde1] border  rounded-lg">
@@ -122,27 +123,24 @@
                     <div class="flex items-center mb-4">
 
                         <div class="font-medium dark:text-white">
-                            <p> Jese Leos
-                                <time datetime="2014-08-16 19:00" class="block text-sm text-gray-500 dark:text-gray-400">August 2014</time>
+                            <p>{{ $r->user->name }}
+                                <time datetime="{{ Carbon\Carbon::parse($r->created_at)->format('Y-m-d H:i') }}" class="block text-sm text-gray-500 dark:text-gray-400">{{ Carbon\Carbon::parse($r->created_at)->format('F Y') }}</time>
                             </p>
                         </div>
                     </div>
 
 
-                    <p class="mb-2 text-gray-500 dark:text-gray-400">This is my third Invicta Pro Diver. They are just
-                        fantastic value for money. This one arrived yesterday and the first thing I did was set the
-                        time, popped on an identical strap from another Invicta and went in the shower with it to test
-                        the waterproofing.... No problems.</p>
-                    <p class="mb-3 text-gray-500 dark:text-gray-400">It is obviously not the same build quality as
-                        those very expensive watches. But that is like comparing a Citroën to a Ferrari. This watch was
-                        well under £100! An
+                    <p class="mb-2 text-gray-500 dark:text-gray-400">{{ $r->description_review }}</p>
+
 
                 </article>
 
             </div>
             {{-- Card --}}
+            {{-- Review Comment - End --}}
 
-            @endfor
+
+            @endforeach
 
               {{-- Card  --}}
               <div class="p-4 border-[#fadde1] border  flex justify-center items-center rounded-lg">

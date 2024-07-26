@@ -44,19 +44,17 @@
                     <td>
                         <ul class="fs-3" style="list-style-type:none;padding:0">
                             <li>OnlyMaiNails</li>
-                            <li>XXXXXXXXXX</li>
-                            <li>XXXXXXXXXX</li>
-                            <li>XXXXXXXXXX</li>
+                            <li><small>{{ $address }}</small></li>
                         </ul>
                     </td>
                 </tr>
                 <tr>
                     <td class="pr-5 font-bold"><p>Account Name</p></td>
-                    <td><p class="fs-3">XXXXXX</p></td>
+                    <td><p class="fs-3">{{ $account_payment ?? '' }}</p></td>
                 </tr>
                 <tr>
                     <td class="pr-5 font-bold"><p>Payment Email</p></td>
-                    <td><p class="fs-3">XXXXXX</p></td>
+                    <td><p class="fs-3">{{ $email_payment ?? '' }}</p></td>
                 </tr>
             </table>
 

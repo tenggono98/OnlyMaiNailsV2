@@ -1,5 +1,6 @@
 <?php
 namespace App\Livewire;
+use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -10,9 +11,9 @@ class Login extends Component
     public $email;
     public $password;
     public $remember = false;
-
-    public function mount(){
-        if(Auth::user()){
+    public function mount()
+    {
+        if (Auth::user()) {
             return redirect(route('home'));
         }
     }
@@ -22,13 +23,15 @@ class Login extends Component
     }
     public function login()
     {
-        // Validasi input
+
+        // Validate input
         $this->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        // Implementasi Rate Limiting (opsional)
+        // Rate limiting key
         $key = 'login-attempts:' . Str::lower($this->email);
+        // Check if too many login attempts
         if (RateLimiter::tooManyAttempts($key, 5)) {
             throw ValidationException::withMessages([
                 'email' => __('auth.throttle', [
@@ -37,43 +40,31 @@ class Login extends Component
                 ]),
             ]);
         }
+        // Fetch the user by email
+        $user = User::where('email', $this->email)->first();
+        // Check if user exists and status is not '0'
+        if (!$user || $user->status == '0') {
+            // Increment rate limiting counter
+            RateLimiter::hit($key);
+            // If user is not found or status is '0', throw validation exception
+            throw ValidationException::withMessages([
+                'email' => __('auth.failed'),
+            ]);
+        }
         // Attempt login
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+            // Regenerate session ID to prevent session fixation
             session()->regenerate();
-            // Clear Rate Limiting after successful login
+            // Clear rate limiting counter on successful login
             RateLimiter::clear($key);
-            // Redirect to the intended page or dashboard
+            // Redirect to intended page or dashboard
             return redirect()->intended();
         }
-        // Increment Rate Limiting counter
+        // Increment rate limiting counter
         RateLimiter::hit($key);
-        // Jika login gagal
+        // If login attempt fails
         throw ValidationException::withMessages([
             'email' => __('auth.failed'),
         ]);
     }
-    //  /**
-    //  * Ensure the authentication request is not rate limited.
-    //  */
-    // protected function ensureIsNotRateLimited(): void
-    // {
-    //     if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
-    //         return;
-    //     }
-    //     event(new Lockout(request()));
-    //     $seconds = RateLimiter::availableIn($this->throttleKey());
-    //     // throw ValidationException::withMessages([
-    //     //     'form.email' => trans('auth.throttle', [
-    //     //         'seconds' => $seconds,
-    //     //         'minutes' => ceil($seconds / 60),
-    //     //     ]),
-    //     // ]);
-    // }
-    // /**
-    //  * Get the authentication rate limiting throttle key.
-    //  */
-    // protected function throttleKey(): string
-    // {
-    //     return Str::transliterate(Str::lower($this->email).'|'.request()->ip());
-    // }
 }

@@ -212,6 +212,7 @@
                                     <p class="">Updated By</p>
                                     <p class="font-semibold">{{ $row->admin_updated->name ?? '-' }}  {{ Str::upper($row->admin_updated->role ?? '-')  }}</p>
                                 </div>
+                                @if($row->status !== 'cancel'  && $row->status !== 'reschedule' || $row->reschedule_booking_original_id !== null )
                                 @if($row->status !== '0')
                                 <div class="flex flex-col w-full gap-3">
                                     <div class="">
@@ -260,6 +261,12 @@
                                             </div>
                                         @endif
                                     </div>
+                                </div>
+                                @endif
+                                @else
+                                <div class="w-full">
+                                <p class="">Reschedule To</p>
+                                <p class="font-semibold">{{ $row->reschedule->code_booking  }}</p>
                                 </div>
                                 @endif
                             </div>

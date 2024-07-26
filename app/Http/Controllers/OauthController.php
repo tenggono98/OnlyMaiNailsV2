@@ -1,16 +1,19 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Laravel\Socialite\Facades\Socialite;
+use App\Livewire\Admin\Setting;
+use App\Mail\UserGoogleRegistration;
+use App\Models\SettingWeb;
 use Exception;
 use App\Models\User;
-
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Validation\ValidationException;
 class OauthController extends Controller
 {
+     // Generate "Rand" password for user
     public function redirectToProvider()
     {
         return Socialite::driver('google')->redirect();
@@ -18,33 +21,44 @@ class OauthController extends Controller
     public function handleProviderCallback()
     {
         try {
-
             $user = Socialite::driver('google')->user();
-
             $finduser = User::where('gauth_id', $user->id)->first();
-
-            if($finduser){
-
+            if ($finduser) {
+                // Check if user status is '0'
+                if ($finduser->status == '0') {
+                    return redirect('/user/login')->withErrors(['email' => 'Your account has been disable by our admin. Please contact us for more information']);
+                }
                 Auth::login($finduser);
                 return redirect('/');
+            } else {
+                $rand_pass = generateBookingCode(8);
 
-            }else{
+                // Create new user
                 $newUser = User::create([
                     'name' => $user->name,
                     'email' => $user->email,
-                    'role' =>'user',
-                    'gauth_id'=> $user->id,
-                    'gauth_type'=> 'google',
-                    'password' => encrypt('admin@123')
+                    'role' => 'user',
+                    'gauth_id' => $user->id,
+                    'gauth_type' => 'google',
+                    'password' => $rand_pass
                 ]);
+                // Send mail for registration
+                $mailData = [
+                    'clientName' => $user->name,
+                    'password' => $rand_pass,
+                    'mail' => getSettingWeb('PaymentEmail'),
+                    'address' => getSettingWeb('Address'),
 
+                ];
+                Mail::to($user->email)->send(new UserGoogleRegistration($mailData));
+                // Login user to system
                 Auth::login($newUser);
-
+                // Redirect user to "Home" page
                 return redirect('/');
             }
-
         } catch (Exception $e) {
-            dd($e->getMessage());
+            // Handle the exception and return a user-friendly message
+            return redirect()->route('login')->withErrors(['email' => 'Failed to authenticate with Google.']);
         }
     }
 }

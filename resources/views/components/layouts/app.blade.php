@@ -17,6 +17,8 @@
 </head>
 
 <body class="h-full bg-white">
+
+
     <div class="flex flex-col min-h-screen pb-32 lg:pb-0">
         <div class="">
             @livewire('component.header')
@@ -28,7 +30,6 @@
             @livewire('component.footer')
         </div>
     </div>
-
 
 
     @vite('resources/js/datepicker.js')

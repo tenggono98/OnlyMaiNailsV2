@@ -64,4 +64,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function total_order(){
         return  $this->hasMany(TBooking::class);
     }
+
+    public function warningNotes(){
+        return $this->hasMany(UserWarningNotes::class,'note_for');
+
+    }
 }

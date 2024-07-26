@@ -21,6 +21,10 @@ class Header extends Component
     public $limitShowNotification = 5;
     public $showReadNotif = false;
 
+    // For UI Mobile
+    public $isOpen = false;
+
+
     protected $listeners = ['refreshHeader' => 'refreshUserId'];
 
     public function mount()
@@ -85,5 +89,11 @@ class Header extends Component
     public function showMoreNotification(){
         $this->limitShowNotification += 10;
         $this->showReadNotif = true;
+    }
+
+
+    public function toggleDrawer()
+    {
+        $this->isOpen = !$this->isOpen;
     }
 }

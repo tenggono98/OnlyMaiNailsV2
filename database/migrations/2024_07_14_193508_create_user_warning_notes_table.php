@@ -1,10 +1,9 @@
 <?php
 
-use App\Models\TBooking;
 use App\Models\User;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -13,12 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('review_users', function (Blueprint $table) {
+        Schema::create('user_warning_notes', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(TBooking::class);
-            $table->enum('is_show_review',[1,0])->default(0);
-            $table->text('description_review');
+            $table->foreignIdFor(User::class,'note_for');
+            $table->text('description_warning_note');
             $table->foreignIdFor(User::class,'created_by');
+            $table->foreignIdFor(User::class,'updated_by')->nullable();
             $table->enum('status',[1,0])->default(1);
             $table->timestamps();
         });
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('review_users');
+        Schema::dropIfExists('user_warning_notes');
     }
 };

@@ -51,12 +51,13 @@ class ChangeProfile extends Component
             } else {
                 // If old password does not match, throw an error
                 $this->alert('warning', 'The old password is incorrect.');
-                $this->reset('oldPassword','password','confirmPassword');
+               return $this->reset('oldPassword','password','confirmPassword');
             }
         }
         $this->user->save();
         if ($this->user) {
             $this->alert('success', 'Your Data has been updated!');
+            $this->reset('oldPassword','password','confirmPassword');
         } else {
             $this->alert('warning', 'Oops,wrong please try again later.');
         }

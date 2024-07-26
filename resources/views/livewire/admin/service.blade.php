@@ -1,14 +1,10 @@
 <div>
     {{-- The best athlete wants his opponent at his best. --}}
-
     <div class="">
         <x-pages.admin.title-header-admin title="Service" />
-
-
         {{-- Fitlter Zone --}}
         <form wire:submit.prevent="search">
             <div class="flex flex-col gap-4 my-3 lg:flex lg:flex-row">
-
                 <div class="flex-auto">
                     <x-pages.inputs.search placeholder='Search Service Name' wire:model='searchName'/>
                 </div>
@@ -38,17 +34,11 @@
                     action='submit'
                     size="text-3xl"  />
                 </div>
-
-
             </div>
         </form>
-
         {{-- Fitlter Zone --}}
-
-
         {{-- Action Zone --}}
         <div class="flex justify-end ">
-
             <div >
                 <x-pages.btn
                 value='New Service'
@@ -61,14 +51,10 @@
                 data-modal-toggle="add-modal"
                 wire:click='resetForm()'   />
             </div>
-
         </div>
         {{-- Action Zone --}}
-
-
-
         {{-- Table Zone --}}
-        <x-pages.table.table :header="['No','Category','Service Name','Price','Addons','Status','Action']">
+        <x-pages.table.table :header="['No','Category','Service Name','Price','Addons','Sort','Status','Action']">
             @if(count($service) > 0)
                 @foreach ($service as $key => $row)
                 <x-pages.table.tr>
@@ -82,7 +68,7 @@
                         {{ $row->name_service }}
                     </x-pages.table.td>
                     <x-pages.table.td>
-                        ${{ $row->price_service }}
+                        {{ getSettingWeb('Currency') }} {{ $row->price_service }}
                     </x-pages.table.td>
                     <x-pages.table.td>
                         @if($row->is_merge == true)
@@ -92,6 +78,9 @@
                     @endif
                     </x-pages.table.td>
                     <x-pages.table.td>
+                        {{ $row->order }}
+                    </x-pages.table.td>
+                    <x-pages.table.td>
                         @if($row->status == true)
                             <x-pages.badge type='success' value='Active' />
                         @else
@@ -99,7 +88,6 @@
                         @endif
                     </x-pages.table.td>
                     <x-pages.table.td>
-
                         <div class="flex gap-2">
                             <div class="">
                                 <x-pages.btn value="Edit" type="info" data-modal-target="add-modal" data-modal-toggle="add-modal" wire:click='edit({{ $row->id }})' />
@@ -111,46 +99,27 @@
                                 <div class="">
                                     <x-pages.btn value="Delete" type="danger" wire:click="confirmDelete('{{ $row->name_service }}',{{ $row->id }})" />
                                 </div>
-
                                 @else
                                 <div class="">
                                     <x-pages.btn value="Disable" type="danger" wire:click='toggleStatus({{ $row->id }})' />
                                 </div>
                             @endif
-
-
                         </div>
-
                     </x-pages.table.td>
-
                 </x-pages.table.tr>
                 @endforeach
-
             @else
             <x-pages.table.notFound colspan='7'/>
-
             @endif
-
-
-
-
         </x-pages.table.table>
         {{-- Table Zone --}}
-
-
-
     </div>
-
-
       {{-- Modal Zone --}}
-
       <x-pages.modal.modal  id='add-modal' title="{{ ($is_edit == false)?'New Service':'Edit Service' }}" submitFunction='save()' >
-
-
         <div class="grid grid-cols-2 gap-3">
             <div class="">
                 <label for="">Service Category</label>
-                <x-pages.inputs.select wire:model='serviceCategory'>
+                <x-pages.inputs.select wire:model='serviceCategory' wire:change='serviceOrderCategory()'>
                     <option value="">Select Category</option>
                     @foreach ($category as $item)
                         <option value="{{ $item->id }}">{{ $item->name_service_categori }}</option>
@@ -168,14 +137,15 @@
                 <x-pages.inputs.currency wire:model='servicePrice' />
                 <x-pages.inputs.error error='servicePrice' />
             </div>
+            <div class="">
+                <label for="">Order After</label>
+                <x-pages.inputs.text wire:model='serviceOrder' type='number' min='0' />
+                <x-pages.inputs.error error='serviceOrder' />
+            </div>
             <div class="pt-5">
-
                 <x-pages.inputs.toggle id="serviceIsMerge" wire:model='isMerge'  label='Is Addons ?' :checked="$isMerge"  />
             </div>
-
         </div>
-
     </x-pages.modal.modal>
-
     {{-- Modal Zone --}}
 </div>

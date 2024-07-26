@@ -40,24 +40,25 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                       </svg>
                       '
-                            type='icon' action='submit' size="text-3xl" />
+                            type='icon' action='submit' size="text-3xl"  />
                     </div>
                 </div>
             </form>
             {{-- Filter Zone --}}
-            @if ($userType == 'admin')
-                {{-- Action Zone --}}
-                <div class="flex justify-end ">
-                    <div>
-                        <x-pages.btn value='New Admin'
-                            icon='<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                    '
-                            type='icon' data-modal-target="add-admin-modal" data-modal-toggle="add-admin-modal"
-                            wire:click='resetForm()' />
-                    </div>
+            {{-- Action Zone --}}
+            <div class="flex justify-end ">
+                <div>
+                    <x-pages.btn value='New {{ ucfirst($userType) }}'
+                        icon='<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                '
+                        type='icon' data-modal-target="add-modal" data-modal-toggle="add-modal"
+                        wire:click='resetForm()' />
                 </div>
+            </div>
+            {{-- Action Zone --}}
+            @if ($userType == 'admin')
                 {{-- Table Admin --}}
                 <x-pages.table.table :header="['No', 'Name', 'Email', 'Status', 'Action']">
                     @if (count($users) > 0)
@@ -128,6 +129,11 @@
                                     <span class="font-semibold">{{ count($row->total_order) }}</span> Order
                                 </x-pages.table.td>
                                 <x-pages.table.td>
+                                    <span
+                                        class="font-semibold text-red-400">{{ count($row->warningNotes ?? 0) }}</span>
+                                    Notes
+                                </x-pages.table.td>
+                                <x-pages.table.td>
                                     @if ($row->status == 1)
                                         <x-pages.badge type='success' value='Active' />
                                     @elseif($row->status == 0)
@@ -136,6 +142,11 @@
                                 </x-pages.table.td>
                                 <x-pages.table.td>
                                     <div class="flex gap-2">
+                                        <div class="">
+                                            <x-pages.btn value="Notes" type="info" data-modal-target="warning-modal"
+                                                data-modal-toggle="warning-modal"
+                                                wire:click='viewWarningNotes({{ $row->id }})' />
+                                        </div>
                                         <div class="">
                                             <x-pages.btn value="Edit" type="info" data-modal-target="add-modal"
                                                 data-modal-toggle="add-modal" wire:click='edit({{ $row->id }})' />
@@ -160,7 +171,7 @@
                             </x-pages.table.tr>
                         @endforeach
                     @else
-                        <x-pages.table.notFound colspan='6' />
+                        <x-pages.table.notFound colspan='7' />
                     @endif
                 </x-pages.table.table>
                 {{-- Table User --}}
@@ -168,17 +179,79 @@
         @endif
     </div>
     {{-- Modal Edit / Add Users (Admin / User) --}}
-    <x-pages.modal.modal id='add-admin-modal' title="{{ $is_edit == false ? 'New User' : 'Edit User' }}"
+    <x-pages.modal.modal id='add-modal'
+        title="{{ $is_edit == false ? 'New ' . ucfirst($userType) : 'Edit ' . ucfirst($userType) }}"
         submitFunction='save()'>
-
-
-
-
-
-
-
-
-
+        <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
+            <div class="">
+                <label for="">Fullname <span class="text-red-600">*</span></label>
+                <x-pages.inputs.text placeholder='John Doe' wire:model='fullnameUser' />
+            </div>
+            <div class="">
+                <label for="">Phone </label>
+                <x-pages.inputs.text placeholder='+1' wire:model='phoneUser' />
+            </div>
+            <div class="">
+                <label for="">Email <span class="text-red-600">*</span></label>
+                <x-pages.inputs.text type='email' placeholder='jhondoe@gmail.com' wire:model='emailUser' />
+            </div>
+            <div class="">
+                <label for="">Password <span class="text-red-600">*</span></label>
+                <x-pages.inputs.text type='password' placeholder='' wire:model='passwordUser' />
+                {!! ($is_edit == true) ? "<small class='text-xs'>Leave blank if you dont want to change the password</small>" : '' !!}
+            </div>
+            @if ($userType == 'user')
+                <div class="lg:col-span-2">
+                    <label for="">Instagram </label>
+                    <x-pages.inputs.text type='text' placeholder='@' wire:model='igUser' class="w-full" />
+                </div>
+            @endif
+        </div>
     </x-pages.modal.modal>
     {{-- Modal Edit / Add Users (Admin / User) --}}
+    {{-- Modal warning notes --}}
+    <x-pages.modal.modal id='warning-modal' title="Warning Notes for {{ $nameUserWarningNotes }}"
+        submitFunction='saveNote()'>
+        <p class="text-2xl">Notes Warning (<span>{{ count($userNotesWarning ?? []) }})</span></p>
+        <div class="grid grid-cols-1 gap-3 overflow-y-scroll max-h-52">
+            @if ( $userNotesWarning !== null && count($userNotesWarning) > 0 )
+                @foreach ($userNotesWarning as $note)
+                    <div class="p-3 border rounded-lg">
+                        <div class="flex justify-between">
+                            <div class="">
+                                Created By <span class="font-semibold">{{ $note->account->name }}</span>
+                            </div>
+                            <div class="">
+                                Created At <span class="font-semibold">{{ $note->created_at }}</span>
+                            </div>
+                        </div>
+
+                        <p class="my-3">{{ $note->description_warning_note }}</p>
+
+                        <div class="flex gap-3">
+                            <div class="flex-auto">
+                                    <x-pages.btn value="Edit" type="info" data-modal-target="add-modal"
+                                        data-modal-toggle="add-modal" wire:click='editInlineNote({{ $row->id }})' />
+                            </div>
+                            <div class="flex-auto">
+                                <x-pages.btn value="Delete" wire:confirm='Are you sure want to delete this note ?' type="danger"
+                                     wire:click='DeleteInlineNote({{ $row->id }})' />
+                        </div>
+
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <h1 class="text-center"><span class="font-semibold">{{ $nameUserWarningNotes }}</span> has no warning notes for now</h1>
+            @endif
+        </div>
+
+
+
+        <p>Adding Notes</p>
+        <div class="my-2">
+            <x-pages.inputs.textarea wire:model='descriptionWarningNote' />
+        </div>
+    </x-pages.modal.modal>
+    {{-- Modal warning notes --}}
 </div>

@@ -16,8 +16,10 @@ use Livewire\Attributes\Modelable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\ActionDatabase;
+use App\Http\Controllers\Pdf\BookingInvoice;
 use App\Http\Controllers\Pdf\BookingComplete;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+
 class Booking extends Component
 {
     use LivewireAlert;
@@ -190,6 +192,7 @@ class Booking extends Component
             $scheduleTime->is_book = '1';
             // Generate PDF
             BookingComplete::createPDF($id);
+            BookingInvoice::createPDF($id);
             // Send Email to Client
                 // Get File Information
                 $date_booking = \Carbon\Carbon::parse($booking->scheduleDateBook->date_schedule)->format('d-m-Y');
@@ -197,6 +200,7 @@ class Booking extends Component
                 // download PDF file with download method
                 $fileName = 'PDF_Booking_Confirmation/OMN_Appointment_Confirmation_'.$date_booking.'_'.$uuid.'.pdf';
                 $fileNameInvoice = 'PDF_Booking_Invoice/OMN_Invoice_'.$date_booking.'_'.$uuid.'.pdf';
+                
             $mailData = [
                 'clientName' => $booking->client->name,
                 'booking_date' => \Carbon\Carbon::parse($booking->scheduleDateBook->date_schedule)->format('l , d F Y'),

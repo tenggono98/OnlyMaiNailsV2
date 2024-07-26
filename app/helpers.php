@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\SettingWeb;
 use Illuminate\Support\Str;
 
 if (!function_exists('generateBookingCode')) {
@@ -38,4 +39,18 @@ if (!function_exists('generateUUID')) {
 
         return $uuid;
     }
+
+
+}
+
+if (!function_exists('getSettingWeb')) {
+
+    function getSettingWeb($name)
+    {
+        $value = SettingWeb::where('name','=',$name)->first()->value;
+
+        return $value;
+    }
+
+
 }

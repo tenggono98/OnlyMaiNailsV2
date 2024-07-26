@@ -3,6 +3,8 @@ namespace App\Livewire\Component\Admin;
 use Livewire\Component;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
+use App\Livewire\Actions\Logout;
+
 class Header extends Component
 {
     public $limitShowNotification = 5;
@@ -37,5 +39,12 @@ class Header extends Component
     public function showMoreNotification(){
         $this->limitShowNotification += 10;
         $this->showReadNotif = true;
+    }
+
+    public function logout(Logout $logout): void
+    {
+        $logout();
+
+        $this->redirect('/login', navigate: true);
     }
 }

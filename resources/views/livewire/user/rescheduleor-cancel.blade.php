@@ -137,7 +137,6 @@
                                         <span>{{ str_replace('-', '', str_pad($minutes, 2, '0', STR_PAD_LEFT)) }}</span>
                                         <span>:</span>
                                         <span>{{ str_replace('-', '', str_pad($seconds, 2, '0', STR_PAD_LEFT)) }}</span> --}}
-
                                         {{ $timeRemaining }}
                                     </div>
                                 </div>
@@ -178,16 +177,17 @@
                                             <ul class="pl-6 list-disc">
                                                 <li>Send the deposit via e-transfer to <span
                                                         class="font-semibold">{{ $paymentEmail }}</span>
-
-                                                        <button onclick="copyText('{{ $paymentEmail }}')" wire:click='notifCopy()'>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                                stroke-width="1.5" stroke="currentColor"
-                                                                class="size-5 hover:stroke-green-600">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
-                                                            </svg>
-                                                        </button>
-                                                    </li>
+                                                    <button onclick="copyText('{{ $paymentEmail }}')"
+                                                        wire:click='notifCopy()'>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5"
+                                                            stroke="currentColor"
+                                                            class="size-5 hover:stroke-green-600">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                                                        </svg>
+                                                    </button>
+                                                </li>
                                                 <li>Ensure to send the deposit within <span class="font-semibold">2
                                                         hours</span> of
                                                     booking to secure your appointment</li>
@@ -237,52 +237,41 @@
                     </div>
                 </div>
             </div>
-
-
+            @if($booking->status !== 'cancel'  && $booking->status !== 'reschedule' && $booking->status !== 'completed')
             <div class="flex gap-3 my-5 ">
-
-
-
-                        @if ($booking->is_deposit_paid == '1'  )
-
-                        @php
+                @if ($booking->is_deposit_paid == '1')
+                    @php
                         $dateSchedule = \Carbon\Carbon::parse($booking->scheduleDateBook->date_schedule);
                         $today = \Carbon\Carbon::today();
-                       
-                         @endphp
-                            @if($dateSchedule->gt($today) && $booking->reschedule_flag_booking == '0')
-                            <div class="flex-auto">
-                                <x-pages.btn-static  value=' Reschedule Booking'
-                                data-modal-target="reschedule-modal"
-                                data-modal-toggle="reschedule-modal"
-                                />
-                            </div>
-                            @endif
-                        @else
+                    @endphp
+                    @if ($dateSchedule->gt($today) && $booking->reschedule_flag_booking == '0')
                         <div class="flex-auto">
-                            <x-pages.btn-static type='success' wire:click='confirmDeposit' value='Confirm Deposit'
-                                wire:confirm='Are you sure want to Confirm Deposit for Booking' />
+                            <x-pages.btn-static value=' Reschedule Booking' data-modal-target="reschedule-modal"
+                                data-modal-toggle="reschedule-modal" />
                         </div>
-                        @endif
+                    @endif
+                @else
+                    <div class="flex-auto">
+                        <x-pages.btn-static type='success' wire:click='confirmDeposit' value='Confirm Deposit'
+                            wire:confirm='Are you sure want to Confirm Deposit for Booking' />
+                    </div>
+                @endif
                 <div class="flex-auto">
                     <x-pages.btn-static type='danger' value=' Cancel Booking'
                         wire:confirm='Are you sure want to "Cancel" this Booking ' />
                 </div>
             </div>
+            @endif
         </div>
     </div>
-
     {{-- Modal Reschedule Date - Begin --}}
-    <x-pages.modal.modal  id='reschedule-modal' title="Reschedule Booking" submitFunction='rescheduleBooking()' >
+    <x-pages.modal.modal id='reschedule-modal' title="Reschedule Booking" submitFunction='rescheduleBooking()'>
         <small>
             This can be changed only once and only if it's available within 24 hours of the booking date and time.
         </small>
-        @livewire('component.module.schedule-selector',['getSelectedTime'=> $booking->scheduleTimeBook->id, 'getSelectedDate' => $booking->scheduleDateBook->id , 'getIndexDate' => '1'])
-
+        @livewire('component.module.schedule-selector', ['getSelectedTime' => $booking->scheduleTimeBook->id, 'getSelectedDate' => $booking->scheduleDateBook->id, 'getIndexDate' => '1'])
     </x-pages.modal.modal>
     {{-- Modal Reschedule Date - End --}}
-
-
     {{-- Extra Script --}}
     <script>
         function copyText(text) {
