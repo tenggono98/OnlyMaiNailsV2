@@ -31,6 +31,11 @@ class ChangeProfile extends Component
     }
     public function save()
     {
+        Validator::make(
+            ['phoneNumberClient' => $this->phoneNumberClient],
+            ['phoneNumberClient' => 'required|numeric']
+        )->validate();
+
         $this->user->name = $this->fullNameClient;
         $this->user->phone = $this->phoneNumberClient;
         $this->user->ig_tag = $this->igTagClient;
@@ -38,7 +43,9 @@ class ChangeProfile extends Component
         if ($this->oldPassword !== null) {
            Validator::make(
                 // Data to validate...
-                ['oldPassword' => $this->oldPassword, 'password' => $this->password , 'confirmPassword' => $this->confirmPassword],
+                ['oldPassword' => $this->oldPassword,
+                'password' => $this->password ,
+                'confirmPassword' => $this->confirmPassword],
                 // Validation rules to apply...
                 ['oldPassword' => 'required',
                 'password' => 'required|required_with:confirmPassword|same:confirmPassword',
@@ -58,6 +65,8 @@ class ChangeProfile extends Component
         if ($this->user) {
             $this->alert('success', 'Your Data has been updated!');
             $this->reset('oldPassword','password','confirmPassword');
+
+            // redirect(route('user.change_profile'));
         } else {
             $this->alert('warning', 'Oops,wrong please try again later.');
         }

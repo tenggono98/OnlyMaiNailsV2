@@ -1,6 +1,6 @@
 <div>
     {{-- To attain knowledge, add things every day; To attain wisdom, subtract things every day. --}}
-    <div class="container lg:mx-auto">
+    <div class=" lg:mx-auto">
         <div class="">
             <h1>Hello, Dear {{ $user->name }}</h1>
         </div>
@@ -25,9 +25,10 @@
                     <label for="">Instagram</label>
                     <input class="w-full form-control" type="text" wire:model='igTagClient'>
                 </div>
-                <div
-                    class="grid grid-cols-1 col-span-2 gap-3 my-5 border lg:grid-cols-2 border-[#fadde1] rounded-lg p-4">
-                    <div class="col-span-2">
+            </div>
+                <div class="grid grid-cols-1  gap-3 my-5 border lg:grid-cols-2 border-[#fadde1] rounded-lg p-4">
+
+                    <div class="lg:col-span-2">
                         <label for="">Old Password</label>
                         <input class="w-full form-control" type="password" wire:model='oldPassword'>
                         <x-pages.inputs.error error='oldPassword' />
@@ -42,12 +43,12 @@
                         <input class="w-full form-control" type="password" wire:model='confirmPassword'>
                         <x-pages.inputs.error error='confirmPassword' />
                     </div>
-                    <div class="col-span-2">
-                        <h2>To update your password, please fill in the required information. If you do not wish to
-                            change your password, you can leave these fields empty.</h2>
+                    <div class="lg:col-span-2">
+                        <small>To update your password, please fill in the required information. If you do not wish to
+                            change your password, you can leave these fields empty.</small>
                     </div>
                 </div>
-            </div>
+
             <button wire:click="save()" type="button"
                 class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">
                 <!-- Default text -->
