@@ -10,7 +10,7 @@ Route::get('/',\App\Livewire\Homepage::class)->name('home');
 Route::get('/services',\App\Livewire\Services::class)->name('services');
 Route::get('/book',\App\Livewire\Book::class)->middleware('throttle:20,1')->name('book');
 Route::get('/contact_us',\App\Livewire\ContactUs::class)->name('contact_us');
-Route::get('/product',\App\Livewire\Product::class)->name('product');
+// Route::get('/product',\App\Livewire\Product::class)->name('product');
 Route::get('/draftui/mail_book',\App\Livewire\DraftUI\BookingMail::class)->name('draftui.mail_book');
 // PDF
 Route::get('/pdf', [BookingComplete::class, 'createPDF'])->name('pdf.test');
@@ -25,6 +25,7 @@ Route::get('/pdf_view', [BookingInvoice::class, 'show'])->name('pdf.test_view');
             Route::get('/service',\App\Livewire\Admin\Service::class)->name('admin.service');
             Route::get('/setting',\App\Livewire\Admin\Setting::class)->name('admin.setting');
             Route::get('/users',\App\Livewire\Admin\Users::class)->name('admin.users');
+            Route::get('/product',\App\Livewire\Admin\Product::class)->name('admin.product');
             Route::get('/users/{type}',\App\Livewire\Admin\Users::class)->name('admin.users.type');
             Route::get('/review',\App\Livewire\Admin\ReviewUser::class)->name('admin.review');
 
