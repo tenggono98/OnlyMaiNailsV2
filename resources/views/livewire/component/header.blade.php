@@ -220,7 +220,9 @@
 
 
             <h1 class="text-3xl">OnlyMaiNails</h1>
+            @if(!empty(Auth::user()->role))
             <p>Hello, <span class="font-semibold">{{ Auth::user()->name }}</span></p>
+            @endif
 
 
             @if(empty(Auth::user()->role))
@@ -229,7 +231,7 @@
 
                 <div class="py-4">
                     <ul>
-                       
+
                         <li class="flex gap-3">
                             {{-- Icon --}}
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
