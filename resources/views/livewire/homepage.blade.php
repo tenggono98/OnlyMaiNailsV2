@@ -9,7 +9,7 @@
                     alt="">
             </div>
             <div class="p-5 text-justify lg:col-span-4 lg:px-40 lg:py-14">
-                <h1 class="text-4xl leading-loose tracking-wide text-center uppercase lg:text-left delay-[300ms] duration-[600ms] taos:scale-[0.6] taos:opacity-0"
+                <h1 class="text-4xl hidden lg:block leading-loose tracking-wide text-center uppercase lg:text-left delay-[300ms] duration-[600ms] taos:scale-[0.6] taos:opacity-0"
                     data-taos-offset="400">Only Mai Nails</h1>
                 <p class="mb-5 leading-loose">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum provident eius dolores accusantium

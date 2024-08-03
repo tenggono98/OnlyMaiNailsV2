@@ -9,8 +9,6 @@
             <ul class="flex justify-between gap-4">
                 <li class="lg:hidden"><h1 class="text-2xl">OnlyMaiNails</h1></li>
                 <div class="flex gap-4">
-
-
                 <li class="hidden lg:block">Already Member?</li>
                 <li class="cursor-pointer"><a class="w-full" href="{{ route('user.login') }}">Login</a></li>
                 <li class="cursor-pointer"><a class="w-full" href="{{ route('user.login') }}">Sign Up</a></li>
@@ -168,7 +166,6 @@
                             {{-- <p class="mt-2 text-xs">Services</p> --}}
                         </a>
                     </li>
-
                         <li class="absolute p-2  bottom-5 bg-[#fadde1] rounded-full z-0 ">
                             <a href="{{ Route('book') }}" class="flex flex-col items-center justify-between h-full p-2 text-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7">
@@ -177,9 +174,6 @@
                                 <p class="mt-2 text-xs"></p>
                             </a>
                         </li>
-
-
-
                     <li class="z-10">
                         <a href="" class="flex flex-col items-center justify-between h-full p-2 text-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7">
@@ -188,13 +182,11 @@
                             {{-- <p class="mt-2 text-xs">Contact Us</p> --}}
                         </a>
                     </li>
-
                     <li>
                         <a wire:click="toggleDrawer" class="flex flex-col items-center justify-between h-full p-2 text-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
                               </svg>
-
                             {{-- <p class="mt-2 text-xs">More</p> --}}
                         </a>
                     </li>
@@ -202,10 +194,7 @@
             </div>
             {{-- Menu --}}
         </div>
-
-
     </section>
-
 {{-- Drawer --}}
 <div x-data="{ isOpen: @entangle('isOpen') }" x-show="isOpen" class="fixed inset-0 z-40 bg-gray-500 bg-opacity-35" @click="isOpen = false">
     <div class="fixed top-0 left-0 z-50 w-3/5 h-full p-4 transition-transform transform bg-white shadow-xl"
@@ -213,44 +202,36 @@
         x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
         x-transition:leave="transition ease-in duration-300" x-transition:leave-start="translate-x-0"
         x-transition:leave-end="-translate-x-full">
-
             {{-- <button @click="isOpen = false" class="px-4 py-2 text-white bg-red-500">
                 Close Drawer
             </button> --}}
-
-
             <h1 class="text-3xl">OnlyMaiNails</h1>
             @if(!empty(Auth::user()->role))
             <p>Hello, <span class="font-semibold">{{ Auth::user()->name }}</span></p>
             @endif
-
-
             @if(empty(Auth::user()->role))
-
             <div class="flex flex-col justify-between h-[93%] ">
-
-                <div class="py-4">
-                    <ul>
-
+                <div class="gap-5 py-10">
+                    <ul class="flex flex-col gap-5">
+                        <a href="#">
                         <li class="flex gap-3">
                             {{-- Icon --}}
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
                               </svg>
 
                             {{-- Icon --}}
                             {{-- Text --}}
                             <div class="">
-                                <p>Login/p>
+                                <p>Login</p>
                             </div>
                             {{-- Text --}}
-
                         </li>
-
+                        </a>
                         <li class="flex gap-3">
                             {{-- Icon --}}
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m-6 3.75 3 3m0 0 3-3m-3 3V1.5m6 9h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75" />
                               </svg>
 
                             {{-- Icon --}}
@@ -259,87 +240,59 @@
                                 <p>Sign Up</p>
                             </div>
                             {{-- Text --}}
-
                         </li>
                     </ul>
-
                 </div>
             </div>
-
             @else
             <div class="flex flex-col justify-between h-[93%] ">
-
                 <div class="py-4">
-
                     <ul class="flex flex-col gap-5 list-none">
                         <li class="flex gap-3">
                             {{-- Icon --}}
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
                               </svg>
-
                             {{-- Icon --}}
                             {{-- Text --}}
                             <div class="">
                                 <p>Booking History</p>
                             </div>
                             {{-- Text --}}
-
                         </li>
-
                         <li class="flex gap-3">
                             {{-- Icon --}}
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                               </svg>
-
                             {{-- Icon --}}
                             {{-- Text --}}
                             <div class="">
                                 <p>Change Profile</p>
                             </div>
                             {{-- Text --}}
-
                         </li>
-
-
                     </ul>
-
-
                 </div>
-
                 <div class="py-4">
                     <div class="flex gap-3">
                         {{-- Icon --}}
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
                           </svg>
-
                         {{-- Icon --}}
                         {{-- Text --}}
                         <div class="">
                             <p>Logout</p>
                         </div>
                         {{-- Text --}}
-
                     </div>
                 </div>
-
             </div>
-
-
-
-
             @endif
-
-
-
-
-
     </div>
 </div>
 {{-- Drawer --}}
-
     @if(Auth::user())
         @if(Auth::user()->email_verified_at == null && Auth::user()->gauth_id == null)
             <div class="w-full p-4 bg-[#fadde1] border-t border-white">
