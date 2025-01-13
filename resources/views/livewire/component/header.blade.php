@@ -1,6 +1,6 @@
 <div>
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
-    <div class="flex justify-between p-4 lg:p-5">
+    <div class="flex justify-between p-4 lg:p-5 bg-primary">
         <div class="">
             {{-- <h1 class="uppercase lg:text-2xl">Only Mai Nails</h1> --}}
         </div>
@@ -8,7 +8,7 @@
             @if (empty(Auth::user()->role))
                 <ul class="flex justify-between gap-4">
                     <li class="lg:hidden">
-                        <h1 class="text-2xl">OnlyMaiNails</h1>
+                        <h1 class="text-2xl !tracking-widest">OnlyMaiNails</h1>
                     </li>
                     <div class="flex gap-4">
                         <li class="hidden lg:block">Already Member?</li>
@@ -17,8 +17,8 @@
                     </div>
                 </ul>
             @else
-                <ul class="flex items-center justify-between w-full gap-4 lg:flex lg:justify-center">
-                    <li>
+                <ul class="flex items-center justify-between w-full gap-4 lg:flex lg:justify-center ">
+                    <li class="lg:hidden">
                         <h1 class="text-2xl">OnlyMaiNails</h1>
                     </li>
                     {{-- <li>Hello, <span class="font-semibold">{{ Auth::user()->name }}</span></li> --}}
@@ -133,11 +133,11 @@
             @endif
         </div>
     </div>
-    <section id="nav-dekstop" class="bg-[#fadde1] p-5 hidden lg:block">
+    <section id="nav-dekstop" class="bg-primary p-5 hidden lg:sticky lg:block  lg:top-0 lg:z-10">
         <div class="flex justify-between w-full ">
             {{-- Logo --}}
             <div class="">
-                <img src="{{ asset('img/transparant-logo.png') }}" class="h-28" alt="">
+                <h1 class="julius-sans-one-regular text-4xl !tracking-widest ">ONLYMAINAILS</h1>
             </div>
             {{-- Logo --}}
             {{-- Menu --}}

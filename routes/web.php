@@ -3,15 +3,27 @@ use App\Http\Controllers\Pdf\BookingComplete;
 use App\Http\Controllers\Pdf\BookingInvoice;
 use App\Livewire\DraftUI\BookingMail;
 use Illuminate\Support\Facades\Route;
+
+// OLD UI
 // For Login
 Route::get('/user/login', \App\Livewire\Login::class)->name('user.login');
 // Can be access as "Guest"
-Route::get('/',\App\Livewire\Homepage::class)->name('home');
+//Route::get('/',\App\Livewire\NewUI\Homepage::class)->name('home');
 Route::get('/services',\App\Livewire\Services::class)->name('services');
 Route::get('/book',\App\Livewire\Book::class)->middleware('throttle:20,1')->name('book');
 Route::get('/contact_us',\App\Livewire\ContactUs::class)->name('contact_us');
 // Route::get('/product',\App\Livewire\Product::class)->name('product');
 Route::get('/draftui/mail_book',\App\Livewire\DraftUI\BookingMail::class)->name('draftui.mail_book');
+//OLD UI - END
+
+//NEW UI
+Route::get('/',\App\Livewire\v2\Homepage::class)->name('home');
+
+
+
+
+
+//NEW UI - END
 // PDF
 Route::get('/pdf', [BookingComplete::class, 'createPDF'])->name('pdf.test');
 Route::get('/pdf_view', [BookingInvoice::class, 'show'])->name('pdf.test_view');
@@ -30,6 +42,7 @@ Route::get('/pdf_view', [BookingInvoice::class, 'show'])->name('pdf.test_view');
             Route::get('/review',\App\Livewire\Admin\ReviewUser::class)->name('admin.review');
 
         });
+        //OLD UI
          // Can be access as "User"
          Route::middleware(['redirectToUserLogin', 'role:user'])->group(function () {
             // Change Info Profile
@@ -38,7 +51,9 @@ Route::get('/pdf_view', [BookingInvoice::class, 'show'])->name('pdf.test_view');
             Route::get('/book/schedule/{uuid}',\App\Livewire\User\RescheduleorCancel::class)->name('user.reschedule_or_cancel');
             // Booking History
             Route::get('/book/history_booking',\App\Livewire\User\HistoryBooking::class)->name('user.history_booking');
-    });
+
+            //    NEW UI
+         });
 // For Google Login
 Route::get('oauth/google', [\App\Http\Controllers\OauthController::class, 'redirectToProvider'])->name('oauth.google');
 Route::get('oauth/google/callback', [\App\Http\Controllers\OauthController::class, 'handleProviderCallback'])->name('oauth.google.callback');

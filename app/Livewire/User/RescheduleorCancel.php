@@ -43,6 +43,9 @@ class RescheduleorCancel extends Component
             $this->initializeTimer();
         }
         // Get data Avilabel Schedule booking
+
+        
+
     }
     public function render()
     {

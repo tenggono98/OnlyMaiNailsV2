@@ -1,7 +1,14 @@
 <div>
     {{-- Nothing in the world is as soft and yielding as water. --}}
+
+
+
+
+
+
+
     {{-- HERO ZONE --}}
-    <section id="hero">
+    <section id="hero" class="" >
         <div class="lg:grid lg:grid-cols-7 lg:grid-flow-col">
             <div class="lg:justify-end lg:flex lg:col-span-3">
                 <img src="{{ asset('img/IMG_3915.png') }}"
@@ -23,6 +30,16 @@
                     amet voluptas officia, ipsum vero nulla facilis in dignissimos laboriosam necessitatibus deserunt
                     totam nihil odio. Veritatis, illo.
                 </p>
+
+                <a href="{{ route('services') }}" class="text-2xl transition duration-300 group">
+                    <div class="flex items-center duration-500 align-middle hover:gap-1 hover:translate-x-3">
+                    Learn More
+                    <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path></svg>
+                    </div>
+                    </div>
+                    <span class="block max-w-0 w-full group-hover:max-w-full transition-all duration-500 h-0.5 bg-slate-600"></span>
+                    </a>
                 <div class="flex justify-end">
                     <div class="">
                         {{-- <img src="{{ asset('img/CTA_model.png') }}" class="w-auto h-48" alt=""> --}}
@@ -40,7 +57,7 @@
     </section>
     {{-- BANNER ZONE --}}
     {{-- About Us ZONE --}}
-    <section id="about-us">
+    <section id="about-us" class="">
         <div class="lg:grid lg:grid-cols-7 lg:grid-flow-col">
             <div class="order-1 lg:order-2 lg:col-span-3">
                 <img src="{{ asset('img/IMG_3916.png') }}"

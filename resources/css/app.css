@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 
-@font-face {
+    @font-face {
     font-family: 'Cheque-Black';
     src: url('/public/font/Cheque/Commercial/WEB/Cheque-Black.eot');
     src: url('/public/font/Cheque/Commercial/WEB/Cheque-Black.eot?#iefix') format('embedded-opentype'),
@@ -11,16 +11,24 @@
     }
 
     @font-face {
-        font-family: 'Cheque-Regular';
-        src: url('/public/font/Cheque/Commercial/WEB/Cheque-Regular.eot');
-        src: url('/public/font/Cheque/Commercial/WEB/Cheque-Regular.eot?#iefix') format('embedded-opentype'),
-        url('/public/font/Cheque/Commercial/WEB/Cheque-Regular.woff2') format('woff2'), url('/public/font/Cheque/Commercial/WEB/Cheque-Regular.woff') format('woff'), url('/public/font/Cheque/Commercial/TTF/Cheque-Regular.ttf') format('truetype');
-        }
+    font-family: 'Cheque-Regular';
+    src: url('/public/font/Cheque/Commercial/WEB/Cheque-Regular.eot');
+    src: url('/public/font/Cheque/Commercial/WEB/Cheque-Regular.eot?#iefix') format('embedded-opentype'),
+    url('/public/font/Cheque/Commercial/WEB/Cheque-Regular.woff2') format('woff2'), url('/public/font/Cheque/Commercial/WEB/Cheque-Regular.woff') format('woff'), url('/public/font/Cheque/Commercial/TTF/Cheque-Regular.ttf') format('truetype');
+    }
 
-        @font-face {
-            font-family: 'black_mango';
-            src: url('/public/font/black_mango/TTF/BlackMango-Regular.ttf');
-            }
+    @font-face {
+    font-family: 'black_mango';
+    src: url('/public/font/black_mango/TTF/BlackMango-Regular.ttf');
+    }
+
+    #svg-1{
+        background-image: url( '/../public/img/blob.svg' );
+        height:40em;
+        background-repeat: no-repeat;
+        position: absolute;
+        top: 10rem;
+    }
 
 
 
@@ -98,9 +106,14 @@
     font-style: italic;
   }
 
+.julius-sans-one-regular {
+    font-family: "Julius Sans One", serif;
+    font-weight: 400;
+    font-style: normal;
+}
 
 h1  {
-    font-family: 'black_mango';
+    font-family: 'Julius Sans One';
     letter-spacing: 2.5px;
 }
 
@@ -141,3 +154,9 @@ p , li , span ,a, article , b , small , ::placeholder , select , label {
 .btn-normal{
     @apply bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer ;
 }
+
+.bg-primary{
+    @apply bg-[#FFF4F8];
+}
+
+

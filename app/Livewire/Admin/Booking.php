@@ -200,7 +200,7 @@ class Booking extends Component
                 // download PDF file with download method
                 $fileName = 'PDF_Booking_Confirmation/OMN_Appointment_Confirmation_'.$date_booking.'_'.$uuid.'.pdf';
                 $fileNameInvoice = 'PDF_Booking_Invoice/OMN_Invoice_'.$date_booking.'_'.$uuid.'.pdf';
-                
+
             $mailData = [
                 'clientName' => $booking->client->name,
                 'booking_date' => \Carbon\Carbon::parse($booking->scheduleDateBook->date_schedule)->format('l , d F Y'),
@@ -214,7 +214,7 @@ class Booking extends Component
                 ]
             ];
             // Send Email to Client
-            Mail::to($booking->client->email)->send(new MailBooking($mailData));
+            // Mail::to($booking->client->email)->send(new MailBooking($mailData));
             // Send Notification
             $notif = new Notification;
             $notif->title_notification = 'Deposit Payment Confirm';

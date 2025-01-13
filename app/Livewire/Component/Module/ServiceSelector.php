@@ -22,10 +22,8 @@ class ServiceSelector extends Component
 
 
     public function mount(){
-
           // Get Services Category
           $this->servicesCategory = MServiceCategory::where('status','=','1')->get();
-
           $this->servicsBook = new stdClass();
     }
 
