@@ -206,6 +206,10 @@ p , li , span ,a, article , b , small , ::placeholder , select , label {
     @apply leading-8;
 }
 
+.text-mute{
+    @apply text-[#A1A0A0] font-thin;
+}
+
 
 
 /* p,li{

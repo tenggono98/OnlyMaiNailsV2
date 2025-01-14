@@ -11,6 +11,7 @@ class Homepage extends Component
     {
         // Review Data
         $review = ReviewUser::where('is_show_review','=',1)->where('status','=',1)->take(3)->get();
-        return view('livewire.homepage',compact('review'));
+        return view('livewire
+        .homepage',compact('review'));
     }
 }

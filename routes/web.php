@@ -18,6 +18,7 @@ Route::get('/draftui/mail_book',\App\Livewire\DraftUI\BookingMail::class)->name(
 
 //NEW UI
 Route::get('/',\App\Livewire\v2\Homepage::class)->name('home');
+Route::get('/services',\App\Livewire\v2\Services::class)->name('services');
 
 
 
