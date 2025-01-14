@@ -31,6 +31,77 @@
     }
 
 
+    .krub-extralight {
+        font-family: "Krub", serif;
+        font-weight: 200;
+        font-style: normal;
+      }
+
+      .krub-light {
+        font-family: "Krub", serif;
+        font-weight: 300;
+        font-style: normal;
+      }
+
+      .krub-regular {
+        font-family: "Krub", serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      .krub-medium {
+        font-family: "Krub", serif;
+        font-weight: 500;
+        font-style: normal;
+      }
+
+      .krub-semibold {
+        font-family: "Krub", serif;
+        font-weight: 600;
+        font-style: normal;
+      }
+
+      .krub-bold {
+        font-family: "Krub", serif;
+        font-weight: 700;
+        font-style: normal;
+      }
+
+      .krub-extralight-italic {
+        font-family: "Krub", serif;
+        font-weight: 200;
+        font-style: italic;
+      }
+
+      .krub-light-italic {
+        font-family: "Krub", serif;
+        font-weight: 300;
+        font-style: italic;
+      }
+
+      .krub-regular-italic {
+        font-family: "Krub", serif;
+        font-weight: 400;
+        font-style: italic;
+      }
+
+      .krub-medium-italic {
+        font-family: "Krub", serif;
+        font-weight: 500;
+        font-style: italic;
+      }
+
+      .krub-semibold-italic {
+        font-family: "Krub", serif;
+        font-weight: 600;
+        font-style: italic;
+      }
+
+      .krub-bold-italic {
+        font-family: "Krub", serif;
+        font-weight: 700;
+        font-style: italic;
+      }
 
 
 
@@ -119,11 +190,20 @@ h1  {
 
 p , li , span ,a, article , b , small , ::placeholder , select , label {
     /* font-family: "Open Sans", sans-serif !important; */
-    font-family: "Comfortaa", sans-serif !important;
+    font-family: "Krub", "Comfortaa", sans-serif !important;
     font-optical-sizing: auto;
     font-style: normal;
     font-variation-settings:
       "wdth" 100;
+
+}
+
+.title-h1{
+    @apply xl:text-6xl text-4xl;
+}
+
+p , li , span ,a, article , b , small , ::placeholder , select , label {
+    @apply leading-8;
 }
 
 

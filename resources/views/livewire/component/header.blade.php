@@ -1,10 +1,8 @@
 <div>
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
-    <div class="flex justify-between p-4 lg:p-5 bg-primary">
-        <div class="">
-            {{-- <h1 class="uppercase lg:text-2xl">Only Mai Nails</h1> --}}
-        </div>
-        <div class="flex-auto lg:flex-none lg:justify-center">
+    <div class="flex justify-between p-4 lg:p-5 bg-primary  xl:px-32 px-5 ">
+
+        <div class="flex-auto lg:flex-none lg:justify-center ">
             @if (empty(Auth::user()->role))
                 <ul class="flex justify-between gap-4">
                     <li class="lg:hidden">
@@ -21,13 +19,13 @@
                     <li class="lg:hidden">
                         <h1 class="text-2xl">OnlyMaiNails</h1>
                     </li>
-                    {{-- <li>Hello, <span class="font-semibold">{{ Auth::user()->name }}</span></li> --}}
+
                     <div class="hidden gap-4 lg:flex">
                         <li class="cursor-pointer"><a href="{{ route('user.history_booking') }}">Booking History</a>
                         </li>
                         <li class="cursor-pointer"><a href="{{ route('user.change_profile') }}">Change Profile</a></li>
                     </div>
-                    {{-- <li class="cursor-pointer"><a wire:click="logout" >Logout</a></li> --}}
+
                     <li class="">
                         <div class="flex justify-end gap-5">
                             <div class="inline-flex items-center ">
@@ -133,11 +131,11 @@
             @endif
         </div>
     </div>
-    <section id="nav-dekstop" class="bg-primary p-5 hidden lg:sticky lg:block  lg:top-0 lg:z-10">
+    <section id="nav-dekstop" class="bg-primary p-5 hidden lg:sticky lg:block  lg:top-0 lg:z-10  xl:px-32 px-5 ">
         <div class="flex justify-between w-full ">
             {{-- Logo --}}
             <div class="">
-                <h1 class="julius-sans-one-regular text-4xl !tracking-widest ">ONLYMAINAILS</h1>
+                <h1 class="julius-sans-one-regular text-4xl !tracking-[15%] ">ONLYMAINAILS</h1>
             </div>
             {{-- Logo --}}
             {{-- Menu --}}
@@ -154,7 +152,7 @@
             {{-- Menu --}}
         </div>
     </section>
-    <section id="nav-mobile" class="bg-[#fadde1] px-5 lg:hidden fixed bottom-0 w-full z-10 rounded-t-lg ">
+    <section id="nav-mobile" class="bg-primary px-5 lg:hidden fixed bottom-0 w-full z-70 rounded-t-lg ">
         <div class="flex justify-between w-full p-2">
             {{-- Menu --}}
             <div class="flex items-center w-full justify-evenly">
@@ -181,7 +179,7 @@
                             {{-- <p class="mt-2 text-xs">Services</p> --}}
                         </a>
                     </li>
-                    <li class="absolute p-2  bottom-5 bg-[#fadde1] rounded-full z-0 ">
+                    <li class="absolute p-2  bottom-5 bg-primary  rounded-full z-0 ">
                         <a href="{{ Route('book') }}"
                             class="flex flex-col items-center justify-between h-full p-2 text-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -219,7 +217,7 @@
         </div>
     </section>
     {{-- Drawer --}}
-    <div x-data="{ isOpen: @entangle('isOpen') }" x-show="isOpen" class="fixed inset-0 z-40 bg-gray-500 bg-opacity-35"
+    <div x-data="{ isOpen: @entangle('isOpen') }" x-show="isOpen" class="fixed inset-0 z-100 bg-gray-500 bg-opacity-35"
         @click="isOpen = false">
         <div class="fixed top-0 left-0 z-50 w-3/5 h-full p-4 transition-transform transform bg-white shadow-xl"
             @click.stop x-show="isOpen" x-transition:enter="transition ease-out duration-300"
