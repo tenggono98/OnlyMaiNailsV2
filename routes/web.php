@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user/login', \App\Livewire\Login::class)->name('user.login');
 // Can be access as "Guest"
 //Route::get('/',\App\Livewire\NewUI\Homepage::class)->name('home');
-Route::get('/services',\App\Livewire\Services::class)->name('services');
+// Route::get('/services',\App\Livewire\Services::class)->name('services');
 Route::get('/book',\App\Livewire\Book::class)->middleware('throttle:20,1')->name('book');
 Route::get('/contact_us',\App\Livewire\ContactUs::class)->name('contact_us');
 // Route::get('/product',\App\Livewire\Product::class)->name('product');
