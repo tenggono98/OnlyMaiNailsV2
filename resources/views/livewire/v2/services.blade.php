@@ -5,13 +5,13 @@
         @php
             $image_link = '';
             if($card->name_service_categori == 'Gel-X')
-                $image_link = 'https://media.discordapp.net/attachments/851045333101576212/1326658808629563402/4DF192A0-0CE2-4E91-9131-E0866D07E4F6.jpg?ex=67877b0c&is=6786298c&hm=31a3f7d2dab61f10afe8113f79b2930c1f282c7c229957d9cfc665519d04878b&=&format=webp&width=1256&height=1262';
+                $image_link = asset('img/IMG_3195.jpg');
             elseif($card->name_service_categori == 'Builder Gel Overlay')
-                $image_link = 'https://media.discordapp.net/attachments/851045333101576212/1326658808143151124/IMG_1006.jpg?ex=67877b0b&is=6786298b&hm=fa420d24c62f47e192470e7acd3d68f5fa3f7863e9a69ad294145701da26751b&=&format=webp&width=946&height=1262';
+            $image_link = asset('img/IMG_1002.jpg');
             elseif($card->name_service_categori == 'Removal')
-            $image_link = 'https://media.discordapp.net/attachments/851045333101576212/1328487851788206132/IMG_3418.jpg?ex=67878af9&is=67863979&hm=a26ef249dd018a75b56d45e5c5964776009f957f998b00c67d6d5fecef42643d&=&format=webp&width=946&height=1262';
+            $image_link = asset('img/IMG_3917.png');
             elseif($card->name_service_categori == 'Other Services')
-                $image_link = 'https://media.discordapp.net/attachments/851045333101576212/1326658804116623503/IMG_3174.jpg?ex=67877b0b&is=6786298b&hm=4bb23d288c0532be60493d5edf65c3e788f452253434bb9a8f9648e552260304&=&format=webp&width=946&height=1262'
+                $image_link = asset('img/IMG_3174.jpg')
         @endphp
         <h1 class="text-3xl  ">{{ $card->name_service_categori }}</h1>
             <div class="grid grid-cols-3 gap-10 mb-5 ">
@@ -37,10 +37,10 @@
     {{-- More Information --}}
         <div class="grid grid-cols-3 gap-10 mb-5">
             <div class="col-span-2">
-                <img src="https://media.discordapp.net/attachments/851045333101576212/1326658807073603584/IMG_1002.jpg?ex=67877b0b&is=6786298b&hm=b565a8d71669e03ca3c2de4c9ce698bc2575b9860027e2a1ba8d070116a865be&=&format=webp&width=1210&height=1262" class="rounded-xl max-h-60 w-full object-cover object-center" alt="">
+                <img src="{{ asset('img/IMG_3195.jpg') }}" class="rounded-xl max-h-60 w-full object-cover object-center" alt="">
             </div>
             <div class="">
-                    <h1 class="text-2xl  text-right mb-5">Have Question?</h1>
+                    <h1 class="text-2xl  text-right mb-5">Have a Question?</h1>
                     <div class="flex flex-col gap-4 float-right">
                     {{-- IG --}}
                     <div class="flex gap-3 justify-end">

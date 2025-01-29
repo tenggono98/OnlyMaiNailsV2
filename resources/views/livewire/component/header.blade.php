@@ -1,18 +1,19 @@
 <div>
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
-    <div class="flex justify-between p-4 lg:p-5 bg-primary  xl:px-32 px-5 ">
+    <div class="flex p-4 lg:p-5 bg-primary  xl:px-32 px-5 ">
 
-        <div class="flex-auto lg:flex-none lg:justify-center ">
+        <div class="flex justify-between w-full ">
             @if (empty(Auth::user()->role))
-                <ul class="flex justify-between gap-4">
-                    <li class="lg:hidden">
+                <ul class="flex justify-between gap-4 w-full">
+                    <li class="lg:hidden ">
                         <h1 class="text-2xl !tracking-widest">OnlyMaiNails</h1>
+                        <small class="text-xs">Thank you for choosing Onlymainails</small>
                     </li>
-                    <div class="flex gap-4">
-                        <li class="hidden lg:block">Already Member?</li>
+                    <ul class="flex gap-4 xl:ml-auto">
+                        <li class="hidden lg:block">Already a Member?</li>
                         <li class="cursor-pointer"><a class="w-full" href="{{ route('user.login') }}">Login</a></li>
                         <li class="cursor-pointer"><a class="w-full" href="{{ route('user.login') }}">Sign Up</a></li>
-                    </div>
+                    </ul>
                 </ul>
             @else
                 <ul class="flex items-center justify-between w-full gap-4 lg:flex lg:justify-center ">

@@ -1,7 +1,7 @@
 <div>
     <div class="">
         {{-- Header Title --}}
-        <div class="mb-10">
+        <div class="mb-10 hidden xl:block">
             <h1 class=" title-h1 julius-sans-one-regular xl:text-center z-30 tracking-[15%] mb-3 ">
                 ONLYMAINAILS</h1>
             <p class="xl:text-xl text-xl xl:text-center tracking-[15%]">Thank you for choosing Onlymainails</p>
@@ -11,19 +11,19 @@
         {{-- Desktop --}}
         <div class="xl:grid grid-cols-4  grid-rows-2 gap-4 h-[40rem] mb-10  hidden ">
             <div class="row-span-2">
-                <img src="https://media.discordapp.net/attachments/851045333101576212/1326658802572984443/IMG_3195.jpg?ex=6786d24a&is=678580ca&hm=e3c768ac0142d8769cf255f404ed8518d1383540bef74a73985fcadfb86e8599&=&format=webp&width=946&height=1262"
+                <img src="{{ asset('img/IMG_0906.jpg') }}"
                     alt="Onlymainails" class="mx-auto rounded-xl w-full h-full object-cover shadow-md">
             </div>
             <div>
-                <img src="https://media.discordapp.net/attachments/851045333101576212/1326658805500481648/Facetune_17-12-2024-15-10-06.jpg?ex=6786d24b&is=678580cb&hm=58656c4a504b9f2aa491781f14319f41717389d8d27a0dcb848e9eb3135f7609&=&format=webp&width=946&height=1262"
+                <img src="{{ asset('img/IMG_1002.jpg') }}"
                     alt="Onlymainails" class="mx-auto rounded-xl w-fit h-full shadow-md object-cover">
             </div>
             <div class="col-start-2 row-start-2">
-                <img src="https://media.discordapp.net/attachments/851045333101576212/1326658808629563402/4DF192A0-0CE2-4E91-9131-E0866D07E4F6.jpg?ex=6786d24c&is=678580cc&hm=91117c094ed5b7224ce659df1b815421e5d6b8d0acfe8b80b6386f6954e79616&=&format=webp&width=1256&height=1262"
+                <img src="{{ asset('img/IMG_1006.jpg') }}"
                     alt="Onlymainails" class="mx-auto rounded-xl w-fit h-full shadow-md object-cover">
             </div>
             <div class="col-span-2 row-span-2 col-start-3 row-start-1">
-                <img src="https://media.discordapp.net/attachments/851045333101576212/1326658809246257234/IMG_0906.jpg?ex=6786d24c&is=678580cc&hm=ffc6fb9bd94bf3daa8f2dc7e6ccfbe1f95761571182b2c65a03391676872079b&=&format=webp&width=946&height=1262"
+                <img src="{{ asset('img/IMG_1787.jpg') }}"
                     alt="Onlymainails" class="mx-auto rounded-xl w-full h-full shadow-md object-cover">
             </div>
         </div>
@@ -151,7 +151,7 @@
             <div class="grid xl:grid-cols-2 grid-cols-1 gap-10">
                 <div class="">
                     {{-- Img --}}
-                    <img src="https://cdn.discordapp.com/attachments/851045333101576212/1318810459171852318/0V9A9949.jpg?ex=678745f3&is=6785f473&hm=605aa568498dd0bc7833db4da64b02ef8fbe6be91303461263373baa1143198d&"
+                    <img src="{{ asset('img/0V9A9946.jpg') }}"
                         class="mx-auto rounded-xl w-full xl:h-[42rem] object-cover shadow-md" alt="">
                     {{-- Img --}}
                     {{-- Caption  --}}

@@ -21,10 +21,10 @@
                 <h1>Payment</h1>
                 <p class="mb-4">Cash or E-transfer only</p>
                 <h1>Location</h1>
-                <p class="mb-4">Atelier House - 5885 Victoria Drive, Vancouver <br>
+                <p class="mb-4">1575 West 6th Avenue, Vancouver, British Columbia V6J1R1 <br>
                 (There is very little parking at the front as the studio is on a busy street, but there are spots a little further down)
                 Not liable for any tickets/towing</p>
-                <iframe class="mb-4" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2605.402148459731!2d-123.06838252332336!3d49.23086427138506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54867511f1d735db%3A0xb592efb8e1da700f!2sAtelier%20House!5e0!3m2!1sen!2sid!4v1719058013808!5m2!1sen!2sid" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe class="mb-4" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2603.5295883764643!2d-123.1401908!3d49.266361499999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x548673c86fe6431d%3A0xdf5b49dddbcddb5e!2s1575%20W%206th%20Ave%2C%20Vancouver%2C%20BC%20V6J%201R1%2C%20Canada!5e0!3m2!1sen!2sid!4v1736835948202!5m2!1sen!2sid" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 <h1>Other Info</h1>
                 <p class="mb-4">Please DM nail inspiration prior to the appointment for the best results!
                 If you need any further assistance with this text or have additional questions, feel free to ask!</p>

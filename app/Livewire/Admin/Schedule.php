@@ -116,7 +116,9 @@ class Schedule extends Component
         $this->alert('warning', 'Status fails to change!');
      }
 
-    
+
+
+
     public function resetForm(){
         $this->reset();
     }
