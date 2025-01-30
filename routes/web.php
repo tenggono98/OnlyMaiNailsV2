@@ -20,10 +20,6 @@ Route::get('/draftui/mail_book',\App\Livewire\DraftUI\BookingMail::class)->name(
 Route::get('/', \App\Livewire\V2\Homepage::class)->name('home');
 Route::get('/services',\App\Livewire\V2\Services::class)->name('services');
 
-
-
-
-
 //NEW UI - END
 // PDF
 Route::get('/pdf', [BookingComplete::class, 'createPDF'])->name('pdf.test');

@@ -45,7 +45,7 @@
             </div>
 
         </div>
-        <div class="bg-[#fadde1] z-10">
+        <div class="bg-primary z-10 flex-shrink">
             @livewire('component.footer')
         </div>
     </div>

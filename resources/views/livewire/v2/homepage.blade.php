@@ -12,19 +12,19 @@
         <div class="xl:grid grid-cols-4  grid-rows-2 gap-4 h-[40rem] mb-10  hidden ">
             <div class="row-span-2">
                 <img src="{{ asset('img/IMG_0906.jpg') }}"
-                    alt="Onlymainails" class="mx-auto rounded-xl w-full h-full object-cover shadow-md">
+                    alt="Onlymainails" class="mx-auto rounded-xl w-full h-full object-cover  shadow-md">
             </div>
             <div>
                 <img src="{{ asset('img/IMG_1002.jpg') }}"
-                    alt="Onlymainails" class="mx-auto rounded-xl w-fit h-full shadow-md object-cover">
+                    alt="Onlymainails" class="mx-auto rounded-xl w-full h-full shadow-md object-cover ">
             </div>
             <div class="col-start-2 row-start-2">
                 <img src="{{ asset('img/IMG_1006.jpg') }}"
-                    alt="Onlymainails" class="mx-auto rounded-xl w-fit h-full shadow-md object-cover">
+                    alt="Onlymainails" class="mx-auto rounded-xl w-full h-full shadow-md object-cover ">
             </div>
             <div class="col-span-2 row-span-2 col-start-3 row-start-1">
                 <img src="{{ asset('img/IMG_1787.jpg') }}"
-                    alt="Onlymainails" class="mx-auto rounded-xl w-full h-full shadow-md object-cover">
+                    alt="Onlymainails" class="mx-auto rounded-xl w-full h-full shadow-md object-cover ">
             </div>
         </div>
         {{-- Desktop --}}
@@ -34,25 +34,25 @@
             <div class="relative h-[20rem] overflow-hidden rounded-lg ">
                 <!-- Item 1 -->
                 <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
-                    <img src="https://picsum.photos/200/300"
+                    <img src="{{ asset('img/IMG_0906.jpg') }}"
                         class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2  object-cover"
                         alt="...">
                 </div>
                 <!-- Item 2 -->
                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="https://picsum.photos/200/300"
+                    <img src="{{ asset('img/IMG_1002.jpg') }}"
                         class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2  object-cover"
                         alt="...">
                 </div>
                 <!-- Item 3 -->
                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="https://picsum.photos/200/300"
+                    <img src="{{ asset('img/IMG_1006.jpg') }}"
                         class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2  object-cover"
                         alt="...">
                 </div>
                 <!-- Item 4 -->
                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="https://picsum.photos/200/300"
+                    <img src="{{ asset('img/IMG_1787.jpg') }}"
                         class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2  object-cover"
                         alt="...">
                 </div>
@@ -217,15 +217,15 @@
                     </svg>
                 </div>
                 <h1
-                    class="xl:text-6xl text-2xl julius-sans-one-regular z-30 tracking-[15%] mb-3 text-left bottom-0 absolute">
+                    class="xl:text-5xl text-2xl julius-sans-one-regular z-30 tracking-[15%] mb-3 text-left bottom-0 absolute">
                     Location</h1>
             </div>
             <div class="">
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2603.5295883764643!2d-123.1401908!3d49.266361499999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x548673c86fe6431d%3A0xdf5b49dddbcddb5e!2s1575%20W%206th%20Ave%2C%20Vancouver%2C%20BC%20V6J%201R1%2C%20Canada!5e0!3m2!1sen!2sid!4v1736835948202!5m2!1sen!2sid"
+                    src="{{ $data_homepage['gmapslinks'] }}"
                     class="w-full min-h-[25rem]" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"></iframe>
-                <small>1575 West 6th Avenue, Vancouver, British Columbia V6J1R1</small>
+                <h1>{{ $data_homepage['address'] }}</h1>
             </div>
         </div>
         {{-- LOCATION --}}
@@ -253,7 +253,7 @@
                     </svg>
                 </div>
                 <h1
-                    class="xl:text-6xl text-2xl julius-sans-one-regular z-30 tracking-[15%] mb-3 text-left bottom-0 absolute">
+                    class="xl:text-5xl text-2xl julius-sans-one-regular z-30 tracking-[15%] mb-3 text-left bottom-0 absolute">
                     Contact Us</h1>
             </div>
             <div class="">
@@ -267,7 +267,7 @@
 
                           <div class="">
                             <h1>Instagram</h1>
-                            <p class="text-2xl underline underline-offset-2">onlymainails</p>
+                            <a class="text-2xl underline underline-offset-2"  href="https://www.instagram.com/{{ $data_homepage['instagram'] }}/">{{ $data_homepage['instagram'] }}</a>
                           </div>
 
                     </div>
@@ -281,7 +281,14 @@
 
                           <div class="">
                             <h1>Email</h1>
-                            <p class="text-2xl underline underline-offset-2">maixesthetics@gmail.com</p>
+                            <a class="text-2xl underline underline-offset-2"
+
+                            href="https://mail.google.com/mail/u/0/
+                            ?to={{ $data_homepage['email'] }}
+                            &su=OnlyMaiNails+Help
+                            &body=Hello+There
+                            &tf=cm"
+                            >{{ $data_homepage['email'] }}</a>
                           </div>
 
                     </div>

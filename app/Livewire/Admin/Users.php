@@ -13,7 +13,7 @@ class Users extends Component
     // Variable for what type user is selected
     public $userType, $users = [];
     // Variable General
-    public $is_edit = false, $id_edit;
+    public $is_edit = false, $id_edit , $id_del;
     // Variable for Note Warning
     public $nameUserWarningNotes, $userNotesWarning,  $id_edit_note, $descriptionWarningNote;
     // Varable for Input
@@ -22,6 +22,9 @@ class Users extends Component
         'type' => ['except' => '']
     ];
     public $exludeResetVariable = ['type', 'userType'];
+    protected $listeners = [
+        'deleteRow'
+    ];
     public function mount($type = null)
     {
         $this->userType = $type;
@@ -38,13 +41,13 @@ class Users extends Component
         if ($this->is_edit == true) {
             $user =  User::find($this->id_edit);
             if ($this->passwordUser !== null || $this->passwordUser !== '')
-                $user->password = encrypt($this->passwordUser);
+                $user->password = Hash::make($this->passwordUser);
         }
         /* ----------------------------------- End ---------------------------------- */
         /* ----------------------------- if created user ---------------------------- */
         else {
             $user = new User();
-            $user->password = encrypt($this->passwordUser);
+            $user->password = Hash::make($this->passwordUser);
         }
         /* ----------------------------------- End ---------------------------------- */
          /* ---------------------- Create new user (admin/user) ---------------------- */
@@ -77,7 +80,7 @@ class Users extends Component
     public function edit($idUser)
     {
         // Reset Input & Assign Variable
-        // $this->resetForm();
+        $this->resetForm();
         $this->is_edit = true;
         $this->id_edit = $idUser;
         /* -------------------------- Get User Information - Begin -------------------------- */
@@ -89,6 +92,25 @@ class Users extends Component
             $this->igUser = $userEdit->ig_tag ?? '';
         }
         /* ----------------------- Get User Information - End ----------------------- */
+    }
+    public function confirmDelete($name, $id)
+    {
+        // Confirm Modal
+        $this->confirm('Are you sure do want to delete Users  <br> "<span class="font-bold"> ' . $name . ' " </span> ?', [
+            'onConfirmed' => 'deleteRow',
+        ]);
+        // Get ID
+        $this->id_del = $id;
+    }
+    public function deleteRow()
+    {
+        $action = ActionDatabase::deleteSingleModel('User', $this->id_del);
+        if ($action)
+            $this->alert('success', 'Data has been delete!');
+        else
+            $this->alert('warning', 'Status fails to delete!');
+        // Reset ID
+        $this->id_del = null;
     }
     public function viewWarningNotes($userId)
     {

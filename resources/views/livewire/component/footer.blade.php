@@ -2,8 +2,8 @@
     {{-- Do your work, then step back. --}}
     <div class="grid gap-5 px-10 py-10 lg:px-20 lg:grid-cols-4">
         {{-- Image --}}
-        <div class="">
-            <img src="{{ asset('img/transparant-logo.png') }}" alt="">
+        <div class="flex items-center justify-center">
+            <img src="{{ asset('img/transparant-logo.png') }}" class="h-40 w-auto" alt="">
         </div>
         {{-- Image --}}
         {{-- Info 1 --}}
@@ -37,18 +37,18 @@
             <h1 class="mb-2 text-2xl uppercase">Quick Links</h1>
             <ul class="">
                 <li class="mb-3">
-                    <a target="_blank" href="https://www.instagram.com/onlymainails/"
+                    <a target="_blank" href="https://www.instagram.com/{{ $data_footer['instagram'] }}/"
                         class="flex items-center gap-1 align-middle">
                         <img src="{{ asset('img/instagram-icon.svg') }}" class="w-auto h-7" alt="">
                         <div class="my-auto ">
-                            <p class="uppercase "> @onlymainails</p>
+                            <p class="uppercase "> @ {{ $data_footer['instagram'] }}</p>
                         </div>
                     </a>
                 </li>
                 <li class="mb-3">
                     <a target="_blank"
                         href="https://mail.google.com/mail/u/0/
-                                                ?to=maixesthetics@gmail.com
+                                                ?to={{ $data_footer['email'] }}
                                                 &su=OnlyMaiNails+Help
                                                 &body=Hello+There
                                                 &tf=cm"
@@ -59,7 +59,7 @@
                                 d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                         </svg>
                         <div class="my-auto ">
-                            <p class="uppercase "> maixesthetics@gmail.com</p>
+                            <p class="uppercase "> {{ $data_footer['email'] }}</p>
                         </div>
                     </a>
                 </li>

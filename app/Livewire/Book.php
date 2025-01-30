@@ -20,6 +20,8 @@ use Illuminate\Validation\ValidationException;
 class Book extends Component
 {
     use LivewireAlert;
+    // Variable Data Information
+    public $dataBook;
     // Variable Input
     public   $indexDate,  $dataBookingDate, $deposit ,$tax;
     // Variable Input (Policies)
@@ -47,13 +49,25 @@ class Book extends Component
     public $flagPolicies = true, $flagInformationClient = false, $flagPickDateAndTime = false, $flagService = false,  $flagSummary = false;
     // ---------------------------------
     protected $listeners = ['selectedDate'];
+    public function mount()
+    {
+         // Set Price for Deposit
+         $this->deposit = SettingWeb::where('name', '=', 'deposit')->first()->value;
+        $settingWeb = SettingWeb::all();
+         $this->dataBook = [
+            'LimitTime' => $settingWeb->where('name', '=', 'LimitDepositPayment_h')->first()->value,
+            'address' => $settingWeb->where('name', '=', 'Address')->first()->value,
+            'gmapLinks' => $settingWeb->where('name', '=', 'gmapsLinks')->first()->value,
+            'email' => $settingWeb->where('name', '=', 'PaymentEmail')->first()->value,
+         ];
+
+    }
     public function render()
     {
         // Set Time Booking
         if ($this->timeBooking)
             $this->selectedTime = TDSchedule::find($this->timeBooking)->time;
-        // Set Price for Deposit
-        $this->deposit = SettingWeb::where('name', '=', 'deposit')->first()->value;
+
         // Get Master Service for table
         $serviceCategory = MServiceCategory::with(['services' => function ($q) {
             $q->where('status', '=', true);

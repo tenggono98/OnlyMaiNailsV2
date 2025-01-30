@@ -15,16 +15,14 @@
                 <h1>Deposit</h1>
                     <ul class="mb-4">
                         <li> All clients are required to send a <span class="font-semibold"> ${{ $deposit }} deposit to book an appointment</span>.</li>
-                        <li>Please send via e-transfer to maixesthetics@gmail.com within 2h of booking, or appointment will not be solidified.</li>
+                        <li>Please send via e-transfer to <span class="font-semibold"> {{ $dataBook['email'] }}</span> within <span class="font-semibold text-red-800">{{ $dataBook['LimitTime'] }} hours </span> of booking, or appointment will not be solidified.</li>
                         <li>Deposit will be subtracted from the total once the service is done.</li>
                     </ul>
                 <h1>Payment</h1>
                 <p class="mb-4">Cash or E-transfer only</p>
                 <h1>Location</h1>
-                <p class="mb-4">1575 West 6th Avenue, Vancouver, British Columbia V6J1R1 <br>
-                (There is very little parking at the front as the studio is on a busy street, but there are spots a little further down)
-                Not liable for any tickets/towing</p>
-                <iframe class="mb-4" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2603.5295883764643!2d-123.1401908!3d49.266361499999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x548673c86fe6431d%3A0xdf5b49dddbcddb5e!2s1575%20W%206th%20Ave%2C%20Vancouver%2C%20BC%20V6J%201R1%2C%20Canada!5e0!3m2!1sen!2sid!4v1736835948202!5m2!1sen!2sid" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <p class="mb-4">{{ $dataBook['address'] }}</p>
+                <iframe class="mb-4" src="{{ $dataBook['gmapLinks'] }}" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 <h1>Other Info</h1>
                 <p class="mb-4">Please DM nail inspiration prior to the appointment for the best results!
                 If you need any further assistance with this text or have additional questions, feel free to ask!</p>

@@ -43,6 +43,43 @@
                         <small>Time limit for the customer to pay the deposit before the order is automatically
                             canceled.</small>
                     </div>
+
+                    <div class="items-center gap-3 ">
+                        <label>Instagram</label>
+                        <div class="flex items-center gap-3 ">
+                            <p class="px-2 py-4">@</p>
+                            <div class="flex-auto">
+                                <x-pages.inputs.text wire:model='instagram' />
+                            </div>
+                        </div>
+                        <small>Instagram handle for the business.</small>
+                    </div>
+                    <div class="items-center gap-3 ">
+                        <label>Address</label>
+                        <div class="flex items-center gap-3 ">
+                            <div class="flex-auto">
+                                <x-pages.inputs.text wire:model='address' />
+                            </div>
+                        </div>
+                        <small>Business address.</small>
+                    </div>
+                    <div class="items-center gap-3 col-span-2 ">
+                        <label>Google Maps Embed Link</label>
+                        <div class="flex items-center gap-3 ">
+                            <div class="flex-auto">
+                                <x-pages.inputs.textarea wire:model='gmap_links' />
+                            </div>
+                        </div>
+                        <small class="px-3">Embed link for Google Maps location.
+                            To get the embed link, follow these steps:
+                            <ol class="px-4">
+                                <li>Open Google Maps and search for the location you want to embed.</li>
+                                <li>Click on the "Share" button.</li>
+                                <li>Select the "Embed a map" tab.</li>
+                                <li>Copy the URL inside the src attribute of the iframe provided.</li>
+                            </ol>
+                        </small>
+                    </div>
                 </div>
             </div>
     </div>

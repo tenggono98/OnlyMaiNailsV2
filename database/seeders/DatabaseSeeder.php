@@ -159,8 +159,17 @@ class DatabaseSeeder extends Seeder
                 ],
                 [
                     'name' => 'Address',
-                    'value' => 'Atelier House - 5885 Victoria Drive, Vancouver'
+                    'value' => '1575 West 6th Avenue, Vancouver, British Columbia V6J1R1'
                 ],
+                [
+                    'name' => 'gmapsLinks',
+                    'value' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2603.5295883764643!2d-123.1401908!3d49.266361499999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x548673c86fe6431d%3A0xdf5b49dddbcddb5e!2s1575%20W%206th%20Ave%2C%20Vancouver%2C%20BC%20V6J%201R1%2C%20Canada!5e0!3m2!1sen!2sid!4v1736835948202!5m2!1sen!2sid'
+                ],
+                [
+                    'name' => 'instagram',
+                    'value' => 'onlymainails'
+                ],
+
 
             ]);
     }

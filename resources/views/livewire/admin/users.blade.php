@@ -93,7 +93,7 @@
                                             </div>
                                             <div class="">
                                                 <x-pages.btn value="Delete" type="danger"
-                                                    wire:click="confirmDelete('{{ $row->name_service }}',{{ $row->id }})" />
+                                                    wire:click="confirmDelete('{{ $row->name }}',{{ $row->id }})" />
                                             </div>
                                         @else
                                             <div class="">
@@ -158,7 +158,7 @@
                                             </div>
                                             <div class="">
                                                 <x-pages.btn value="Delete" type="danger"
-                                                    wire:click="confirmDelete('{{ $row->name_service }}',{{ $row->id }})" />
+                                                    wire:click="confirmDelete('{{ $row->name }}',{{ $row->id }})" />
                                             </div>
                                         @else
                                             <div class="">

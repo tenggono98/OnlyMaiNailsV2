@@ -21,9 +21,8 @@
                         <h1 class="text-2xl">OnlyMaiNails</h1>
                     </li>
 
-                    <div class="hidden gap-4 lg:flex">
-                        <li class="cursor-pointer"><a href="{{ route('user.history_booking') }}">Booking History</a>
-                        </li>
+                    <div class="hidden gap-4 lg:flex ml-auto">
+                        <li class="cursor-pointer"><a href="{{ route('user.history_booking') }}">Booking History</a></li>
                         <li class="cursor-pointer"><a href="{{ route('user.change_profile') }}">Change Profile</a></li>
                     </div>
 
