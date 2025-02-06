@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Template</title>
+    <title>Order Booking</title>
     <style>
         /* Global resets */
         img {
@@ -77,7 +77,7 @@
             text-align: center;
             text-decoration: none;
             margin: 10px 0;
-
+            font-weight: bold;
         }
 
         /* Responsive styles */
@@ -120,10 +120,10 @@
             <table>
                 <tr>
                     <td style="text-align: center;">
-                        <img src="{{ asset('img/logo.png') }}" style="height: auto; max-width: 100%;" alt="OnlyMaiNails Logo" />
-                        <p style="margin-top: 10px; ">{{ $company['name'] }}</p>
-                        <p style="margin: 0;">{{ $company['address'] }}</p>
-                        <p style="margin: 0;">Email: {{ $company['email'] }}</p>
+                        <img src="https://onlymainails.alfonso-tenggono.online/img/transparant-logo.png" style="height: auto; max-width: 100%;" alt="OnlyMaiNails Logo" />
+                        <p style="margin-top: 10px; font-weight: bold;">OnlyMaiNails</p>
+                        <p style="margin: 0;">Atelier House - 5885 Victoria Drive, Vancouver</p>
+                        <p style="margin: 0;">Email: maixesthetics@gmail.com</p>
                     </td>
                 </tr>
             </table>
@@ -135,7 +135,7 @@
                         </td>
                         <td>
                             <p style="margin: 0;">Appointment Schedule for</p>
-                            <p style=" margin: 0;">{{ $mailData['clientName'] }}</p>
+                            <p style="font-weight: bold; margin: 0;">{{ $mailData['clientName'] }}</p>
                         </td>
                     </tr>
                     <tr>
@@ -146,7 +146,7 @@
                             <p style="margin: 0;">Service</p>
                             <ul style="padding-left: 0; list-style: none; margin: 0;">
                                 @foreach ($mailData['services'] as $item)
-                                <li style=" margin: 0;">({{ $item['service']['category']['name_service_categori'] }}) {{ $item['name_service'] }}</li>
+                                <li style="font-weight: bold; margin: 0;">({{ $item['service']['category']['name_service_categori'] }}) {{ $item['name_service'] }}</li>
                                 @endforeach
                             </ul>
                         </td>
@@ -157,23 +157,23 @@
                         </td>
                         <td>
                             <p style="margin: 0;">Date & Time</p>
-                            <p style=" margin: 0;">{{ $mailData['booking_date'] }} | {{ $mailData['booking_time'] }}</p>
+                            <p style="font-weight: bold; margin: 0;">{{ $mailData['booking_date'] }} | {{ $mailData['booking_time'] }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 40px;">
                             <img src="https://img.icons8.com/?size=100&id=11676&format=png&color=000000" style="width: 24px; height: 24px;" alt="Icon">
                         </td>
-                        <td>
+                        {{-- <td>
                             <p style="margin: 0;">Reschedule or Cancel Appointment</p>
                             <p style="margin: 0;">
                                 <a href="{{ route('user.reschedule_or_cancel',['uuid' => $mailData['uuid']])  }}" target="_blank" class="btn">Click Here</a>
                             </p>
                             <p style="margin: 0;">{{ route('user.reschedule_or_cancel',['uuid' => $mailData['uuid']])  }}</p>
-                        </td>
+                        </td> --}}
                     </tr>
                 </table>
-                <p style="font-size: 0.875rem;">We've attached a little guide, with more details about our services and tips to make the most of your visit. We hope you find it helpful!</p>
+                {{-- <p style="font-size: 0.875rem;">We've attached a little guide, with more details about our services and tips to make the most of your visit. We hope you find it helpful!</p> --}}
             </div>
         </div>
     </div>

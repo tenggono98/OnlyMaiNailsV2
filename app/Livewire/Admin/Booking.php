@@ -214,7 +214,7 @@ class Booking extends Component
                 ]
             ];
             // Send Email to Client
-            // Mail::to($booking->client->email)->send(new MailBooking($mailData));
+            Mail::to($booking->client->email)->send(new MailBooking($mailData));
             // Send Notification
             $notif = new Notification;
             $notif->title_notification = 'Deposit Payment Confirm';

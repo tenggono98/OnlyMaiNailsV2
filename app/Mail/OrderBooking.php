@@ -9,30 +9,29 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Mail\Mailables\Attachment;
 
-class MailBooking extends Mailable
+class OrderBooking extends Mailable
 {
     use Queueable, SerializesModels;
-    public $mailData;
 
+    public $mailData;
     // Information about company
     public $company;
+
 
     /**
      * Create a new message instance.
      */
     public function __construct($mailData)
     {
-        //
-        $this->mailData = $mailData;
+         $this->mailData = $mailData;
 
-        // Information about company
-        $this->company = [
-            'name' => 'OnlyMaiNails',
-            'address' => SettingWeb::where('key', '=','Address')->first()->value,
-            'email' => SettingWeb::where('key', '=','PaymentEmail')->first()->value,
-            ];
+         // Information about company
+         $this->company = [
+             'name' => 'OnlyMaiNails',
+             'address' => SettingWeb::where('key', '=','Address')->first()->value,
+             'email' => SettingWeb::where('key', '=','PaymentEmail')->first()->value,
+             ];
     }
 
     /**
@@ -41,7 +40,7 @@ class MailBooking extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'OnlyMaiNails Your Appointment is Confirmed!',
+            subject: 'You have a new order!',
         );
     }
 
@@ -51,7 +50,7 @@ class MailBooking extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.mail-booking'
+            view: 'view.name',
         );
     }
 
@@ -62,10 +61,6 @@ class MailBooking extends Mailable
      */
     public function attachments(): array
     {
-        return [
-             Attachment::fromPath($this->mailData['files'][0]),
-             Attachment::fromPath($this->mailData['files'][1]),
-
-        ];
+        return [];
     }
 }
