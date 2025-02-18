@@ -177,13 +177,14 @@ class RescheduleorCancel extends Component
                 ->subject('Deposit Confirmation Required');
                 });
             } catch (\Exception $e) {
-                $this->alert('danger', 'Failed to send email notification to admin: ' . $item->email);
+                \Log::error('Failed to send email notification to admin: ' . $item->email);
             }
             }
         } catch (\Exception $e) {
-            $this->alert('danger', 'Failed to send email notifications to admins.');
+            \Log::error('Failed to send email notifications to admins: ' . $e->getMessage());
+
         }
-        
+
 
 
 

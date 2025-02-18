@@ -160,11 +160,12 @@ class Book extends Component
                 ->subject('New Booking Notification');
                 });
             } catch (\Exception $e) {
-                $this->alert('danger', 'Failed to send email notification to admin: ' . $item->email);
+                \Log::error('Failed to send email notification to admin: ' . $item->email);
             }
             }
         } catch (\Exception $e) {
-            $this->alert('danger', 'Failed to send email notifications to admins.');
+            \Log::error('Failed to send email notifications to admins: ' . $e->getMessage());
+
         }
 
 
