@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Laravel\Socialite\Facades\Socialite;
-use Exception;
 use App\Models\User;
+use Exception;
+use Illuminate\Routing\Controller;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Routing\Controller;
+use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 class OauthController extends Controller
 {
@@ -30,13 +31,14 @@ class OauthController extends Controller
                 return redirect('/');
 
             }else{
+                $password = Str::random(10);
                 $newUser = User::create([
                     'name' => $user->name,
                     'email' => $user->email,
                     'role' =>'user',
                     'gauth_id'=> $user->id,
                     'gauth_type'=> 'google',
-                    'password' => encrypt('admin@123')
+                    'password' => bcrypt($password)
                 ]);
 
                 Auth::login($newUser);

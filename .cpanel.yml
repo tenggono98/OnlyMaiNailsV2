@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYMENT=1
+    - /usr/local/bin/php /home/onlw4213/public_html/artisan optimize:clear
