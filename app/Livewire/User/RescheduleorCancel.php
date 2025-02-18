@@ -159,21 +159,30 @@ class RescheduleorCancel extends Component
             $booking = TBooking::with('scheduleDateBook','scheduleTimeBook')->where('uuid','=',$this->booking->uuid)->first();
         // Get All admin
         $admin = User::where('role', '=', 'admin')->where('status', '=', true)->get();
-        foreach ($admin as $item) {
-            $bookingLink = route('admin.booking', [
-            'searchBookingCode' => $booking->code_booking,
-            'searchStartDate' => $booking->scheduleDateBook->date_schedule,
-            'searchEndDate' => $booking->scheduleDateBook->date_schedule
-            ]);
+        try {
+            foreach ($admin as $item) {
+            try {
+                $bookingLink = route('admin.booking', [
+                'searchBookingCode' => $booking->code_booking,
+                'searchStartDate' => $booking->scheduleDateBook->date_schedule,
+                'searchEndDate' => $booking->scheduleDateBook->date_schedule
+                ]);
 
-            Mail::raw("Deposit confirmation needed!\n\nBooking Code: " . $booking->code_booking .
-            "\nCustomer Name: " . Auth::user()->name .
-            "\nDate: " . Carbon::parse($booking->scheduleDateBook->date_schedule)->format('d-m-Y') .
-            "\n\nPlease confirm the deposit payment for this booking at:\n" . $bookingLink,
-            function($message) use ($item) {
+                Mail::raw("Deposit confirmation needed!\n\nBooking Code: " . $booking->code_booking .
+                "\nCustomer Name: " . Auth::user()->name .
+                "\nDate: " . Carbon::parse($booking->scheduleDateBook->date_schedule)->format('d-m-Y') .
+                "\n\nPlease confirm the deposit payment for this booking at:\n" . $bookingLink,
+                function($message) use ($item) {
                 $message->to($item->email)
                 ->subject('Deposit Confirmation Required');
-            });
+                });
+            } catch (\Exception $e) {
+                $this->alert('danger', 'Failed to send email notification to admin: ' . $item->email);
+            }
+            }
+        } catch (\Exception $e) {
+            $this->alert('danger', 'Failed to send email notifications to admins.');
+        }
         }
 
 

@@ -152,11 +152,19 @@ class Book extends Component
         // Send Email to Admin
         // Get All admin
         $admin = User::where('role', '=', 'admin')->where('status', '=', true)->get();
-        foreach ($admin as $item) {
-            Mail::raw("New booking received!\n\nBooking Code: " . $booking->code_booking . "\nCustomer Name: " . Auth::user()->name . "\nDate: " . Carbon::parse($booking->scheduleDateBook->date_schedule)->format('d-m-Y') . "\nTime: " . Carbon::parse($this->selectedTime)->format('h:i A') . "\nCode Booking: " . $booking->code_booking, function($message) use ($item) {
+        try {
+            foreach ($admin as $item) {
+            try {
+                Mail::raw("New booking received!\n\nBooking Code: " . $booking->code_booking . "\nCustomer Name: " . Auth::user()->name . "\nDate: " . Carbon::parse($booking->scheduleDateBook->date_schedule)->format('d-m-Y') . "\nTime: " . Carbon::parse($this->selectedTime)->format('h:i A') . "\nCode Booking: " . $booking->code_booking, function($message) use ($item) {
                 $message->to($item->email)
-                    ->subject('New Booking Notification');
-            });
+                ->subject('New Booking Notification');
+                });
+            } catch (\Exception $e) {
+                $this->alert('danger', 'Failed to send email notification to admin: ' . $item->email);
+            }
+            }
+        } catch (\Exception $e) {
+            $this->alert('danger', 'Failed to send email notifications to admins.');
         }
 
 
