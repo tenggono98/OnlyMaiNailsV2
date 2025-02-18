@@ -3,7 +3,7 @@
         {{-- Header Title --}}
         <div class="mb-10 hidden xl:block">
             <h1 class=" title-h1 julius-sans-one-regular xl:text-center z-30 tracking-[15%] mb-3 ">
-                ONLYMAINAILS Git</h1>
+                ONLYMAINAILS</h1>
             <p class="xl:text-xl text-xl xl:text-center tracking-[15%]">Thank you for choosing Onlymainails</p>
         </div>
         {{-- Header Title --}}
