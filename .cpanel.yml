@@ -1,5 +1,6 @@
 ---
 deployment:
-tasks:
-- export DEPLOYPATH=/home/onlw4213/public_html
-- /bin/cp -r * $DEPLOYPATH
+  tasks:
+    - export DEPLOYPATH=/home/onlw4213/public_html
+    - /bin/cp -r * $DEPLOYPATH
+    - /usr/local/bin/php /home/onlw4213/public_html/artisan optimize:clear
