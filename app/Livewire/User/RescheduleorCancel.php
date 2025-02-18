@@ -1,17 +1,19 @@
 <?php
 namespace App\Livewire\User;
-use Carbon\Carbon;
-use App\Models\User;
-use Livewire\Component;
+use App\Models\Notification;
+use App\Models\SettingWeb;
 use App\Models\TBooking;
 use App\Models\TDBooking;
-use App\Models\SettingWeb;
 use App\Models\TDSchedule;
-use App\Models\Notification;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\Component;
+
 class RescheduleorCancel extends Component
 {
     use LivewireAlert;
@@ -44,7 +46,7 @@ class RescheduleorCancel extends Component
         }
         // Get data Avilabel Schedule booking
 
-        
+
 
     }
     public function render()
@@ -152,6 +154,31 @@ class RescheduleorCancel extends Component
             $notif->url = route('admin.booking',['searchBookingCode' => $this->booking->code_booking,'searchStartDate' => $this->booking->scheduleDateBook->date_schedule,'searchEndDate' => $this->booking->scheduleDateBook->date_schedule]);
             $notif->created_by = Auth::id();
             $notif->save();
+
+            // Send Email to Admin
+            $booking = TBooking::with('scheduleDateBook','scheduleTimeBook')->where('uuid','=',$this->booking->uuid)->first();
+        // Get All admin
+        $admin = User::where('role', '=', 'admin')->where('status', '=', true)->get();
+        foreach ($admin as $item) {
+            $bookingLink = route('admin.booking', [
+            'searchBookingCode' => $booking->code_booking,
+            'searchStartDate' => $booking->scheduleDateBook->date_schedule,
+            'searchEndDate' => $booking->scheduleDateBook->date_schedule
+            ]);
+
+            Mail::raw("Deposit confirmation needed!\n\nBooking Code: " . $booking->code_booking .
+            "\nCustomer Name: " . Auth::user()->name .
+            "\nDate: " . Carbon::parse($booking->scheduleDateBook->date_schedule)->format('d-m-Y') .
+            "\n\nPlease confirm the deposit payment for this booking at:\n" . $bookingLink,
+            function($message) use ($item) {
+                $message->to($item->email)
+                ->subject('Deposit Confirmation Required');
+            });
+        }
+
+
+
+
             if($notif)
                 $this->alert('success', 'Your schedule is being confirmed by our admin. Please wait a moment.');
             }

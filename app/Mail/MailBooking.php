@@ -30,8 +30,8 @@ class MailBooking extends Mailable
         // Information about company
         $this->company = [
             'name' => 'OnlyMaiNails',
-            'address' => SettingWeb::where('key', '=','Address')->first()->value,
-            'email' => SettingWeb::where('key', '=','PaymentEmail')->first()->value,
+            'address' => SettingWeb::where('name', '=','Address')->first()->value,
+            'email' => SettingWeb::where('name', '=','PaymentEmail')->first()->value,
             ];
     }
 

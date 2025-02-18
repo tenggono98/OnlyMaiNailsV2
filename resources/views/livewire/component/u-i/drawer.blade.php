@@ -7,7 +7,7 @@
 
         {{-- Drawer --}}
         <div class="fixed inset-0 z-40 bg-gray-500 bg-opacity-35" x-show="$wire.isOpen" x-cloak>
-            <div class="fixed left-0 top-0 h-full w-3/5 bg-white z-50 shadow-xl transition-transform transform"
+            <div class="fixed left-0 top-0 h-full w-3/5 bg-white z-40 shadow-xl transition-transform transform"
                 x-show="$wire.isOpen" x-transition:enter="transition ease-out duration-300"
                 x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
                 x-transition:leave="transition ease-in duration-300" x-transition:leave-start="translate-x-0"

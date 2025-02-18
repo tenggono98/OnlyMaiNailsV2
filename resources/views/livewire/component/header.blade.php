@@ -44,7 +44,7 @@
                                     </button>
                                     <!-- Dropdown Container -->
                                     <div id="dropdown"
-                                        class="absolute right-0 z-50 hidden w-64 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg"
+                                        class="absolute right-0  hidden w-64 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg"
                                         wire:ignore.self wire:poll.10s>
                                         <!-- Dropdown Header -->
                                         <div class="flex items-center justify-between p-4 border-b">
@@ -131,10 +131,10 @@
             @endif
         </div>
     </div>
-    <section id="nav-dekstop" class="bg-primary p-5 hidden lg:sticky lg:block  lg:top-0 lg:z-10  xl:px-32 px-5 ">
+    <section id="nav-dekstop" class="bg-primary p-5 hidden lg:sticky lg:block  lg:top-0   xl:px-32 px-5 ">
         <div class="flex justify-between w-full ">
             {{-- Logo --}}
-            <div class="">
+            <div class="">`
                 <h1 class="julius-sans-one-regular text-4xl !tracking-[15%] ">ONLYMAINAILS</h1>
             </div>
             {{-- Logo --}}
@@ -152,7 +152,7 @@
             {{-- Menu --}}
         </div>
     </section>
-    <section id="nav-mobile" class="bg-primary px-5 lg:hidden fixed bottom-0 w-full z-70 rounded-t-lg ">
+    <section id="nav-mobile" class="bg-primary px-5 lg:hidden fixed bottom-0 w-full  rounded-t-lg ">
         <div class="flex justify-between w-full p-2">
             {{-- Menu --}}
             <div class="flex items-center w-full justify-evenly">
@@ -217,9 +217,9 @@
         </div>
     </section>
     {{-- Drawer --}}
-    <div x-data="{ isOpen: @entangle('isOpen') }" x-show="isOpen" class="fixed inset-0 z-100 bg-gray-500 bg-opacity-35"
+    <div x-data="{ isOpen: @entangle('isOpen') }" x-show="isOpen" class="fixed inset-0  bg-gray-500 bg-opacity-35"
         @click="isOpen = false">
-        <div class="fixed top-0 left-0 z-50 w-3/5 h-full p-4 transition-transform transform bg-white shadow-xl"
+        <div class="fixed top-0 left-0 z-40 w-3/5 h-full p-4 transition-transform transform bg-white shadow-xl"
             @click.stop x-show="isOpen" x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
             x-transition:leave="transition ease-in duration-300" x-transition:leave-start="translate-x-0"

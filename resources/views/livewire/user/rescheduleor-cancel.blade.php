@@ -263,8 +263,7 @@
             </div>
             @endif
         </div>
-    </div>
-    {{-- Modal Reschedule Date - Begin --}}
+         {{-- Modal Reschedule Date - Begin --}}
     <x-pages.modal.modal id='reschedule-modal' title="Reschedule Booking" submitFunction='rescheduleBooking()'>
         <small>
             This can be changed only once and only if it's available within 24 hours of the booking date and time.
@@ -272,6 +271,9 @@
         @livewire('component.module.schedule-selector', ['getSelectedTime' => $booking->scheduleTimeBook->id, 'getSelectedDate' => $booking->scheduleDateBook->id, 'getIndexDate' => '1'])
     </x-pages.modal.modal>
     {{-- Modal Reschedule Date - End --}}
+    </div>
+
+
     {{-- Extra Script --}}
     <script>
         function copyText(text) {

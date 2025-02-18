@@ -40,7 +40,7 @@
             <!-- Page Content -->
             <main>
                 {{ $slot }}
-                lsalkdalkjdl;akjdl;akjsd;lkajsl;kdj
+                
             </main>
         </div>
     </body>

@@ -244,3 +244,8 @@ p , li , span ,a, article , b , small , ::placeholder , select , label {
 }
 
 
+div[modal-backdrop] {
+    z-index:9;
+}
+
+

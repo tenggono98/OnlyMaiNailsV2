@@ -38,7 +38,7 @@
 
             {{-- Appointment Details --}}
             <ul class="list-unstyled">
-                <li><p class="fw-bold">Appointment Details</p></li>
+                <li><p class="">Appointment Details</p></li>
                 <li><small>Here, you’ll see a quick overview of your appointment. It includes the type of service you booked, along with the date and time. This helps you double-check everything before your visit.</small></li>
                 <li>
                     <div class="mt-3 table-responsive">
@@ -60,17 +60,17 @@
 
             {{-- Summary of Order --}}
             <ul class="list-unstyled">
-                <li><p class="fw-bold">Summary Of Order</p></li>
+                <li><p class="">Summary Of Order</p></li>
                 <li><small>This section shows what you’ve ordered, including each item or service and its price. It gives you a clear picture of what you're paying for and the total amount.</small></li>
-                <li><p>Number of People : <span class="fw-bold">{{ $qty_people }}</span></p></li>
+                {{-- <li><p>Number of People : <span class="">{{ $qty_people }}</span></p></li> --}}
                 <li>
                     <div class="mt-3 table-responsive">
                         <table class="table table-borderless table-sm">
-                            <thead class="table-light text-uppercase">
+                            <thead class="table-light ">
                                 <tr>
-                                    <th scope="col">Service Name</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col" class="text-right">Subtotal</th>
+                                    <th scope="">Service Name</th>
+                                    <th scope="">Price</th>
+                                    <th scope="" class="text-right">Subtotal</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -132,7 +132,7 @@
 
             {{-- Location Detail --}}
             <ul class="list-unstyled">
-                <li><p class="fw-bold">Location Detail</p></li>
+                <li><p class="">Location Detail</p></li>
                 <li><small>This part tells you where to go for your appointment. It includes the address and any important details you might need to find us easily.</small></li>
                 <li>
                     <div class="mt-3 table-responsive">
@@ -160,7 +160,7 @@
 
             {{-- Reschedule Link --}}
             <ul class="list-unstyled">
-                <li><p class="fw-bold">Change Appointment</p></li>
+                <li><p class="">Change Appointment</p></li>
                 <li><small>If you need to reschedule or change your appointment, click this link. It’s an easy way to update your booking to a new time that works better for you.</small></li>
                 <li>
                     <div class="mt-3 table-responsive">

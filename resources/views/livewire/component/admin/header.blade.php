@@ -135,7 +135,7 @@
                     </button>
                     <!-- Dropdown Container -->
                     <div id="dropdown"
-                        class="absolute right-0 z-50 hidden w-64 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg"
+                        class="absolute right-0 z-40 hidden w-64 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg"
                         wire:ignore.self wire:poll.10s>
                         <!-- Dropdown Header -->
                         <div class="flex items-center justify-between p-4 border-b">

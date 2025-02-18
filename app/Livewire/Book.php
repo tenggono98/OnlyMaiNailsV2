@@ -1,22 +1,24 @@
 <?php
 namespace App\Livewire;
-use Carbon\Carbon;
-use App\Models\User;
-use Livewire\Component;
+use App\Livewire\Actions\Logout;
 use App\Models\MService;
+use App\Models\MServiceCategory;
+use App\Models\SettingWeb;
 use App\Models\TBooking;
 use App\Models\TDBooking;
-use App\Models\TSchedule;
-use App\Models\SettingWeb;
-use App\Livewire\Actions\Logout;
-use App\Models\MServiceCategory;
 use App\Models\TDSchedule;
-use Livewire\Attributes\Validate;
+use App\Models\TSchedule;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Illuminate\Validation\ValidationException;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\Attributes\Validate;
+use Livewire\Component;
+
 class Book extends Component
 {
     use LivewireAlert;
@@ -146,6 +148,19 @@ class Book extends Component
             $detailBooking->save();
         }
         $uuidBooking = $booking->uuid;
+
+        // Send Email to Admin
+        // Get All admin
+        $admin = User::where('role', '=', 'admin')->where('status', '=', true)->get();
+        foreach ($admin as $item) {
+            Mail::raw("New booking received!\n\nBooking Code: " . $booking->code_booking . "\nCustomer Name: " . Auth::user()->name . "\nDate: " . Carbon::parse($booking->scheduleDateBook->date_schedule)->format('d-m-Y') . "\nTime: " . Carbon::parse($this->selectedTime)->format('h:i A') . "\nCode Booking: " . $booking->code_booking, function($message) use ($item) {
+                $message->to($item->email)
+                    ->subject('New Booking Notification');
+            });
+        }
+
+
+
         return redirect(route('user.reschedule_or_cancel', ['uuid' => $uuidBooking]));
     }
     // Service Section

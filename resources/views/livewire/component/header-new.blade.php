@@ -219,9 +219,9 @@
         </div>
     </section>
     {{-- Drawer --}}
-    <div x-data="{ isOpen: @entangle('isOpen') }" x-show="isOpen" class="fixed inset-0 z-40 bg-gray-500 bg-opacity-35"
+    <div x-data="{ isOpen: @entangle('isOpen') }" x-show="isOpen" class="fixed inset-0  bg-gray-500 bg-opacity-35"
         @click="isOpen = false">
-        <div class="fixed top-0 left-0 z-50 w-3/5 h-full p-4 transition-transform transform bg-white shadow-xl"
+        <div class="fixed top-0 left-0 z-40 w-3/5 h-full p-4 transition-transform transform bg-white shadow-xl"
             @click.stop x-show="isOpen" x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
             x-transition:leave="transition ease-in duration-300" x-transition:leave-start="translate-x-0"

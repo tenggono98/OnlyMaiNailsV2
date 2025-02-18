@@ -9,6 +9,7 @@
         "barryvdh/laravel-dompdf": "^2.2",
         "jantinnerezo/livewire-alert": "^3.0",
         "laravel/framework": "^11.9",
+        "laravel/octane": "^2.7",
         "laravel/socialite": "^5.14",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
