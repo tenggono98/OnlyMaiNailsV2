@@ -183,7 +183,7 @@ class RescheduleorCancel extends Component
         } catch (\Exception $e) {
             $this->alert('danger', 'Failed to send email notifications to admins.');
         }
-        }
+        
 
 
 
