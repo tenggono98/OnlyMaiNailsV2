@@ -231,11 +231,11 @@
                         <div class="flex gap-3">
                             <div class="flex-auto">
                                     <x-pages.btn value="Edit" type="info" data-modal-target="add-modal"
-                                        data-modal-toggle="add-modal" wire:click='editInlineNote({{ $row->id }})' />
+                                        data-modal-toggle="add-modal" wire:click='editInlineNote({{ $note->id }})' />
                             </div>
                             <div class="flex-auto">
                                 <x-pages.btn value="Delete" wire:confirm='Are you sure want to delete this note ?' type="danger"
-                                     wire:click='DeleteInlineNote({{ $row->id }})' />
+                                     wire:click='DeleteInlineNote({{ $note->id }})' />
                         </div>
 
                         </div>

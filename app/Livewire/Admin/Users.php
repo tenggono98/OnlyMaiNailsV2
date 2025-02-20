@@ -15,7 +15,7 @@ class Users extends Component
     // Variable General
     public $is_edit = false, $id_edit , $id_del;
     // Variable for Note Warning
-    public $nameUserWarningNotes, $userNotesWarning,  $id_edit_note, $descriptionWarningNote;
+    public $nameUserWarningNotes, $userNotesWarning,  $id_edit_note, $userNotesFor, $descriptionWarningNote;
     // Varable for Input
     public $fullnameUser, $phoneUser, $emailUser, $passwordUser, $igUser;
     protected $queryString = [
@@ -123,18 +123,31 @@ class Users extends Component
     }
     public function saveNote()
     {
-        $note = new UserWarningNotes();
-        $note->note_for = $this->id_edit_note;
-        $note->description_warning_note = $this->descriptionWarningNote;
-        $note->created_by = Auth::id();
-        $note->save();
-        if ($note) {
-            $this->alert('success', 'Note has been successfuly save');
-            $this->descriptionWarningNote = null;
-            $this->userNotesWarning = UserWarningNotes::where('note_for', '=', $this->id_edit_note)->orderBy('id', 'desc')->get();
+        // Check if it's an edit or a new note
+        if ($this->id_edit_note) {
+            $note = UserWarningNotes::find($this->id_edit_note);
+            if ($note) {
+            $note->description_warning_note = $this->descriptionWarningNote;
+            $note->save();
+            $this->alert('success', 'Note has been successfully updated');
+            } else {
+            $this->alert('error', 'Note not found');
+            }
         } else {
-            $this->alert('danger', 'Note has been fail to save');
+            $note = new UserWarningNotes();
+            $note->note_for = $this->id_edit_note;
+            $note->description_warning_note = $this->descriptionWarningNote;
+            $note->created_by = Auth::id();
+            $note->save();
+            if ($note) {
+            $this->alert('success', 'Note has been successfully saved');
+            } else {
+            $this->alert('error', 'Note failed to save');
+            }
         }
+        // Reset the form and refresh the notes list
+        $this->descriptionWarningNote = null;
+        $this->userNotesWarning = UserWarningNotes::where('note_for', '=', $this->id_edit_note)->orderBy('id', 'desc')->get();
     }
     public function resetForm()
     {
@@ -147,5 +160,32 @@ class Users extends Component
             $this->alert('success', 'Status has been change!');
         else
             $this->alert('warning', 'Status fails to change!');
+    }
+
+    public function DeleteInlineNote($id)
+    {
+
+
+        $action = ActionDatabase::deleteSingleModel('UserWarningNotes', $id);
+        if ($action)
+            $this->alert('success', 'Note has been delete!');
+        else
+            $this->alert('warning', 'Status fails to delete!');
+
+    }
+
+    public function editInlineNote($id)
+    {
+        // Find the note by id
+        $note = UserWarningNotes::find($id);
+
+        // Check if note exists
+        if ($note) {
+            // Assign note details to component variables
+            $this->id_edit_note = $note->id;
+            $this->descriptionWarningNote = $note->description_warning_note;
+        } else {
+            $this->alert('warning', 'Note not found!');
+        }
     }
 }
