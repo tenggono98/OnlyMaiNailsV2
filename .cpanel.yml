@@ -4,3 +4,10 @@ deployment:
     - export DEPLOYPATH=/home/onlw4213/public_html/
     - /bin/cp -r * $DEPLOYPATH
     - /usr/local/bin/php /home/onlw4213/public_html/php artisan optimize:clear
+    - cd $DEPLOYPATH
+    # - /usr/local/bin/composer install --no-dev
+    # - /usr/local/bin/npm install
+    # - /usr/local/bin/npm run build
+    # - php artisan migrate --force
+    - php artisan optimize
+    # - php artisan storage:link

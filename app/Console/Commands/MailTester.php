@@ -29,5 +29,7 @@ class MailTester extends Command
         \Mail::raw('This is a test email', function ($message) {
             $message->to('tenggono@gmail.com')->subject('Test Email');
         });
+
+        dd('test');
     }
 }
