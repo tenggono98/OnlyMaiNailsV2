@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\Pdf;
+use App\Models\SettingWeb;
 use App\Models\TBooking;
 use App\Models\TDBooking;
 use Illuminate\View\View;
@@ -19,7 +20,9 @@ class BookingComplete extends Controller
             $masterBooking = TBooking::find('1'),
             $detailBooking = TDBooking::with('service.category')->where('t_booking_id','=','1')->get(),
         ];
-        return view('pdf.booking_complete',compact('data'));
+
+
+        return view('pdf.booking_complete', compact('data', 'info_general'));
     }
     // Generate PDF
     public static function createPDF($id)
@@ -44,7 +47,12 @@ class BookingComplete extends Controller
             'reschedule_token' => $masterBooking->uuid,
             'qty_people' => $masterBooking->qty_people_booking,
             'deposit_price' => $masterBooking->deposit_price_booking,
-            'tax' => $masterBooking->total_price_after_tax_booking ?? null
+            'tax' => $masterBooking->total_price_after_tax_booking ?? null,
+            'email' => SettingWeb::where('name','=', 'PaymentEmail')->first()->value,
+            'address' => SettingWeb::where('name','=', 'Address')->first()->value,
+            'deposit' => SettingWeb::where('name','=', 'Deposit')->first()->value,
+            'instagram' => SettingWeb::where('name','=', 'Instagram')->first()->value,
+            'gmaps' => SettingWeb::where('name','=', 'Gmaps')->first()->value,
         ];
         // Record Document
         $rec_doc = new DocumentRecord();
