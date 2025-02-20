@@ -24,8 +24,8 @@
                         <td>
 
                             <p class="mb-1 h4">OnlyMaiNails</p>
-                            <small>Atelier House - 5885 Victoria Drive, Vancouver</small><br>
-                            <small>Email : maixesthetics@gmail.com</small>
+                            <small>{{ $address }}</small><br>
+                            <small>Email : {{ $email }}</small>
 
                         </td>
                     </tbody>
@@ -140,16 +140,16 @@
                             <tbody>
                                 <tr>
                                     <th scope="row">Address</th>
-                                    <td>Atelier House - 5885 Victoria Drive, Vancouver</td>
+                                    <td>{{ $address }}</td>
                                 </tr>
-                                <tr>
+                                {{-- <tr>
                                     <th scope="row">Notes</th>
                                     <td>(There is very little parking at the front as the studio is on a busy street, but there are spots a little further down) Not liable for any tickets/towing</td>
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <th scope="row">Google Maps Links</th>
-                                    <td><a href="https://maps.app.goo.gl/6Af9scsusebfNWEL8" class="text-decoration-underline" target="_blank">Atelier House</a><br>
-                                    <a href="https://maps.app.goo.gl/6Af9scsusebfNWEL8">(https://maps.app.goo.gl/6Af9scsusebfNWEL8)</a>
+                                    <td><a href="{{ $gmaps }}" class="text-decoration-underline" target="_blank">{{ $address }}</a><br>
+                                    <a href="{{ $gmaps }} ">({{ $gmaps }})</a>
                                     </td>
                                 </tr>
                             </tbody>

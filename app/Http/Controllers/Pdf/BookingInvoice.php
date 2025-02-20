@@ -52,7 +52,11 @@ class BookingInvoice extends Controller
             'invoice_number' =>  Str::upper(generateUUID(5)),
             'email_payment' => SettingWeb::where('name', '=', 'paymentEmail')->first()->value,
             'account_payment' => SettingWeb::where('name', '=', 'PaymentAccount')->first()->value,
-            'address' => SettingWeb::where('name', '=', 'Address')->first()->value,
+            'email' => SettingWeb::where('name','=', 'PaymentEmail')->first()->value,
+            'address' => SettingWeb::where('name','=', 'Address')->first()->value,
+            'deposit' => SettingWeb::where('name','=', 'Deposit')->first()->value,
+            'instagram' => SettingWeb::where('name','=', 'Instagram')->first()->value,
+            'gmaps' => SettingWeb::where('name','=', 'Gmaps')->first()->value,
         ];
         // Record Document
         $rec_doc = new DocumentRecord();
