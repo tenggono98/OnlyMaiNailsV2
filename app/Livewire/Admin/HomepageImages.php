@@ -64,7 +64,7 @@ class HomepageImages extends Component
             'alt_text' => $this->altText,
             'section' => $this->section,
             'display_order' => $this->displayOrder,
-            'status' => true
+            'status' => '1'
         ]);
 
         $this->reset(['newImage', 'altText', 'displayOrder']);
@@ -76,7 +76,8 @@ class HomepageImages extends Component
     {
         $image = HomepageImage::find($id);
         if ($image) {
-            $image->status = !$image->status;
+            // Convert current status to opposite value ('1' to '0' or '0' to '1')
+            $image->status = $image->status === '1' ? '0' : '1';
             $image->save();
             $this->loadImages();
             $this->alert('success', 'Status updated successfully');

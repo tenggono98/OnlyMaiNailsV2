@@ -20,6 +20,10 @@ class HomepageImage extends Model
         'updated_by'
     ];
 
+    protected $casts = [
+        'status' => 'string'
+    ];
+
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
