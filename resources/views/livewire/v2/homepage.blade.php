@@ -9,120 +9,84 @@
         {{-- Header Title --}}
         {{-- Container - Image --}}
         {{-- Desktop --}}
-        <div class="xl:grid grid-cols-4  grid-rows-2 gap-4 h-[40rem] mb-10  hidden ">
-            <div class="row-span-2">
-                <img src="{{ asset('img/IMG_0906.jpg') }}"
-                    alt="Onlymainails" class="mx-auto rounded-xl w-full h-full object-cover  shadow-md">
-            </div>
-            <div>
-                <img src="{{ asset('img/IMG_1002.jpg') }}"
-                    alt="Onlymainails" class="mx-auto rounded-xl w-full h-full shadow-md object-cover ">
-            </div>
-            <div class="col-start-2 row-start-2">
-                <img src="{{ asset('img/IMG_1006.jpg') }}"
-                    alt="Onlymainails" class="mx-auto rounded-xl w-full h-full shadow-md object-cover ">
-            </div>
-            <div class="col-span-2 row-span-2 col-start-3 row-start-1">
-                <img src="{{ asset('img/IMG_1787.jpg') }}"
-                    alt="Onlymainails" class="mx-auto rounded-xl w-full h-full shadow-md object-cover ">
-            </div>
+        <div class="xl:grid grid-cols-4 grid-rows-2 gap-4 h-[40rem] mb-10 hidden">
+            @foreach($headerImages as $index => $image)
+                @if($index === 0)
+                <div class="row-span-2">
+                    <img src="{{ asset('storage/' . $image->image_path) }}"
+                        alt="{{ $image->alt_text }}" class="mx-auto rounded-xl w-full h-full object-cover shadow-md">
+                </div>
+                @elseif($index === 1)
+                <div>
+                    <img src="{{ asset('storage/' . $image->image_path) }}"
+                        alt="{{ $image->alt_text }}" class="mx-auto rounded-xl w-full h-full shadow-md object-cover">
+                </div>
+                @elseif($index === 2)
+                <div class="col-start-2 row-start-2">
+                    <img src="{{ asset('storage/' . $image->image_path) }}"
+                        alt="{{ $image->alt_text }}" class="mx-auto rounded-xl w-full h-full shadow-md object-cover">
+                </div>
+                @elseif($index === 3)
+                <div class="col-span-2 row-span-2 col-start-3 row-start-1">
+                    <img src="{{ asset('storage/' . $image->image_path) }}"
+                        alt="{{ $image->alt_text }}" class="mx-auto rounded-xl w-full h-full shadow-md object-cover">
+                </div>
+                @endif
+            @endforeach
         </div>
         {{-- Desktop --}}
         {{-- Mobile --}}
-        <div id="indicators-carousel" class="relative w-full  mb-10 h-[20rem] xl:hidden " data-carousel="static">
+        <div id="indicators-carousel" class="relative w-full mb-10 h-[20rem] xl:hidden" data-carousel="static">
             <!-- Carousel wrapper -->
-            <div class="relative h-[20rem] overflow-hidden rounded-lg ">
-                <!-- Item 1 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
-                    <img src="{{ asset('img/IMG_0906.jpg') }}"
-                        class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2  object-cover"
-                        alt="...">
+            <div class="relative h-[20rem] overflow-hidden rounded-lg">
+                @foreach($headerImages as $index => $image)
+                <div class="hidden duration-700 ease-in-out" data-carousel-item="{{ $index === 0 ? 'active' : '' }}">
+                    <img src="{{ asset('storage/' . $image->image_path) }}"
+                        class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 object-cover"
+                        alt="{{ $image->alt_text }}">
                 </div>
-                <!-- Item 2 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="{{ asset('img/IMG_1002.jpg') }}"
-                        class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2  object-cover"
-                        alt="...">
-                </div>
-                <!-- Item 3 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="{{ asset('img/IMG_1006.jpg') }}"
-                        class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2  object-cover"
-                        alt="...">
-                </div>
-                <!-- Item 4 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="{{ asset('img/IMG_1787.jpg') }}"
-                        class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2  object-cover"
-                        alt="...">
-                </div>
+                @endforeach
             </div>
             <!-- Slider indicators -->
             <div class="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2">
-                <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1"
-                    data-carousel-slide-to="0"></button>
-                <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2"
-                    data-carousel-slide-to="1"></button>
-                <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3"
-                    data-carousel-slide-to="2"></button>
-                <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 4"
-                    data-carousel-slide-to="3"></button>
-                <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 5"
-                    data-carousel-slide-to="4"></button>
+                @foreach($headerImages as $index => $image)
+                <button type="button" class="w-3 h-3 rounded-full" 
+                    aria-current="{{ $index === 0 ? 'true' : 'false' }}" 
+                    aria-label="Slide {{ $index + 1 }}"
+                    data-carousel-slide-to="{{ $index }}">
+                </button>
+                @endforeach
             </div>
-            <!-- Slider controls -->
-
         </div>
         {{-- Mobile --}}
         {{-- Container - Image --}}
         {{-- Container - Promo --}}
-        <div id="indicators-carousel" class="relative w-full xl:mb-10 mb-10 xl:h-36 " data-carousel="static">
+        <div id="indicators-carousel" class="relative w-full xl:mb-10 mb-10 xl:h-36" data-carousel="static">
             <!-- Carousel wrapper -->
             <div class="relative h-56 overflow-hidden rounded-lg md:h-36">
-                <!-- Item 1 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
-                    <img src="https://picsum.photos/200/300"
-                        class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2  object-cover"
-                        alt="...">
+                @foreach($promoImages as $index => $image)
+                <div class="hidden duration-700 ease-in-out" data-carousel-item="{{ $index === 0 ? 'active' : '' }}">
+                    <img src="{{ asset('storage/' . $image->image_path) }}"
+                        class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 object-cover"
+                        alt="{{ $image->alt_text }}">
                 </div>
-                <!-- Item 2 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="https://picsum.photos/200/300"
-                        class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2  object-cover"
-                        alt="...">
-                </div>
-                <!-- Item 3 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="https://picsum.photos/200/300"
-                        class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2  object-cover"
-                        alt="...">
-                </div>
-                <!-- Item 4 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="https://picsum.photos/200/300"
-                        class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2  object-cover"
-                        alt="...">
-                </div>
+                @endforeach
             </div>
             <!-- Slider indicators -->
             <div class="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2">
-                <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1"
-                    data-carousel-slide-to="0"></button>
-                <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2"
-                    data-carousel-slide-to="1"></button>
-                <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3"
-                    data-carousel-slide-to="2"></button>
-                <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 4"
-                    data-carousel-slide-to="3"></button>
-                <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 5"
-                    data-carousel-slide-to="4"></button>
+                @foreach($promoImages as $index => $image)
+                <button type="button" class="w-3 h-3 rounded-full" 
+                    aria-current="{{ $index === 0 ? 'true' : 'false' }}" 
+                    aria-label="Slide {{ $index + 1 }}"
+                    data-carousel-slide-to="{{ $index }}">
+                </button>
+                @endforeach
             </div>
             <!-- Slider controls -->
             <button type="button"
                 class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
                 data-carousel-prev>
-                <span
-                    class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                     <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -134,8 +98,7 @@
             <button type="button"
                 class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
                 data-carousel-next>
-                <span
-                    class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                     <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -222,7 +185,7 @@
             </div>
             <div class="">
                 <iframe
-                    src="{{ $data_homepage['gmapslinks'] }}"
+                    src="{{ $data_homepage['gmapsLinks'] }}"
                     class="w-full min-h-[25rem]" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"></iframe>
                 <h1>{{ $data_homepage['address'] }}</h1>

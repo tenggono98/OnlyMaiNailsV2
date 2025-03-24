@@ -12,6 +12,8 @@ class Setting extends Component
     use LivewireAlert;
     #[Validate('required')]
     public $tax, $deposit, $emailPayment, $limitDepositTime , $address , $gmap_links , $instagram ;
+
+    public $banners = [];
     public function render()
     {
         $settingWeb = SettingWeb::all();
@@ -22,6 +24,9 @@ class Setting extends Component
         $this->address = $settingWeb->where('name', '=', 'Address')->first()->value;
         $this->gmap_links = $settingWeb->where('name', '=', 'gmapsLinks')->first()->value;
         $this->instagram = $settingWeb->where('name', '=', 'instagram')->first()->value;
+
+        // Benner
+
 
         return view('livewire.admin.setting', compact('settingWeb'))->layout('components.layouts.app-admin');
     }
