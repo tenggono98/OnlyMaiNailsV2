@@ -9,6 +9,8 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap" rel="stylesheet">
+        <!-- ApexCharts for dashboard visualizations -->
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     </head>
     <body class="bg-gray-100 ">
 
@@ -29,6 +31,9 @@
 
     <x-livewire-alert::scripts />
 
+    <!-- Stack for pushing scripts from individual pages -->
+    @stack('scripts')
+
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script> --}}
 
     {{-- <script>
@@ -38,8 +43,5 @@
             });
         });
     </script> --}}
-
-
-
 
 </html>

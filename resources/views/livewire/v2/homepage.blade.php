@@ -36,7 +36,7 @@
         </div>
         {{-- Desktop --}}
         {{-- Mobile --}}
-        <div id="indicators-carousel" class="relative w-full mb-10 h-[20rem] xl:hidden" data-carousel="static">
+        <div id="indicators-carousel2" class="relative w-full mb-10 h-[20rem] xl:hidden" data-carousel="static">
             <!-- Carousel wrapper -->
             <div class="relative h-[20rem] overflow-hidden rounded-lg">
                 @foreach($headerImages as $index => $image)
@@ -50,8 +50,8 @@
             <!-- Slider indicators -->
             <div class="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2">
                 @foreach($headerImages as $index => $image)
-                <button type="button" class="w-3 h-3 rounded-full" 
-                    aria-current="{{ $index === 0 ? 'true' : 'false' }}" 
+                <button type="button" class="w-3 h-3 rounded-full"
+                    aria-current="{{ $index === 0 ? 'true' : 'false' }}"
                     aria-label="Slide {{ $index + 1 }}"
                     data-carousel-slide-to="{{ $index }}">
                 </button>
@@ -75,8 +75,8 @@
             <!-- Slider indicators -->
             <div class="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2">
                 @foreach($promoImages as $index => $image)
-                <button type="button" class="w-3 h-3 rounded-full" 
-                    aria-current="{{ $index === 0 ? 'true' : 'false' }}" 
+                <button type="button" class="w-3 h-3 rounded-full"
+                    aria-current="{{ $index === 0 ? 'true' : 'false' }}"
                     aria-label="Slide {{ $index + 1 }}"
                     data-carousel-slide-to="{{ $index }}">
                 </button>

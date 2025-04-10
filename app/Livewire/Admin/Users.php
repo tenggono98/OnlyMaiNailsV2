@@ -15,7 +15,7 @@ class Users extends Component
     // Variable General
     public $is_edit = false, $id_edit , $id_del;
     // Variable for Note Warning
-    public $nameUserWarningNotes, $userNotesWarning,  $id_edit_note, $userNotesFor, $descriptionWarningNote;
+    public $nameUserWarningNotes, $userNotesWarning, $id_edit_note, $note_id, $userNotesFor, $descriptionWarningNote;
     // Varable for Input
     public $fullnameUser, $phoneUser, $emailUser, $passwordUser, $igUser;
     protected $queryString = [
@@ -118,36 +118,62 @@ class Users extends Component
         $user = User::find($userId);
         $this->nameUserWarningNotes = $user->name;
         $this->id_edit_note = $userId;
+        $this->note_id = null; // Reset note_id when viewing warning notes
         // Get All Notes related to user
         $this->userNotesWarning = UserWarningNotes::where('note_for', '=', $userId)->orderBy('id', 'desc')->get();
     }
+
     public function saveNote()
     {
-        // Check if it's an edit or a new note
-        if ($this->id_edit_note) {
-            $note = UserWarningNotes::find($this->id_edit_note);
+        // Validate that we have a description
+        if (!$this->descriptionWarningNote) {
+            $this->alert('error', 'Note description is required');
+            return;
+        }
+
+        // Check if we're editing an existing note or creating a new one
+        if ($this->note_id) {
+            // Editing existing note
+            $note = UserWarningNotes::find($this->note_id);
+
             if ($note) {
-            $note->description_warning_note = $this->descriptionWarningNote;
-            $note->save();
-            $this->alert('success', 'Note has been successfully updated');
+                $note->description_warning_note = $this->descriptionWarningNote;
+                $note->save();
+
+                $this->alert('success', 'Note has been updated successfully');
             } else {
-            $this->alert('error', 'Note not found');
+                $this->alert('error', 'Note not found');
             }
         } else {
+            // Creating new note
+            if (!$this->id_edit_note) {
+                $this->alert('error', 'User not selected');
+                return;
+            }
+
             $note = new UserWarningNotes();
             $note->note_for = $this->id_edit_note;
             $note->description_warning_note = $this->descriptionWarningNote;
             $note->created_by = Auth::id();
             $note->save();
+
             if ($note) {
-            $this->alert('success', 'Note has been successfully saved');
+                $this->alert('success', 'New note has been added successfully');
             } else {
-            $this->alert('error', 'Note failed to save');
+                $this->alert('error', 'Failed to add note');
             }
         }
-        // Reset the form and refresh the notes list
+
+        // Reset form and refresh notes list
         $this->descriptionWarningNote = null;
-        $this->userNotesWarning = UserWarningNotes::where('note_for', '=', $this->id_edit_note)->orderBy('id', 'desc')->get();
+        $this->note_id = null;
+
+        // Refresh the notes list
+        if ($this->id_edit_note) {
+            $this->userNotesWarning = UserWarningNotes::where('note_for', '=', $this->id_edit_note)
+                ->orderBy('id', 'desc')
+                ->get();
+        }
     }
     public function resetForm()
     {
@@ -164,14 +190,20 @@ class Users extends Component
 
     public function DeleteInlineNote($id)
     {
-
-
         $action = ActionDatabase::deleteSingleModel('UserWarningNotes', $id);
-        if ($action)
-            $this->alert('success', 'Note has been delete!');
-        else
-            $this->alert('warning', 'Status fails to delete!');
 
+        if ($action) {
+            // Refresh the notes list after deletion
+            if ($this->id_edit_note) {
+                $this->userNotesWarning = UserWarningNotes::where('note_for', '=', $this->id_edit_note)
+                    ->orderBy('id', 'desc')
+                    ->get();
+            }
+
+            $this->alert('success', 'Note has been delete!');
+        } else {
+            $this->alert('warning', 'Status fails to delete!');
+        }
     }
 
     public function editInlineNote($id)
@@ -182,7 +214,8 @@ class Users extends Component
         // Check if note exists
         if ($note) {
             // Assign note details to component variables
-            $this->id_edit_note = $note->id;
+            $this->note_id = $note->id;
+            $this->id_edit_note = $note->note_for; // Set the user ID
             $this->descriptionWarningNote = $note->description_warning_note;
         } else {
             $this->alert('warning', 'Note not found!');

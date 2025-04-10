@@ -13,10 +13,10 @@ class Homepage extends Component
         $settingWeb = SettingWeb::all();
 
         $data_homepage = [
-            'gmapsLinks' => $settingWeb->where('name', '=', 'gmapsLinks')->first()->value,
-            'address' => $settingWeb->where('name', '=', 'Address')->first()->value,
-            'instagram' => $settingWeb->where('name', '=', 'instagram')->first()->value,
-            'email' => $settingWeb->where('name', '=', 'PaymentEmail')->first()->value,
+            'gmapsLinks' => $settingWeb->where('name', '=', 'gmapsLinks')->first()?->value ?? '',
+            'address' => $settingWeb->where('name', '=', 'Address')->first()?->value ?? '',
+            'instagram' => $settingWeb->where('name', '=', 'instagram')->first()?->value ?? '',
+            'email' => $settingWeb->where('name', '=', 'PaymentEmail')->first()?->value ?? '',
         ];
 
         $headerImages = HomepageImage::where('section', 'header')

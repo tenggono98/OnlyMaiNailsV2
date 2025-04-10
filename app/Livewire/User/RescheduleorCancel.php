@@ -28,8 +28,14 @@ class RescheduleorCancel extends Component
     public function mount($uuid){
         if(Session::has('message_reschedule'))
             $this->alert('success',Session::get('message_reschedule'));
-        $this->deposit = SettingWeb::where('name', '=', 'deposit')->first()->value;
-        $this->paymentEmail = SettingWeb::where('name', '=', 'PaymentEmail')->first()->value;
+
+        // Add null checks to prevent "Attempt to read property 'value' on null" errors
+        $depositSetting = SettingWeb::where('name', '=', 'deposit')->first();
+        $this->deposit = $depositSetting ? $depositSetting->value : 0;
+
+        $paymentEmailSetting = SettingWeb::where('name', '=', 'PaymentEmail')->first();
+        $this->paymentEmail = $paymentEmailSetting ? $paymentEmailSetting->value : '';
+
         try{
         $this->booking = TBooking::with('client')->where('uuid','=',$uuid)->first();
         $this->detailBooking = TDBooking::with('service.category')->where('t_booking_id','=',$this->booking->id)->get();
@@ -202,7 +208,9 @@ class RescheduleorCancel extends Component
     }
     public function initializeTimer()
     {
-        $getLimitPayment = SettingWeb::where('name','=','LimitDepositPayment_h')->first()->value;
+        $limitPaymentSetting = SettingWeb::where('name','=','LimitDepositPayment_h')->first();
+        $getLimitPayment = $limitPaymentSetting ? $limitPaymentSetting->value : 24; // Default to 24 hours if setting not found
+
         $createdAt = Carbon::parse($this->booking->created_at);
         $deadline = $createdAt->addHours((int) $getLimitPayment);
         $now = Carbon::now();

@@ -1,7 +1,7 @@
 <div>
     <div class="p-4 bg-white rounded-lg shadow-sm dark:bg-gray-800">
         <x-pages.admin.title-header-admin title="Settings" />
-        
+
         <form wire:submit='save()'>
             <div class="mt-6 space-y-6">
                 <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">

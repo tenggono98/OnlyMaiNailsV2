@@ -25,7 +25,7 @@ new #[Layout('layouts.guest')] class extends Component
          $this->redirectIntended(default: route('admin.dashboard', absolute: false), navigate: true);
         } else {
             Auth::guard('web')->logout();
-             $this->redirect()->route('login')->with('status', 'You are not authorized to access this page.');
+             $this->redirect()->route('user.login')->with('status', 'You are not authorized to access this page.');
         }
     }
 }; ?>

@@ -54,13 +54,15 @@ class Book extends Component
     public function mount()
     {
          // Set Price for Deposit
-         $this->deposit = SettingWeb::where('name', '=', 'deposit')->first()->value;
-        $settingWeb = SettingWeb::all();
+         $depositSetting = SettingWeb::where('name', '=', 'deposit')->first();
+         $this->deposit = $depositSetting ? $depositSetting->value : 0;
+
+         $settingWeb = SettingWeb::all();
          $this->dataBook = [
-            'LimitTime' => $settingWeb->where('name', '=', 'LimitDepositPayment_h')->first()->value,
-            'address' => $settingWeb->where('name', '=', 'Address')->first()->value,
-            'gmapLinks' => $settingWeb->where('name', '=', 'gmapsLinks')->first()->value,
-            'email' => $settingWeb->where('name', '=', 'PaymentEmail')->first()->value,
+            'LimitTime' => $settingWeb->where('name', '=', 'LimitDepositPayment_h')->first()?->value ?? '',
+            'address' => $settingWeb->where('name', '=', 'Address')->first()?->value ?? '',
+            'gmapLinks' => $settingWeb->where('name', '=', 'gmapsLinks')->first()?->value ?? '',
+            'email' => $settingWeb->where('name', '=', 'PaymentEmail')->first()?->value ?? '',
          ];
 
     }
@@ -102,7 +104,8 @@ class Book extends Component
             foreach ($this->selectedServices as $service) {
                 $this->totalPriceBook += $this->number_of_people * $service['price'];
             }
-                $getTax = SettingWeb::where('name', '=', 'tax')->first()->value;
+                $getTaxSetting = SettingWeb::where('name', '=', 'tax')->first();
+                $getTax = $getTaxSetting ? $getTaxSetting->value : 0;
                 if ($getTax > 0) {
                     $this->totalPriceBook = $this->totalPriceBook + ((int)$this->totalPriceBook * ((int)$getTax / 100));
                 }

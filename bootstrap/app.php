@@ -17,8 +17,14 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'role' => RoleCheck::class,
-            'redirectToUserLogin' =>\App\Http\Middleware\RedirectToUserLogin::class
+            'redirectToUserLogin' =>\App\Http\Middleware\RedirectToUserLogin::class,
+            'check.user.status' => \App\Http\Middleware\CheckUserStatus::class
 
+        ]);
+
+        // Register the CheckUserStatus middleware to run on every web request
+        $middleware->web(append: [
+            \App\Http\Middleware\CheckUserStatus::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

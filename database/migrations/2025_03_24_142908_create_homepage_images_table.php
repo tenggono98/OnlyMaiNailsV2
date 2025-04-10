@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('image_path');
             $table->string('alt_text')->nullable();
             $table->integer('display_order')->default(0);
-            $table->enum('section', ['header', 'promo']); // To differentiate between header images and promo images
+            $table->enum('section', ['header', 'promo', 'login']); // Updated to include login section
             $table->enum('status', [1, 0])->default(1);
             $table->foreignIdFor(User::class, 'created_by')->nullable();
             $table->foreignIdFor(User::class, 'updated_by')->nullable();

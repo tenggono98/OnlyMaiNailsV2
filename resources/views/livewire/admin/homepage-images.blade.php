@@ -18,6 +18,12 @@
                             Promo Section
                         </button>
                     </li>
+                    <li class="mr-2" role="presentation">
+                        <button class="inline-block p-4 rounded-t-lg {{ $section === 'login' ? 'text-blue-600 border-b-2 border-blue-600' : 'hover:text-gray-600 hover:border-gray-300' }}"
+                                wire:click="switchSection('login')">
+                            Login Section
+                        </button>
+                    </li>
                 </ul>
             </div>
 
@@ -28,7 +34,7 @@
                 <form wire:submit.prevent="save" class="space-y-4">
                     <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900">Image</label>
-                        <input type="file" wire:model="newImage" accept="image/*" 
+                        <input type="file" wire:model="newImage" accept="image/*"
                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
                         <p class="mt-1 text-sm text-gray-500">
                             Recommended image size: 1920x1080px. Maximum file size: 2MB. Supported formats: JPG, PNG, WebP.
@@ -38,7 +44,7 @@
 
                     <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900">Alt Text</label>
-                        <input type="text" wire:model="altText" 
+                        <input type="text" wire:model="altText"
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         @error('altText') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                     </div>

@@ -15,22 +15,22 @@ class HomepageImages extends Component
     use LivewireAlert;
 
     public $images;
-    
-    #[Validate('required|image|mimes:jpg,jpeg,png,webp|max:2048|dimensions:min_width=1920,min_height=1080')]
+
+    #[Validate('required|image|mimes:jpg,jpeg,png,webp|max:2048')]
     public $newImage;
-    
+
     public $section = 'header';
-    
+
     #[Validate('required|string|max:255')]
     public $altText;
-    
+
     #[Validate('required|integer|min:1')]
     public $displayOrder;
 
     protected function rules()
     {
         return [
-            'newImage' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048|dimensions:min_width=1920,min_height=1080',
+            'newImage' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
             'altText' => 'required|string|max:255',
             'displayOrder' => 'required|integer|min:1'
         ];

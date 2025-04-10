@@ -44,7 +44,7 @@
                                     </button>
                                     <!-- Dropdown Container -->
                                     <div id="dropdown"
-                                        class="absolute right-0  hidden w-64 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg"
+                                        class="absolute right-0  hidden w-64 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
                                         wire:ignore.self wire:poll.10s>
                                         <!-- Dropdown Header -->
                                         <div class="flex items-center justify-between p-4 border-b">
@@ -91,11 +91,18 @@
                                         #dropdown {
                                             max-height: 400px;
                                             /* Adjust as needed for overall max height */
+                                            z-index: 9999; /* Ensure dropdown is above all elements */
                                         }
 
                                         #dropdown ul {
                                             max-height: 200px;
                                             /* Adjust as needed for notification list height */
+                                        }
+
+                                        /* Fix positioning context */
+                                        .relative {
+                                            position: relative;
+                                            z-index: 50;
                                         }
                                     </style>
                                 </div>

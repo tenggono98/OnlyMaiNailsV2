@@ -26,7 +26,7 @@ class OauthController extends Controller
             if ($finduser) {
                 // Check if user status is '0'
                 if ($finduser->status == '0') {
-                    return redirect('/user/login')->withErrors(['email' => 'Your account has been disable by our admin. Please contact us for more information']);
+                    return redirect()->route('user.login')->withErrors(['email' => 'Your account has been disabled by our admin. Please contact us for more information']);
                 }
                 Auth::login($finduser);
                 return redirect('/');
@@ -58,7 +58,7 @@ class OauthController extends Controller
             }
         } catch (Exception $e) {
             // Handle the exception and return a user-friendly message
-            return redirect()->route('login')->withErrors(['email' => 'Failed to authenticate with Google.']);
+            return redirect()->route('user.login')->withErrors(['email' => 'Failed to authenticate with Google.']);
         }
     }
 }
