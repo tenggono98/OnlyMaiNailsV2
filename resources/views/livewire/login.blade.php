@@ -1,7 +1,7 @@
 <div>
     {{-- Knowing others is intelligence; knowing yourself is true wisdom. --}}
 
-    <div class="grid gap-5 p-4  rounded-lg lg:grid-cols-2">
+    <div class="grid gap-5 p-4 rounded-lg lg:grid-cols-2">
         <div class="relative flex items-center justify-center overflow-hidden">
             @if(count($loginImages) > 0)
             <div class="w-full">
@@ -42,46 +42,40 @@
 
             <h1 class="my-5 font-semibold">Welcome Back</h1>
 
-            <form wire:submit='login'>
+            <form wire:submit.prevent='login'>
                 @csrf
 
                 <div class="flex flex-col gap-3 p-4 my-5 border-[#fadde1] border rounded-lg">
-
                     <div class="flex-auto">
-                        <label for="">Email</label><br>
-                        <input type="email" class="w-full form-control" name="" id=""
-                            wire:model='email'>
+                        <label for="email-input">Email</label><br>
+                        <input type="email" class="w-full form-control" id="email-input" wire:model.lazy='email'>
                         <x-pages.inputs.error error='email' />
                     </div>
 
                     <div class="flex-auto">
-                        <label for="">Password</label><br>
-                        <input type="password" class="w-full form-control" name="" id=""
-                            wire:model='password'>
+                        <label for="password-input">Password</label><br>
+                        <input type="password" class="w-full form-control" id="password-input" wire:model.lazy='password'>
                         <x-pages.inputs.error error='password' />
+                        @error('password')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
-                    <div class="flex-auto ">
+
+                    <div class="flex-auto">
                         <div class="float-end">
-                        <a href="{{ route('password.request') }}" class="text-right hover:text-[#bca5a8]">Forget your password ?</a>
-
+                            <a href="{{ route('password.request') }}" class="text-right hover:text-[#bca5a8]">Forget your password ?</a>
                         </div>
-
                     </div>
-
-
                 </div>
 
                 <div class="flex w-full gap-3">
-
                     <div class="flex-auto">
-
-                        <button  type="submit"
-                            class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">Login</button>
-
+                        <button type="submit"
+                            class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">
+                            <span>Login</span>
+                        </button>
                     </div>
-
                 </div>
-
             </form>
 
             <div class="mt-4 text-center">
@@ -108,18 +102,9 @@
                 <div class="flex items-center">
                     <p>Sign in with Google</p>
                 </div>
-
             </div>
             </a>
-
-
-            <div class="flex">
-
-            </div>
-
-
         </div>
-
     </div>
 
     <!-- Registration Modal -->
@@ -166,40 +151,40 @@
 
                     <div class="flex flex-col gap-3 p-4 my-4 border-[#fadde1] border rounded-lg">
                         <div class="flex-auto">
-                            <label for="fullName">Full Name <span class="text-xs text-red-600">*</span></label><br>
-                            <input type="text" class="w-full form-control" id="fullName" wire:model="fullName">
-                            <x-pages.inputs.error error='fullName' />
+                            <label for="register_fullName">Full Name <span class="text-xs text-red-600">*</span></label><br>
+                            <input type="text" class="w-full form-control" id="register_fullName" wire:model="register_fullName">
+                            <x-pages.inputs.error error='register_fullName' />
                         </div>
 
                         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
                             <div class="">
-                                <label for="phoneNumber">Phone Number <span class="text-xs text-red-600">*</span></label>
-                                <input type="number" id="phoneNumber" class="w-full form-control" wire:model="phoneNumber">
-                                <x-pages.inputs.error error='phoneNumber' />
+                                <label for="register_phoneNumber">Phone Number <span class="text-xs text-red-600">*</span></label>
+                                <input type="number" id="register_phoneNumber" class="w-full form-control" wire:model="register_phoneNumber">
+                                <x-pages.inputs.error error='register_phoneNumber' />
                             </div>
                             <div class="">
-                                <label for="regEmail">Email <span class="text-xs text-red-600">*</span></label>
-                                <input type="email" id="regEmail" class="w-full form-control" wire:model="regEmail">
-                                <x-pages.inputs.error error='regEmail' />
+                                <label for="register_email">Email <span class="text-xs text-red-600">*</span></label>
+                                <input type="email" id="register_email" class="w-full form-control" wire:model="register_email">
+                                <x-pages.inputs.error error='register_email' />
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
                             <div class="">
-                                <label for="regPassword">Password <span class="text-xs text-red-600">*</span></label>
-                                <input type="password" id="regPassword" class="w-full form-control" wire:model="regPassword">
-                                <x-pages.inputs.error error='regPassword' />
+                                <label for="register_password">Password <span class="text-xs text-red-600">*</span></label>
+                                <input type="password" id="register_password" class="w-full form-control" wire:model="register_password">
+                                <x-pages.inputs.error error='register_password' />
                             </div>
                             <div class="">
-                                <label for="confirmPassword">Confirm password <span class="text-xs text-red-600">*</span></label>
-                                <input type="password" id="confirmPassword" class="w-full form-control" wire:model="confirmPassword">
-                                <x-pages.inputs.error error='confirmPassword' />
+                                <label for="register_confirmPassword">Confirm password <span class="text-xs text-red-600">*</span></label>
+                                <input type="password" id="register_confirmPassword" class="w-full form-control" wire:model="register_confirmPassword">
+                                <x-pages.inputs.error error='register_confirmPassword' />
                             </div>
                         </div>
 
                         <div class="">
-                            <label for="igTag">Instagram</label>
-                            <input type="text" id="igTag" class="w-full form-control" wire:model="igTag">
+                            <label for="register_igTag">Instagram</label>
+                            <input type="text" id="register_igTag" class="w-full form-control" wire:model="register_igTag">
                         </div>
                     </div>
 
@@ -212,10 +197,7 @@
                         </div>
                     </div>
                 </form>
-
-
             </div>
         </div>
     </div>
-
 </div>

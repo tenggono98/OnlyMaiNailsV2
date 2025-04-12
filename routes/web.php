@@ -38,7 +38,7 @@ Route::get('/pdf_view', [BookingInvoice::class, 'show'])->name('pdf.test_view');
             Route::get('/users/{type}',\App\Livewire\Admin\Users::class)->name('admin.users.type');
             Route::get('/review',\App\Livewire\Admin\ReviewUser::class)->name('admin.review');
             Route::get('/homepage-images',\App\Livewire\Admin\HomepageImages::class)->name('admin.homepage-images');
-
+            Route::get('/reports',\App\Livewire\Admin\SalesReport::class)->name('admin.reports');
         });
         //OLD UI
          // Can be access as "User"

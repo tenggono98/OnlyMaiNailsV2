@@ -19,14 +19,10 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 py-3">
+            <div class="grid grid-cols-1 py-3">
                 <dl>
                     <dt class="pb-1 text-base font-normal text-gray-500 dark:text-gray-400">Income</dt>
                     <dd class="text-xl font-bold leading-none text-green-500 dark:text-green-400">${{ number_format($totalRevenue) }}</dd>
-                </dl>
-                <dl>
-                    <dt class="pb-1 text-base font-normal text-gray-500 dark:text-gray-400">Expense</dt>
-                    <dd class="text-xl font-bold leading-none text-red-600 dark:text-red-500">-${{ number_format($totalExpenses) }}</dd>
                 </dl>
             </div>
 
@@ -82,7 +78,7 @@
                     <a
                         href="#"
                         class="inline-flex items-center px-3 py-2 text-sm font-semibold text-blue-600 uppercase rounded-lg hover:text-blue-700 dark:hover:text-blue-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
-                        Revenue Report
+                        Sales Report
                         <svg class="w-2.5 h-2.5 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
                         </svg>
@@ -142,136 +138,218 @@
         </div>
     </div>
 
-    <!-- Revenue & Expense Chart -->
+    <!-- Revenue Chart -->
     <div class="p-4 bg-white rounded-lg shadow dark:bg-gray-800 md:p-6 mb-4">
         <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Revenue vs. Expenses</h3>
-            <span class="bg-blue-100 text-blue-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-blue-900 dark:text-blue-300">
-                <svg class="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1v3m5-3v3m5-3v3M1 7h18M5 11h10M2 3h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/>
-                </svg>
-                {{ ucfirst(str_replace('_', ' ', $period)) }}
-            </span>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Revenue</h3>
+            <div class="flex items-center gap-2">
+                <span class="bg-blue-100 text-blue-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-blue-900 dark:text-blue-300">
+                    <svg class="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"/>
+                    </svg>
+                    Period: {{ ucwords(str_replace('_', ' ', $period)) }}
+                </span>
+                <div x-data="{ periodDropdownOpen: false }" class="relative">
+                    <!-- Period dropdown button -->
+                    <button @click="periodDropdownOpen = !periodDropdownOpen" class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white" type="button">
+                        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                        </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div x-show="periodDropdownOpen" @click.outside="periodDropdownOpen = false" class="absolute right-0 z-50 mt-2 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
+                            <li>
+                                <button wire:click="setPeriod('today')" class="block w-full text-left py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Today</button>
+                            </li>
+                            <li>
+                                <button wire:click="setPeriod('yesterday')" class="block w-full text-left py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Yesterday</button>
+                            </li>
+                            <li>
+                                <button wire:click="setPeriod('last_7_days')" class="block w-full text-left py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 7 Days</button>
+                            </li>
+                            <li>
+                                <button wire:click="setPeriod('last_30_days')" class="block w-full text-left py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 30 Days</button>
+                            </li>
+                            <li>
+                                <button wire:click="setPeriod('last_90_days')" class="block w-full text-left py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 90 Days</button>
+                            </li>
+                            <li>
+                                <button wire:click="setPeriod('last_6_months')" class="block w-full text-left py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 6 Months</button>
+                            </li>
+                            <li>
+                                <button wire:click="setPeriod('last_year')" class="block w-full text-left py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last Year</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="revenue-chart" class="h-72"></div>
+
+        <!-- Chart container -->
+        <div id="revenue-chart" class="py-6" style="min-height:300px;"></div>
+
+        <!-- Debug info -->
+        <div id="chart-debug" class="text-xs text-gray-500 mt-2" style="display: none;">
+            Loading chart data...
+        </div>
     </div>
 
-    <!-- ApexCharts Script -->
-    @push('scripts')
+    <!-- JavaScript for Chart -->
     <script>
         document.addEventListener('livewire:initialized', function () {
-            // Get monthly data from Livewire component
-            const monthlyData = @json($monthlyData);
+            // Initialize revenue chart
+            let revenueChart = null;
 
-            // Create chart options
-            const options = {
-                chart: {
-                    type: 'bar',
-                    height: 300,
-                    toolbar: {
-                        show: false
-                    }
-                },
-                series: [
-                    {
-                        name: 'Revenue',
-                        data: monthlyData?.revenue || [],
-                        color: '#0ea5e9'
-                    },
-                    {
-                        name: 'Expenses',
-                        data: monthlyData?.expenses || [],
-                        color: '#f87171'
-                    }
-                ],
-                plotOptions: {
-                    bar: {
-                        horizontal: false,
-                        columnWidth: '55%',
-                        borderRadius: 5
-                    },
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                xaxis: {
-                    categories: monthlyData?.labels || [],
-                },
-                yaxis: {
-                    labels: {
-                        formatter: function (value) {
-                            return '$' + value.toLocaleString();
-                        }
-                    }
-                },
-                legend: {
-                    position: 'top'
-                },
-                tooltip: {
-                    y: {
-                        formatter: function (value) {
-                            return '$' + value.toLocaleString();
-                        }
-                    }
-                }
-            };
+            // Function to update chart with new data
+            function updateRevenueChart(chartData) {
+                // Display debug info if needed
+                const debugElement = document.getElementById('chart-debug');
 
-            // Create the chart
-            const chart = new ApexCharts(
-                document.querySelector("#revenue-chart"),
-                options
-            );
-            chart.render();
+                try {
+                    // Extract chart data
+                    const labels = chartData.labels || [];
+                    const revenueData = chartData.revenue || [];
+                    const viewType = chartData.viewType || 'monthly';
 
-            // Listen for period changes and update chart
-            Livewire.on('updateChart', (data) => {
-                if (data) {
-                    chart.updateOptions({
-                        xaxis: {
-                            categories: data.labels || []
-                        }
-                    });
-                    chart.updateSeries([
-                        {
-                            name: 'Revenue',
-                            data: data.revenue || []
+                    // For debugging
+                    console.log('Updating chart with data:', chartData);
+                    console.log('Labels:', labels);
+                    console.log('Revenue Data:', revenueData);
+
+                    // If no data, show a debug message
+                    if (!labels.length || !revenueData.length) {
+                        debugElement.textContent = 'No data available for the selected period';
+                        debugElement.style.display = 'block';
+                        return;
+                    }
+
+                    // Chart configuration
+                    const options = {
+                        chart: {
+                            height: 350,
+                            type: 'area',
+                            toolbar: {
+                                show: false
+                            },
+                            animations: {
+                                enabled: true,
+                                easing: 'easeinout',
+                                speed: 800
+                            },
                         },
-                        {
-                            name: 'Expenses',
-                            data: data.expenses || []
+                        series: [{
+                            name: 'Revenue',
+                            data: revenueData
+                        }],
+                        xaxis: {
+                            categories: labels,
+                            labels: {
+                                style: {
+                                    colors: '#9CA3AF'
+                                }
+                            }
+                        },
+                        yaxis: {
+                            labels: {
+                                style: {
+                                    colors: '#9CA3AF'
+                                },
+                                formatter: function(value) {
+                                    return '$' + value;
+                                }
+                            },
+                            min: 0
+                        },
+                        colors: ['#3B82F6'],
+                        fill: {
+                            type: 'gradient',
+                            gradient: {
+                                shade: 'dark',
+                                type: "vertical",
+                                shadeIntensity: 0.3,
+                                opacityFrom: 0.6,
+                                opacityTo: 0.1,
+                                stops: [0, 90, 100]
+                            }
+                        },
+                        stroke: {
+                            curve: 'smooth',
+                            width: 3
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        tooltip: {
+                            y: {
+                                formatter: function(value) {
+                                    return '$' + value.toFixed(2);
+                                }
+                            }
+                        },
+                        grid: {
+                            borderColor: '#E5E7EB',
+                            strokeDashArray: 2
                         }
-                    ]);
-                }
-            });
+                    };
 
-            // Update the chart when Livewire properties change - fixed for Livewire 3.x
-            Livewire.hook('commit', ({ component, commit }) => {
-                if (commit?.response?.effects?.payload?.effects?.updates) {
-                    const updates = commit.response.effects.payload.effects.updates;
-                    const monthlyDataUpdate = updates.find(update => update.name === 'monthlyData');
-
-                    if (monthlyDataUpdate && monthlyDataUpdate.value) {
-                        const updatedData = monthlyDataUpdate.value;
-
-                        chart.updateOptions({
+                    // Initialize or update the chart
+                    if (revenueChart) {
+                        revenueChart.updateOptions({
+                            series: [{
+                                name: 'Revenue',
+                                data: revenueData
+                            }],
                             xaxis: {
-                                categories: updatedData.labels || []
+                                categories: labels
                             }
                         });
-                        chart.updateSeries([
-                            {
-                                name: 'Revenue',
-                                data: updatedData.revenue || []
-                            },
-                            {
-                                name: 'Expenses',
-                                data: updatedData.expenses || []
-                            }
-                        ]);
+                    } else {
+                        revenueChart = new ApexCharts(
+                            document.getElementById('revenue-chart'),
+                            options
+                        );
+                        revenueChart.render();
                     }
+
+                    // Hide debug info
+                    debugElement.style.display = 'none';
+                } catch (error) {
+                    console.error('Error updating revenue chart:', error);
+                    debugElement.textContent = 'Error loading chart: ' + error.message;
+                    debugElement.style.display = 'block';
+                }
+            }
+
+            // Get the Livewire component
+            const component = window.Livewire.find(
+                document.getElementById('revenue-chart').closest('[wire\\:id]').getAttribute('wire:id')
+            );
+
+            // Initial chart update using data from Livewire component
+            if (component) {
+                // Get monthly data from the component
+                component.call('getMonthlyData').then(chartData => {
+                    updateRevenueChart(chartData);
+                });
+            }
+
+            // Listen for chart data updates
+            window.Livewire.on('updateChart', chartData => {
+                updateRevenueChart(chartData);
+            });
+
+            // Listen for period changes (for debugging)
+            window.Livewire.on('periodChanged', period => {
+                console.log('Period changed:', period);
+
+                // Get fresh chart data after period change
+                if (component) {
+                    component.call('getMonthlyData').then(chartData => {
+                        updateRevenueChart(chartData);
+                    });
                 }
             });
         });
     </script>
-    @endpush
 </div>
