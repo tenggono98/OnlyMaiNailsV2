@@ -1,72 +1,72 @@
-ARG PHP_VERSION=${PHP_VERSION:-8.2}
-FROM php:${PHP_VERSION}-fpm-alpine AS php-system-setup
+# Multi-stage build for Laravel application
+FROM php:8.2-fpm-alpine AS base
+
 # Install system dependencies
-RUN apk add --no-cache dcron busybox-suid libcap curl zip unzip git
-RUN apk add --update nodejs npm
-
-# SETUP PHP-FPM CONFIG SETTINGS (max_children / max_requests)
-#RUN echo 'pm.max_children = 15' >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
-#    echo 'pm.max_requests = 500' >> /usr/local/etc/php-fpm.d/zz-docker.conf
-
+RUN apk add --no-cache \
+    git \
+    curl \
+    libpng-dev \
+    libxml2-dev \
+    zip \
+    unzip \
+    oniguruma-dev \
+    nodejs \
+    npm \
+    supervisor \
+    nginx
 
 # Install PHP extensions
-COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
-RUN install-php-extensions intl bcmath gd pdo_mysql pdo_pgsql opcache redis uuid exif pcntl zip pdo_sqlsrv
+RUN docker-php-ext-install \
+    pdo_mysql \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    gd \
+    xml \
+    zip
 
-# Install supervisord implementation
-COPY --from=ochinchina/supervisord:latest /usr/local/bin/supervisord /usr/local/bin/supervisord
-
-# Install caddy
-COPY --from=caddy:2.2.1 /usr/bin/caddy /usr/local/bin/caddy
-RUN setcap 'cap_net_bind_service=+ep' /usr/local/bin/caddy
-
-# Install composer
-COPY --from=composer/composer:2 /usr/bin/composer /usr/local/bin/composer
-
-FROM php-system-setup AS app-setup
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Set working directory
-ENV LARAVEL_PATH=/srv/app
-WORKDIR $LARAVEL_PATH
+WORKDIR /var/www/html
 
-# Add non-root user: 'app'
-ARG NON_ROOT_GROUP=${NON_ROOT_GROUP:-app}
-ARG NON_ROOT_USER=${NON_ROOT_USER:-app}
-RUN addgroup -S $NON_ROOT_GROUP && adduser -S $NON_ROOT_USER -G $NON_ROOT_GROUP
-RUN addgroup $NON_ROOT_USER wheel
-
-# Set cron job
-COPY ./.deploy/config/crontab /etc/crontabs/$NON_ROOT_USER
-RUN chmod 777 /usr/sbin/crond
-RUN chown -R $NON_ROOT_USER:$NON_ROOT_GROUP /etc/crontabs/$NON_ROOT_USER && setcap cap_setgid=ep /usr/sbin/crond
-
-# Switch to non-root 'app' user & install app dependencies
+# Copy composer files
 COPY composer.json composer.lock ./
-RUN chown -R $NON_ROOT_USER:$NON_ROOT_GROUP $LARAVEL_PATH
-USER $NON_ROOT_USER
-RUN composer install --prefer-dist --no-scripts --no-dev --no-autoloader
-RUN rm -rf /home/$NON_ROOT_USER/.composer
 
-# Copy app
-COPY --chown=$NON_ROOT_USER:$NON_ROOT_GROUP . $LARAVEL_PATH/
-COPY ./.deploy/config/php/local.ini /usr/local/etc/php/conf.d/local.ini
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-#install NPM and run production
-RUN npm install
+# Copy package.json and install Node dependencies
+COPY package*.json ./
+RUN npm ci --only=production
+
+# Copy application code
+COPY . .
+
+# Build assets
 RUN npm run build
 
-# Set any ENVs
-ARG APP_KEY=${APP_KEY}
-ARG APP_NAME=${APP_NAME}
-ARG APP_URL=${APP_URL}
-ARG APP_ENV=${APP_ENV}
-ARG APP_DEBUG=${APP_DEBUG}
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html/storage \
+    && chmod -R 755 /var/www/html/bootstrap/cache
 
-ARG LOG_CHANNEL=${LOG_CHANNEL}
+# Copy nginx configuration
+COPY .deploy/config/nginx.conf /etc/nginx/http.d/default.conf
 
-ARG DB_CONNECTION=${DB_CONNECTION}
-ARG DB_HOST=${DB_HOST}
-ARG DB_PORT=${DB_PORT}
+# Set environment variables
+ENV LARAVEL_PATH=/var/www/html
+
+# Make entrypoint executable
+RUN chmod +x .deploy/entrypoint.sh
+
+# Expose port
+EXPOSE 80
+
+# Use the existing entrypoint script
+ENTRYPOINT [".deploy/entrypoint.sh"]
 ARG DB_DATABASE=${DB_DATABASE}
 ARG DB_USERNAME=${DB_USERNAME}
 ARG DB_PASSWORD=${DB_PASSWORD}
