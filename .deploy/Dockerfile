@@ -120,6 +120,6 @@ EXPOSE 80
 
 # Start app
 EXPOSE 80
-COPY ../.deploy/entrypoint.sh /
+COPY ./.deploy/entrypoint.sh /
 
 ENTRYPOINT ["sh",  "/entrypoint.sh"]
