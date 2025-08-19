@@ -1,4 +1,7 @@
 
+#!/bin/bash
+set -e
+
 echo "🎬 entrypoint.sh: [$(whoami)] [PHP $(php -r 'echo phpversion();')]"
 
 composer dump-autoload --no-interaction --no-dev --optimize
@@ -12,11 +15,6 @@ php artisan storage:link
 
 php artisan optimize
 
-
-
-
-
 echo "🎬 start supervisord"
 
-supervisord -c $LARAVEL_PATH/.deploy/config/supervisor.conf
-    
+supervisord -c /etc/supervisor/conf.d/supervisord.conf
