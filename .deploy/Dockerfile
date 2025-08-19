@@ -59,14 +59,7 @@ COPY .deploy/config/nginx.conf /etc/nginx/http.d/default.conf
 # Set environment variables
 ENV LARAVEL_PATH=/var/www/html
 
-# Make entrypoint executable
-RUN chmod +x .deploy/entrypoint.sh
-
-# Expose port
-EXPOSE 80
-
-# Use the existing entrypoint script
-ENTRYPOINT [".deploy/entrypoint.sh"]
+# Build arguments for environment variables
 ARG DB_DATABASE=${DB_DATABASE}
 ARG DB_USERNAME=${DB_USERNAME}
 ARG DB_PASSWORD=${DB_PASSWORD}
@@ -88,7 +81,6 @@ ARG MAIL_USERNAME=${MAIL_USERNAME}
 ARG MAIL_PASSWORD=${MAIL_PASSWORD}
 ARG MAIL_ENCRYPTION=${MAIL_ENCRYPTION}
 ARG MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS}
-ARG MAIL_ENCRYPTION=${MAIL_ENCRYPTION}
 ARG MAIL_FROM_NAME=${APP_NAME}
 
 ARG PUSHER_APP_ID=${PUSHER_APP_ID}
@@ -119,6 +111,14 @@ ARG CLOUDFLARE_TOKEN=${CLOUDFLARE_TOKEN}
 ARG CLOUDFLARE_ZONE_ID=${CLOUDFLARE_ZONE_ID}
 ARG ASSETS_URL=${ASSETS_URL}
 
+# Make entrypoint executable (file is already copied with COPY . .)
+RUN chmod +x .deploy/entrypoint.sh
+
+# Expose port
+EXPOSE 80
+
+# Use the existing entrypoint script
+ENTRYPOINT ["sh", ".deploy/entrypoint.sh"]
 # Start app
 EXPOSE 80
 COPY ./.deploy/entrypoint.sh /
