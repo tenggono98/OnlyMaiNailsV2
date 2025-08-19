@@ -117,10 +117,9 @@ RUN chmod +x .deploy/entrypoint.sh
 # Expose port
 EXPOSE 80
 
-# Use the existing entrypoint script
-ENTRYPOINT ["sh", ".deploy/entrypoint.sh"]
+
 # Start app
 EXPOSE 80
-COPY ./.deploy/entrypoint.sh /
+COPY ../.deploy/entrypoint.sh /
 
 ENTRYPOINT ["sh",  "/entrypoint.sh"]
