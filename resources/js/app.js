@@ -27,6 +27,23 @@ document.addEventListener('livewire:init', () => {
 
 
 
+// Phone number formatting
+document.addEventListener('input', function(e) {
+    if (e.target.classList.contains('phone-format')) {
+        // Remove all non-digit characters
+        let value = e.target.value.replace(/\D/g, '');
+
+        // Limit to 10 digits maximum
+        if (value.length > 10) {
+            value = value.substring(0, 10);
+        }
+
+        e.target.value = value;
+    }
+});
+
+
+
 
 
 

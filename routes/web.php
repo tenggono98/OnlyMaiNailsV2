@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 // OLD UI
 // For Login
 Route::get('/user/login', \App\Livewire\Login::class)->name('user.login');
+Route::get('/user/signup', \App\Livewire\SignUp::class)->name('user.signup');
 // Can be access as "Guest"
 //Route::get('/',\App\Livewire\NewUI\Homepage::class)->name('home');
 // Route::get('/services',\App\Livewire\Services::class)->name('services');

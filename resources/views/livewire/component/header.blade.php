@@ -12,7 +12,7 @@
                     <ul class="flex gap-4 xl:ml-auto">
                         <li class="hidden lg:block">Already a Member?</li>
                         <li class="cursor-pointer"><a class="w-full" href="{{ route('user.login') }}">Login</a></li>
-                        <li class="cursor-pointer"><a class="w-full" href="{{ route('user.login') }}">Sign Up</a></li>
+                        <li class="cursor-pointer"><a class="w-full" href="{{ route('user.signup') }}">Sign Up</a></li>
                     </ul>
                 </ul>
             @else
@@ -252,7 +252,7 @@
                                     {{-- Text --}}
                                 </li>
                             </a>
-                            <a href="{{ route('user.login') }}">
+                            <a href="{{ route('user.signup') }}">
                                 <li class="flex gap-3">
                                     {{-- Icon --}}
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

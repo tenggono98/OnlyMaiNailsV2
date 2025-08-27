@@ -54,7 +54,7 @@ class Book extends Component
     public function mount()
     {
          // Set Price for Deposit
-         $this->deposit = SettingWeb::where('name', '=', 'deposit')->first()->value;
+         $this->deposit = SettingWeb::where('name', '=', 'Deposit')->first()->value ?? 0;
         $settingWeb = SettingWeb::all();
          $this->dataBook = [
             'LimitTime' => $settingWeb->where('name', '=', 'LimitDepositPayment_h')->first()->value,
