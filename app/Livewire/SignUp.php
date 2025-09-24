@@ -8,10 +8,12 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use App\Models\User;
 
 class SignUp extends Component
 {
+    use LivewireAlert;
 
     #[Validate('required|min:3', as: 'Full Name')]
     public $fullNameClient;
