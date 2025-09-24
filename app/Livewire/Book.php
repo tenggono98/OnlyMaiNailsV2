@@ -18,6 +18,7 @@ use Illuminate\Validation\ValidationException;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Illuminate\Support\Facades\Log;
 
 class Book extends Component
 {
@@ -160,11 +161,11 @@ class Book extends Component
                 ->subject('New Booking Notification');
                 });
             } catch (\Exception $e) {
-                \Log::error('Failed to send email notification to admin: ' . $item->email);
+                Log::error('Failed to send email notification to admin: ' . $item->email);
             }
             }
         } catch (\Exception $e) {
-            \Log::error('Failed to send email notifications to admins: ' . $e->getMessage());
+            Log::error('Failed to send email notifications to admins: ' . $e->getMessage());
 
         }
 
@@ -249,8 +250,17 @@ class Book extends Component
                     if ($this->igClient)
                         $user->ig_tag = $this->igClient;
                     $user->save();
-                    $user->sendEmailVerificationNotification();
-                    $this->alert('success', 'Please check your email and verify your address');
+                    try {
+                        $user->sendEmailVerificationNotification();
+                        $this->alert('success', 'Please check your email and verify your address');
+                    } catch (\Throwable $exception) {
+                        Log::warning('Failed to send verification email during booking registration', [
+                            'user_id' => $user->id,
+                            'email' => $user->email,
+                            'error' => $exception->getMessage(),
+                        ]);
+                        $this->alert('info', "We couldn't send the verification email now. You can request it again later.");
+                    }
                     Auth::login($user);
                     $this->resetFlags();
                     $this->flagPickDateAndTime = true;

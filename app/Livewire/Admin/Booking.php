@@ -16,6 +16,7 @@ use Livewire\Attributes\Validate;
 use Livewire\Attributes\Modelable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\ActionDatabase;
 use App\Http\Controllers\Pdf\BookingInvoice;
 use App\Http\Controllers\Pdf\BookingComplete;
@@ -215,8 +216,17 @@ class Booking extends Component
                     $fileNameInvoice
                 ]
             ];
-            // Send Email to Client
-            Mail::to($booking->client->email)->send(new MailBooking($mailData));
+            // Send Email to Client (safe)
+            try {
+                Mail::to($booking->client->email)->send(new MailBooking($mailData));
+            } catch (\Throwable $exception) {
+                Log::warning('Failed to send booking email to client', [
+                    'booking_id' => $booking->id,
+                    'user_id' => $booking->client->id ?? null,
+                    'email' => $booking->client->email ?? null,
+                    'error' => $exception->getMessage(),
+                ]);
+            }
             // Send Notification
             $notif = new Notification;
             $notif->title_notification = 'Deposit Payment Confirm';

@@ -9,6 +9,7 @@ use App\Models\Notification;
 use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Illuminate\Support\Facades\Log;
 
 
 
@@ -29,12 +30,12 @@ class Header extends Component
 
     public function mount()
     {
-        $this->userId = auth()->user() ? auth()->user()->id : null;
+        $this->userId = Auth::user() ? Auth::user()->id : null;
     }
 
     public function refreshUserId()
     {
-        $this->userId = auth()->user() ? auth()->user()->id : null;
+        $this->userId = Auth::user() ? Auth::user()->id : null;
     }
 
 
@@ -59,15 +60,17 @@ class Header extends Component
     }
 
     public function resendverified(){
-
-
         $user = User::find(Auth::user()->id);
-
-        if($user->sendEmailVerificationNotification()){
-
-            $this->alert('error', "Oops, we couldn't send the email. Please give it another try later.");
-        }else{
+        try {
+            $user->sendEmailVerificationNotification();
             $this->alert('success', "Don't forget to verify your email! Just check your inbox.");
+        } catch (\Throwable $exception) {
+            Log::warning('Failed to resend verification email', [
+                'user_id' => $user->id ?? null,
+                'email' => $user->email ?? null,
+                'error' => $exception->getMessage(),
+            ]);
+            $this->alert('error', "Oops, we couldn't send the email. Please give it another try later.");
         }
     }
 
