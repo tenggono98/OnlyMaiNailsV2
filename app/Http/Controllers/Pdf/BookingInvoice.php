@@ -34,8 +34,8 @@ class BookingInvoice extends Controller
         // Get Booking Information
         $masterBooking = TBooking::find($id);
         $detailBooking = TDBooking::with('service.category')->where('t_booking_id', '=', $id)->get();
-        // Define the directory path
-        $directoryPath = 'PDF_Booking_Invoice';
+        // Define the directory path (writable storage path)
+        $directoryPath = storage_path('app/public/PDF_Booking_Invoice');
         // Check if the directory exists, if not, create it
         if (!File::exists($directoryPath)) {
             File::makeDirectory($directoryPath, 0755, true); // 0755 is the permission, true indicates recursive
@@ -69,7 +69,7 @@ class BookingInvoice extends Controller
         $pdf = Pdf::loadView('pdf.booking_invoice', $data)->setOption(['dpi' => 150]);
         $date_booking = \Carbon\Carbon::parse($masterBooking->scheduleDateBook->date_schedule)->format('d-m-Y');
         $uuid = $masterBooking->uuid;
-        // download PDF file with download method
+        // Save PDF to storage path
         return $pdf->save($directoryPath . '/OMN_Invoice_' . $date_booking . '_' . $uuid . '.pdf');
     }
 }

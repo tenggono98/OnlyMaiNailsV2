@@ -32,8 +32,8 @@ class BookingComplete extends Controller
         $detailBooking = TDBooking::with('service.category')->where('t_booking_id','=',$id)->get();
         $scheduleTime = TDSchedule::find($masterBooking->t_d_schedule_id);
         // dd($detailBooking);
-        // Define the directory path
-        $directoryPath = 'PDF_Booking_Confirmation';
+        // Define the directory path (writable storage path)
+        $directoryPath = storage_path('app/public/PDF_Booking_Confirmation');
         // Check if the directory exists, if not, create it
         if (!File::exists($directoryPath)) {
             File::makeDirectory($directoryPath, 0755, true); // 0755 is the permission, true indicates recursive
@@ -65,7 +65,7 @@ class BookingComplete extends Controller
         $pdf = Pdf::loadView('pdf.booking_complete',$data)->setOption(['dpi' => 150]);
         $date_booking = \Carbon\Carbon::parse($masterBooking->scheduleDateBook->date_schedule)->format('d-m-Y');
         $uuid = $masterBooking->uuid;
-        // download PDF file with download method
-        return $pdf->save($directoryPath .'/OMN_Appointment_Confirmation_'.$date_booking.'_'.$uuid.'.pdf');
+        // Save PDF to storage path
+        return $pdf->save($directoryPath . '/OMN_Appointment_Confirmation_' . $date_booking . '_' . $uuid . '.pdf');
       }
 }

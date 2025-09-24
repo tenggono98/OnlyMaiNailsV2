@@ -3,6 +3,7 @@ namespace App\Livewire\Admin;
 use Carbon\Carbon;
 use App\Models\User;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 use App\Models\MService;
 use App\Models\TBooking;
 use App\Mail\MailBooking;
@@ -20,6 +21,7 @@ use App\Http\Controllers\Pdf\BookingInvoice;
 use App\Http\Controllers\Pdf\BookingComplete;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
+#[Layout('components.layouts.app-admin')]
 class Booking extends Component
 {
     use LivewireAlert;
@@ -91,7 +93,7 @@ class Booking extends Component
             }
         } else
             $this->totalPriceBook = 0;
-        return view('livewire.admin.booking')->layout('components.layouts.app-admin');
+        return view('livewire.admin.booking');
     }
     public function search()
     {
@@ -198,8 +200,8 @@ class Booking extends Component
                 $date_booking = \Carbon\Carbon::parse($booking->scheduleDateBook->date_schedule)->format('d-m-Y');
                 $uuid = $booking->uuid;
                 // download PDF file with download method
-                $fileName = 'PDF_Booking_Confirmation/OMN_Appointment_Confirmation_'.$date_booking.'_'.$uuid.'.pdf';
-                $fileNameInvoice = 'PDF_Booking_Invoice/OMN_Invoice_'.$date_booking.'_'.$uuid.'.pdf';
+                $fileName = storage_path('app/public/PDF_Booking_Confirmation/OMN_Appointment_Confirmation_'.$date_booking.'_'.$uuid.'.pdf');
+                $fileNameInvoice = storage_path('app/public/PDF_Booking_Invoice/OMN_Invoice_'.$date_booking.'_'.$uuid.'.pdf');
 
             $mailData = [
                 'clientName' => $booking->client->name,
@@ -209,8 +211,8 @@ class Booking extends Component
                 'services' => $detailBooking->toArray(),
                 'files' =>
                 [
-                    public_path($fileName),
-                    public_path($fileNameInvoice)
+                    $fileName,
+                    $fileNameInvoice
                 ]
             ];
             // Send Email to Client
