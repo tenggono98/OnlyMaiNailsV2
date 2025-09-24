@@ -7,6 +7,7 @@ use Livewire\Attributes\Validate;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use App\Models\User;
 
 class SignUp extends Component
@@ -72,7 +73,16 @@ class SignUp extends Component
         if ($this->igClient)
             $user->ig_tag = $this->igClient;
         $user->save();
-        $user->sendEmailVerificationNotification();
+        try {
+            $user->sendEmailVerificationNotification();
+        } catch (\Throwable $exception) {
+            Log::warning('Failed to send verification email during signup', [
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'error' => $exception->getMessage(),
+            ]);
+            // Bypass email failure: continue the flow without interrupting the user
+        }
         $this->alert('success', 'Please check your email and verify your address');
         Auth::login($user);
         $this->dispatch('refreshHeader');
