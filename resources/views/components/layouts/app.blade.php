@@ -34,13 +34,9 @@
         </div>
 
 
-
-
-
-
         <div class="flex-auto  ">
 
-            <div class="  xl:px-32 px-10 w-full py-10  min-h-screen ">
+            <div class="  xl:px-32 px-10 w-full py-20  min-h-screen ">
                 {{ $slot }}
             </div>
 

@@ -15,8 +15,9 @@
                 <h1>Deposit</h1>
                     <ul class="mb-4">
                         <li> All clients are required to send a <span class="font-semibold"> ${{ $deposit }} deposit to book an appointment</span>.</li>
-                        <li>Please send via e-transfer to <span class="font-semibold"> {{ $dataBook['email'] }}</span> within <span class="font-semibold text-red-800">{{ $dataBook['LimitTime'] }} hours </span> of booking, or appointment will not be solidified.</li>
+                        <li>Please send via e-transfer to <span class="font-semibold"> {{ $dataBook['email'] }}</span> within <span class="font-semibold text-red-800">{{ $dataBook['LimitTime'] }} hours </span> of booking, or appointment will not be confirmed.</li>
                         <li>Deposit will be subtracted from the total once the service is done.</li>
+                        <li>There will be a 15 min grace period. After that, a late fee will be charged, or your appointment will be cancelled.  No shows will result in a forfeited deposit</li>
                     </ul>
                 <h1>Payment</h1>
                 <p class="mb-4">Cash or E-transfer only</p>
@@ -32,7 +33,7 @@
                         <input type="checkbox" wire:model.live='agree_checkbox' value="accept" name="agree-checkbox" id="agree-checkbox" class="">
                     </div>
                     <div class="items-center">
-                        <p class="p-0 m-0">I have read and agree to all policies</p>
+                        <p class="p-0 m-0">I have read and agreed to all the policies</p>
                     </div>
                     </label>
                 </div>

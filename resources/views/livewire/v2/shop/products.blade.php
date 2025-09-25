@@ -93,10 +93,10 @@
                 @endif
               </div>
 
-              <!-- Variants Count -->
+              <!-- Options Count -->
               @if($activeVariants->count() > 1)
                 <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-lg">
-                  {{ $activeVariants->count() }} variants
+                  {{ $activeVariants->count() }} options
                 </span>
               @endif
             </div>

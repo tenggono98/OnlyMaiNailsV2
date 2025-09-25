@@ -42,7 +42,7 @@
               <div class="flex-1">
                 <h3 class="font-semibold text-gray-900">{{ $it['name'] }}</h3>
                 @if(!empty($it['variant_name']))
-                  <div class="text-sm text-gray-600">Variant: {{ $it['variant_name'] }}</div>
+                  <div class="text-sm text-gray-600">{{ $it['variant_name'] }}</div>
                 @endif
                 <div class="mt-1">
                   <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-medium bg-[#fadde1] text-gray-800">

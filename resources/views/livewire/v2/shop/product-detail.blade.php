@@ -45,7 +45,7 @@
       </div>
       @if($variants && count($variants))
         <div class="mt-8">
-          <h3 class="mb-4 text-xl font-semibold text-gray-900">Variants</h3>
+          <h3 class="mb-4 text-xl font-semibold text-gray-900">Options</h3>
           <div class="space-y-3">
             @foreach($variants as $v)
               <div class="flex items-center justify-between p-4 border border-[#fadde1] rounded-xl {{ $selectedVariantId === $v->id ? 'ring-2 ring-[#fadde1] bg-[#fadde1]/10' : 'hover:bg-gray-50' }} transition-all">

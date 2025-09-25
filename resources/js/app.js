@@ -48,43 +48,48 @@ document.addEventListener('input', function(e) {
 // Premium UX Interactions
 // =====================
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize AOS with sensible defaults
-    AOS.init({
-        offset: 40,
-        duration: 600,
-        easing: 'ease-out-quart',
-        once: true,
-        mirror: false,
-        disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-    });
+    // Check if we're on an admin page - if so, skip animations
+    const isAdminPage = window.location.pathname.includes('/admin');
+    
+    // Initialize AOS only for user/guest pages
+    if (!isAdminPage) {
+        AOS.init({
+            offset: 40,
+            duration: 600,
+            easing: 'ease-out-quart',
+            once: true,
+            mirror: false,
+            disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+        });
 
-    // Ensure AOS re-initializes after Livewire DOM updates (prevents elements staying hidden)
-    if (window.Livewire && window.AOS) {
-        try {
-            Livewire.hook('message.processed', () => AOS.refresh());
-        } catch (e) {
-            // no-op for Livewire v3 without this hook
+        // Ensure AOS re-initializes after Livewire DOM updates (prevents elements staying hidden)
+        if (window.Livewire && window.AOS) {
+            try {
+                Livewire.hook('message.processed', () => AOS.refresh());
+            } catch (e) {
+                // no-op for Livewire v3 without this hook
+            }
         }
-    }
 
-    window.addEventListener('livewire:navigated', () => {
-        if (window.AOS) {
-            AOS.refreshHard();
-        }
-    });
-
-    // Auto-apply AOS to direct children of content-flow (staggered)
-    document.querySelectorAll('.content-flow').forEach((container) => {
-        if (container.hasAttribute('data-aos-skip')) {
-            return; // do not auto-apply in marked containers
-        }
-        Array.from(container.children).forEach((child, idx) => {
-            if (!child.hasAttribute('data-aos')) {
-                child.setAttribute('data-aos', 'fade-up');
-                child.setAttribute('data-aos-delay', String(Math.min(idx * 60, 360)));
+        window.addEventListener('livewire:navigated', () => {
+            if (window.AOS) {
+                AOS.refreshHard();
             }
         });
-    });
+
+        // Auto-apply AOS to direct children of content-flow (staggered)
+        document.querySelectorAll('.content-flow').forEach((container) => {
+            if (container.hasAttribute('data-aos-skip')) {
+                return; // do not auto-apply in marked containers
+            }
+            Array.from(container.children).forEach((child, idx) => {
+                if (!child.hasAttribute('data-aos')) {
+                    child.setAttribute('data-aos', 'fade-up');
+                    child.setAttribute('data-aos-delay', String(Math.min(idx * 60, 360)));
+                }
+            });
+        });
+    }
 
     // Sticky header subtle shadow on scroll
     const desktopNav = document.getElementById('nav-dekstop');
@@ -101,4 +106,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Auto-apply content reveal to children of content containers
-// Removed: auto content-reveal; AOS will drive visibility
+// Removed: auto content-reveal and AOS animations

@@ -143,7 +143,7 @@
                                 <!-- Additional Info Below Timer -->
                                 <p class="text-center text-gray-600">
                                     If the time reaches zero, your booking will be automatically <b
-                                        class="text-red-600"> canceled </b>, and you will need to make a new booking.
+                                        class="text-red-600"> cancelled </b>, and you will need to make a new booking.
                                 </p>
                             </div>
                             {{-- Time Limit --}}
@@ -157,7 +157,7 @@
                                 <button @click="open = !open"
                                     class="w-full p-4 text-left text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring">
                                     <div class="flex items-center justify-between">
-                                        <span class="font-semibold">Deposit Requirement</span>
+                                        <span class="font-semibold">Deposit Requirements</span>
                                         <svg :class="{ 'transform rotate-180': open }"
                                             class="w-4 h-4 transition-transform" xmlns="http://www.w3.org/2000/svg"
                                             fill="none" viewBox="0 0 24 24" stroke="currentColor">

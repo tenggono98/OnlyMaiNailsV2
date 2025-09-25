@@ -226,8 +226,7 @@
                                                     <span wire:loading.remove
                                                         wire:target="completeBooking">Complete</span>
                                                     <!-- Loading text with spinner -->
-                                                    <span wire:loading wire:target="completeBooking"
-                                                        class="animate-pulse">Loading...</span>
+                                                    <span wire:loading wire:target="completeBooking">Loading...</span>
                                                 </x-pages.btn>
                                             </div>
                                         @else
@@ -249,8 +248,7 @@
                                                     <span wire:loading.remove
                                                         wire:target="confirmDepositPayment">Verify Deposit</span>
                                                     <!-- Loading text with spinner -->
-                                                    <span wire:loading wire:target="confirmDepositPayment"
-                                                        class="animate-pulse">Loading...</span>
+                                                    <span wire:loading wire:target="confirmDepositPayment">Loading...</span>
                                                 </x-pages.btn>
                                             </div>
                                         @else

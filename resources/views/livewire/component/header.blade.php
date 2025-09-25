@@ -135,7 +135,7 @@
     </section>
     <!-- Desktop spacer to offset fixed header height -->
     <div class="hidden lg:block h-24"></div>
-    <section id="nav-mobile" class="bg-primary px-5 lg:hidden fixed bottom-0 w-full  rounded-t-lg " data-aos="fade-up">
+    <section id="nav-mobile" class="bg-primary px-5 lg:hidden fixed bottom-0 w-full  rounded-t-lg " style="z-index: 1000 !important;" data-aos-skip >
         <div class="flex justify-between w-full p-2">
             {{-- Menu --}}
             <div class="flex items-center w-full justify-evenly">
