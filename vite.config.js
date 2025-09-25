@@ -14,4 +14,7 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        sourcemap: false, // Disable source maps in production
+    },
 });
