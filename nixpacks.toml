@@ -17,7 +17,6 @@ cmds = [
     "php artisan package:discover --ansi",
     "php artisan storage:link || true",
     "php artisan optimize",
-    "php artisan migrate --force",
     "chmod +x start.sh"
 ]
 
