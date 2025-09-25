@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://onlymainails.alfonso-server.online'),
     
     /*
     |--------------------------------------------------------------------------
@@ -65,7 +65,7 @@ return [
     |
     */
     
-    'force_https' => env('FORCE_HTTPS', false),
+    'force_https' => env('FORCE_HTTPS', true),
 
     /*
     |--------------------------------------------------------------------------
