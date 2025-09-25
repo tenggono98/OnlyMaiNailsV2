@@ -35,9 +35,7 @@ APP_DEBUG = "false"
 APP_URL = "https://onlymainails.alfonso-server.online/"
 
 # Define the build context
-[providers]
-php = { version = "8.2" }
-node = { version = "18" }
+providers = ["php", "node"]
 
 # Build phases configuration
 [phases.preInstall]
