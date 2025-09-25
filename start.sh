@@ -21,6 +21,4 @@ php artisan view:cache
 
 npm run build
 
-# Check if Swoole extension is available
-
 php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
