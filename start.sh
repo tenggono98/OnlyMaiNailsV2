@@ -21,6 +21,10 @@ php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
+# NPM Run Build
+echo "🔨 Building application..."
+npm run build
+
 # Run migrations if needed (uncomment if you want automatic migrations)
 # echo "🗄️  Running migrations..."
 # php artisan migrate --force
