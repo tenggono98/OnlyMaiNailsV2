@@ -12,7 +12,7 @@
                 <table class="table table-borderless table-sm">
                     <tbody>
                         <td>
-                    <img src="https://onlymainails.alfonso-tenggono.online/img/transparant-logo.png" class="img-fluid" alt="OnlyMaiNails" style="height: 7.5rem;">
+                    <img src="https://onlymainails.alfonso-tenggono.online/img/transparant-logo-v2.png" class="img-fluid" alt="OnlyMaiNails" style="height: 7.5rem;">
                         </td>
                         <td>
                             <h1 class="text-right">INVOICE</h1>

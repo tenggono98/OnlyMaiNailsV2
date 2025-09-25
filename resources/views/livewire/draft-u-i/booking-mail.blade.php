@@ -18,7 +18,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <img src="https://onlymainails.alfonso-tenggono.online/img/transparant-logo.png" style="height:10.5rem;" alt="Tailwind Play" />
+                                <img src="https://onlymainails.alfonso-tenggono.online/img/transparant-logo-v2.png" style="height:10.5rem;" alt="Tailwind Play" />
                             </td>
                             <td>
                                 <p class="">OnlyMaiNails</p>

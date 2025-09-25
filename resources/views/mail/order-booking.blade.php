@@ -120,7 +120,7 @@
             <table>
                 <tr>
                     <td style="text-align: center;">
-                        <img src="https://onlymainails.alfonso-tenggono.online/img/transparant-logo.png" style="height: auto; max-width: 100%;" alt="OnlyMaiNails Logo" />
+                        <img src="https://onlymainails.alfonso-tenggono.online/img/transparant-logo-v2.png" style="height: auto; max-width: 100%;" alt="OnlyMaiNails Logo" />
                         <p style="margin-top: 10px; font-weight: bold;">OnlyMaiNails</p>
                         <p style="margin: 0;">Atelier House - 5885 Victoria Drive, Vancouver</p>
                         <p style="margin: 0;">Email: maixesthetics@gmail.com</p>

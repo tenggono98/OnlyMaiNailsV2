@@ -120,7 +120,7 @@
             <table>
                 <tr>
                     <td style="text-align: center;">
-                        <img src="{{ asset('img/logo.png') }}" style="height: auto; max-width: 100%;" alt="OnlyMaiNails Logo" />
+                        <img src="{{ asset('img/logo-v2.png') }}" style="height: auto; max-width: 100%;" alt="OnlyMaiNails Logo" />
                         <p style="margin-top: 10px; ">{{ $company['name'] }}</p>
                         <p style="margin: 0;">{{ $company['address'] }}</p>
                         <p style="margin: 0;">Email: {{ $company['email'] }}</p>

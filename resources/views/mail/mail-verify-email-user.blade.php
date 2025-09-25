@@ -10,7 +10,7 @@
 <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
     <div style="max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <div style="text-align: center;">
-            <img src="https://onlymainails.alfonso-tenggono.online/img/transparant-logo.png" style="height: 100px;" alt="OnlyMaiNails Logo" />
+            <img src="https://onlymainails.alfonso-tenggono.online/img/transparant-logo-v2.png" style="height: 100px;" alt="OnlyMaiNails Logo" />
             <h1 style="color: #333;">Welcome to OnlyMaiNails!</h1>
         </div>
 
