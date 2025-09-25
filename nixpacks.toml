@@ -2,7 +2,6 @@
 nixPkgs = [
     "php82",
     "php82Packages.composer",
-    "php82Extensions.swoole",
     "nodejs_20"
 ]
 
@@ -29,5 +28,5 @@ cmd = "bash start.sh"
 [variables]
 PHP_VERSION = "8.2"
 NODE_VERSION = "20"
-APP_ENV = "production"
+APP_ENV = "local"
 APP_DEBUG = "false"
