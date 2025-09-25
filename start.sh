@@ -22,8 +22,8 @@ php artisan view:cache
 # Check if Swoole extension is available
 if php -m | grep -q swoole; then
     echo "Starting Laravel Octane server with Swoole..."
-    php artisan octane:start --server=swoole --host=0.0.0.0 --port=8000 --workers=4 --task-workers=2
+    php artisan octane:start --server=swoole --host=0.0.0.0 --port=${PORT:-8000} --workers=4 --task-workers=2
 else
     echo "Swoole not available, starting with built-in PHP server..."
-    php artisan serve --host=0.0.0.0 --port=8000
+    php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
 fi
