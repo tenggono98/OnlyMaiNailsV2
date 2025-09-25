@@ -3,7 +3,8 @@
     <div class="grid gap-5 px-10 py-10 lg:px-20 lg:grid-cols-4">
         {{-- Image --}}
         <div class="">
-            <img src="{{ asset('img/transparant-logo.png') }}" alt="">
+            {{-- <img src="{{ asset('img/transparant-logo.png') }}" alt=""> --}}
+            <h1 class="julius-sans-one-regular text-4xl !tracking-[15%] ">ONLYMAINAILS</h1>
         </div>
         {{-- Image --}}
         {{-- Info 1 --}}
