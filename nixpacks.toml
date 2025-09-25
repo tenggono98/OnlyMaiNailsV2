@@ -21,7 +21,7 @@ cmds = [
 ]
 
 [start]
-cmd = ["bash", "start.sh"]
+cmd = "bash start.sh"
 
 [variables]
 PHP_VERSION = "8.3"
