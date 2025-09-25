@@ -2,7 +2,6 @@
 nixPkgs = [
     "php83",
     "php83Packages.composer",
-    "imagemagick",
     "nodejs_20"
 ]
 
@@ -17,7 +16,8 @@ cmds = [
 cmds = [
     "php artisan package:discover --ansi",
     "php artisan storage:link || true",
-    "php artisan optimize"
+    "php artisan optimize",
+    "chmod +x start.sh"
 ]
 
 [start]
