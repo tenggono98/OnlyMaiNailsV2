@@ -14,6 +14,9 @@ fi
 echo "📁 Creating storage link..."
 php artisan storage:link || echo "⚠️  Storage link already exists"
 
+# Database connection will be handled by MySQL service
+echo "🗄️  Database connection configured for MySQL..."
+
 # Clear and cache config
 echo "🧹 Optimizing application..."
 php artisan config:clear

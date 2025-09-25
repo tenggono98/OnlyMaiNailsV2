@@ -17,6 +17,7 @@ cmds = [
     "php artisan package:discover --ansi",
     "php artisan storage:link || true",
     "php artisan optimize",
+    "php artisan migrate --force",
     "chmod +x start.sh"
 ]
 
@@ -29,3 +30,9 @@ NODE_VERSION = "20"
 APP_ENV = "production"
 APP_DEBUG = "false"
 DEBUGBAR_ENABLED="false"
+DB_CONNECTION = "mysql"
+DB_HOST = "db"
+DB_PORT = "3306"
+DB_DATABASE = "onlymainails"
+DB_USERNAME = "ateng"
+DB_PASSWORD = "!Sesaknapas98"
