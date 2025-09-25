@@ -20,19 +20,15 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'role' => RoleCheck::class,
-            'redirectToUserLogin' =>\App\Http\Middleware\RedirectToUserLogin::class,
-            'force.https' => \App\Http\Middleware\ForceHttps::class,
+            'redirectToUserLogin' =>\App\Http\Middleware\RedirectToUserLogin::class
+
         ]);
         
         // Force HTTPS in production
-        if (env('FORCE_HTTPS', false) || app()->environment('production')) {
+        if (env('FORCE_HTTPS', false)) {
             $middleware->web(append: [
                 \Illuminate\Http\Middleware\HandleCors::class,
-            ]);
-            
-            // Add HTTPS enforcement middleware
-            $middleware->web(prepend: [
-                \App\Http\Middleware\ForceHttps::class,
+                \Illuminate\Foundation\Http\Middleware\TrustProxies::class,
             ]);
         }
     })
