@@ -1,6 +1,6 @@
-<div class="min-h-screen">
+<div class="min-h-screen" data-aos="fade-up">
   <!-- Hero Section -->
-  <div class="relative py-8">
+  <div class="relative py-8" data-aos="fade-up">
     <div class="relative">
       <div class="text-center">
         <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
@@ -14,9 +14,9 @@
   </div>
 
   <!-- Products Section -->
-  <div class="py-8">
+  <div class="py-8" data-aos="fade-up" data-aos-delay="60">
     <!-- Filter/Sort Bar -->
-    <div class="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div class="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4" data-aos="fade-up" data-aos-delay="80">
       <div class="flex items-center gap-4">
         <h2 class="text-2xl font-semibold text-gray-900">Products</h2>
         <span class="px-3 py-1 bg-[#fadde1] text-gray-800 text-sm font-medium rounded-lg">
@@ -40,9 +40,9 @@
     </div>
 
     <!-- Products Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" data-aos="fade-up" data-aos-delay="100">
       @forelse($products as $p)
-        <a href="{{ route('shop.product', $p->id) }}" class="group relative bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-[#fadde1] hover:border-[#fadde1]">
+        <a href="{{ route('shop.product', $p->id) }}" class="group relative bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-[#fadde1] hover:border-[#fadde1]" data-aos="fade-up" data-aos-delay="{{ min($loop->index * 60, 360) }}">
           <!-- Product Image -->
           <div class="relative aspect-square overflow-hidden bg-gray-100">
             @if($p->image_path)

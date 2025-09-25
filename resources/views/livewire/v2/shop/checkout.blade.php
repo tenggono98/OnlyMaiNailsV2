@@ -1,6 +1,6 @@
-<div class="min-h-screen">
+<div class="min-h-screen" data-aos="fade-up">
   <!-- Header Section -->
-  <div class="mb-8">
+  <div class="mb-8" data-aos="fade-up">
     <h1 class="text-3xl font-bold tracking-tight text-gray-900">Checkout</h1>
     <p class="mt-2 text-lg text-gray-600">Review your order and complete your purchase</p>
   </div>
@@ -16,15 +16,15 @@
     </div>
   @endif
 
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" data-aos="fade-up" data-aos-delay="60">
     <!-- Order Summary -->
     <div class="lg:col-span-2">
-      <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm p-6">
+      <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm p-6" data-aos="fade-up" data-aos-delay="80">
         <h2 class="text-xl font-semibold text-gray-900 mb-6">Order Summary</h2>
 
         <div class="space-y-4">
           @foreach($items as $it)
-            <div class="flex items-center gap-4 p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-4 p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors" data-aos="fade-up" data-aos-delay="100">
               <!-- Product Image -->
               <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
                 @if(!empty($it['image_path']))
@@ -66,7 +66,7 @@
     <!-- Order Details & Payment -->
     <div class="lg:col-span-1">
       <!-- Total Summary -->
-      <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm p-6 mb-6">
+      <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm p-6 mb-6" data-aos="fade-up" data-aos-delay="100">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Order Total</h3>
 
         <div class="space-y-3">
@@ -88,7 +88,7 @@
       </div>
 
       <!-- Notes Section -->
-      <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm p-6 mb-6">
+      <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm p-6 mb-6" data-aos="fade-up" data-aos-delay="120">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Order Notes</h3>
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Additional Information</label>
@@ -100,7 +100,7 @@
       </div>
 
       <!-- Payment Information -->
-      <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm p-6 mb-6">
+      <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm p-6 mb-6" data-aos="fade-up" data-aos-delay="140">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Payment Information</h3>
         <div class="space-y-4">
           <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
@@ -118,7 +118,7 @@
       </div>
 
       <!-- Action Buttons -->
-      <div class="space-y-3">
+      <div class="space-y-3" data-aos="fade-up" data-aos-delay="160">
         <button wire:click="placeOrder"
                 class="w-full bg-[#fadde1] flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer font-medium">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

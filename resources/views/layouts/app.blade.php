@@ -25,7 +25,7 @@
 
     </div>
 
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-gray-100 pb-24 lg:pb-0" data-aos="fade-up" data-aos-delay="60">
             <livewire:layout.navigation />
 
             <!-- Page Heading -->
@@ -38,9 +38,8 @@
             @endif
 
             <!-- Page Content -->
-            <main>
+            <main class="content-flow" data-aos="fade-up" data-aos-delay="120">
                 {{ $slot }}
-                
             </main>
         </div>
     </body>

@@ -1,14 +1,14 @@
-<div class="min-h-screen">
-  <div class="mx-auto px-4 py-6">
+<div class="min-h-screen" data-aos="fade-up">
+  <div class="mx-auto px-4 py-6" data-aos="fade-up">
     <!-- Header -->
-    <div class="mb-8">
+    <div class="mb-8" data-aos="fade-up">
       <h1 class="text-3xl font-bold text-gray-900 mb-2">My Orders</h1>
       <p class="text-gray-600">Track and manage your order history</p>
     </div>
 
     @forelse($orders as $order)
       <!-- Order Card -->
-      <div class="bg-white rounded-2xl shadow-lg border border-gray-100 mb-6 overflow-hidden">
+      <div class="bg-white rounded-2xl shadow-lg border border-gray-100 mb-6 overflow-hidden" data-aos="fade-up" data-aos-delay="{{ min($loop->index * 60, 360) }}">
         <!-- Order Header -->
         <div class="bg-gray-50 px-4 py-3 border-b border-gray-200">
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

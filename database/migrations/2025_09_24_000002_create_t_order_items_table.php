@@ -11,7 +11,8 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('t_order_id')->constrained('t_orders')->onDelete('cascade');
             $table->foreignId('m_product_id')->constrained('m_products');
-            $table->foreignId('m_product_variant_id')->nullable()->constrained('m_product_variants');
+            // Define column first; we'll add the FK in a later migration after m_product_variants exists
+            $table->unsignedBigInteger('m_product_variant_id')->nullable();
             $table->string('name');
             $table->decimal('price', 12, 2);
             $table->unsignedInteger('qty');

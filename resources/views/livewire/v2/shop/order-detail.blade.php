@@ -1,7 +1,7 @@
-<div class="min-h-screen">
-  <div class="mx-auto px-4 py-6">
+<div class="min-h-screen" data-aos="fade-up">
+  <div class="mx-auto px-4 py-6" data-aos="fade-up">
     <!-- Header -->
-    <div class="mb-8">
+    <div class="mb-8" data-aos="fade-up">
       <a href="{{ route('shop.orders') }}" class="text-[#fadde1] hover:text-gray-700 transition-colors mb-4 inline-flex items-center gap-2">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
@@ -14,9 +14,9 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <!-- Main Content -->
-      <div class="lg:col-span-2 space-y-6">
+      <div class="lg:col-span-2 space-y-6" data-aos="fade-up" data-aos-delay="60">
         <!-- Order Status -->
-        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-4">
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-4" data-aos="fade-up" data-aos-delay="80">
           <h2 class="text-xl font-semibold text-gray-900 mb-4">Order Status</h2>
           <div class="flex items-center gap-4">
             @php
@@ -48,9 +48,9 @@
         </div>
 
         <!-- Order Items -->
-        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-4">
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-4" data-aos="fade-up" data-aos-delay="100">
           <h2 class="text-xl font-semibold text-gray-900 mb-6">Order Items</h2>
-          <div class="space-y-4">
+          <div class="space-y-4" data-aos="fade-up" data-aos-delay="120">
             @foreach($order->items as $item)
               <div class="flex items-center gap-4 p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
                 <!-- Product Image -->
@@ -86,7 +86,7 @@
 
         <!-- Order Notes -->
         @if($order->notes)
-          <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-4">
+          <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-4" data-aos="fade-up" data-aos-delay="140">
             <h2 class="text-xl font-semibold text-gray-900 mb-4">Order Notes</h2>
             <div class="bg-gray-50 rounded-lg p-4">
               <p class="text-gray-700">{{ $order->notes }}</p>
@@ -96,9 +96,9 @@
       </div>
 
       <!-- Sidebar -->
-      <div class="space-y-6">
+      <div class="space-y-6" data-aos="fade-up" data-aos-delay="160">
         <!-- Order Summary -->
-        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-4">
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-4" data-aos="fade-up" data-aos-delay="180">
           <h2 class="text-xl font-semibold text-gray-900 mb-4">Order Summary</h2>
           <div class="space-y-3">
             <div class="flex justify-between text-sm">
@@ -123,7 +123,7 @@
         </div>
 
         <!-- Order Information -->
-        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-4">
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-4" data-aos="fade-up" data-aos-delay="200">
           <h2 class="text-xl font-semibold text-gray-900 mb-4">Order Information</h2>
           <div class="space-y-3 text-sm">
             <div>
@@ -146,7 +146,7 @@
         </div>
 
         <!-- Actions -->
-        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-4">
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-4" data-aos="fade-up" data-aos-delay="220">
           <h2 class="text-xl font-semibold text-gray-900 mb-4">Actions</h2>
           <div class="space-y-3">
             @if($order->status === 'pending')

@@ -3,6 +3,8 @@ import  'flowbite';
 import flatpickr from "flatpickr";
 import Swal from 'sweetalert2';
 window.Swal = Swal;
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 // Listen for Livewire initialization
 document.addEventListener('livewire:init', () => {
@@ -42,10 +44,43 @@ document.addEventListener('input', function(e) {
     }
 });
 
+// =====================
+// Premium UX Interactions
+// =====================
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize AOS with sensible defaults
+    AOS.init({
+        offset: 40,
+        duration: 600,
+        easing: 'ease-out-quart',
+        once: true,
+        mirror: false,
+        disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    });
 
+    // Auto-apply AOS to direct children of content-flow (staggered)
+    document.querySelectorAll('.content-flow').forEach((container) => {
+        Array.from(container.children).forEach((child, idx) => {
+            if (!child.hasAttribute('data-aos')) {
+                child.setAttribute('data-aos', 'fade-up');
+                child.setAttribute('data-aos-delay', String(Math.min(idx * 60, 360)));
+            }
+        });
+    });
 
+    // Sticky header subtle shadow on scroll
+    const desktopNav = document.getElementById('nav-dekstop');
+    const toggleShadow = () => {
+        if (!desktopNav) return;
+        if (window.scrollY > 2) {
+            desktopNav.classList.add('shadow-md', 'backdrop-blur');
+        } else {
+            desktopNav.classList.remove('shadow-md', 'backdrop-blur');
+        }
+    };
+    toggleShadow();
+    window.addEventListener('scroll', toggleShadow, { passive: true });
+});
 
-
-
-
-
+// Auto-apply content reveal to children of content containers
+// Removed: auto content-reveal; AOS will drive visibility

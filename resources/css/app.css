@@ -238,6 +238,17 @@ p , li , span ,a, article , b , small , ::placeholder , select , label {
 .btn-normal{
     @apply bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer ;
 }
+/* Link and button base polish */
+a, button {
+    transition: color 200ms ease, opacity 200ms ease, transform 120ms ease, box-shadow 200ms ease;
+}
+
+button:focus-visible, a:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(250, 221, 225, 0.8);
+    border-radius: 0.5rem;
+}
+
 
 .bg-primary{
     @apply bg-[#FFF4F8];
@@ -248,4 +259,152 @@ div[modal-backdrop] {
     z-index:9;
 }
 
+
+/* ===================== */
+/* Premium UX Animations */
+/* ===================== */
+
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pop {
+    0% { transform: scale(0.98); }
+    60% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+@keyframes subtle-shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.anim-fade-in {
+    animation: fade-in-up 600ms ease-out 1 both;
+}
+
+.anim-pop {
+    animation: pop 300ms ease-out 1 both;
+}
+
+.anim-shimmer {
+    background: linear-gradient(90deg, rgba(0,0,0,0.04) 25%, rgba(0,0,0,0.08) 37%, rgba(0,0,0,0.04) 63%);
+    background-size: 400% 100%;
+    animation: subtle-shimmer 1.4s ease-in-out infinite;
+}
+
+/* Scroll reveal helper: hidden until observed */
+.reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Micro-interaction presets */
+.ux-link {
+    position: relative;
+    transition: color 200ms ease, opacity 200ms ease, transform 200ms ease;
+}
+
+.ux-link:hover {
+    opacity: 0.9;
+}
+
+.ux-link:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(250, 221, 225, 0.8);
+    border-radius: 0.5rem;
+}
+
+.ux-btn {
+    transition: box-shadow 200ms ease, transform 120ms ease, background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+
+.ux-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+}
+
+.ux-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.ux-card {
+    transition: box-shadow 250ms ease, transform 250ms ease;
+}
+
+.ux-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -20px rgba(0,0,0,0.25);
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .anim-fade-in,
+    .anim-pop,
+    .anim-shimmer,
+    .reveal {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+    }
+}
+
+/* ===================== */
+/* Content polish */
+/* ===================== */
+
+.content-flow > * {
+    margin-block: 0.75rem;
+}
+
+.content-flow > h1,
+.content-flow > h2,
+.content-flow > h3,
+.content-flow > h4,
+.content-flow > h5,
+.content-flow > h6 {
+    margin-top: 1.5rem;
+}
+
+.content-flow a {
+    text-underline-offset: 3px;
+}
+
+.content-flow a:hover {
+    text-decoration: underline;
+}
+
+.content-card {
+    transition: transform 240ms ease, box-shadow 240ms ease, background-color 200ms ease;
+}
+
+.content-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 36px -20px rgba(0,0,0,0.25);
+}
+
+.content-reveal {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.content-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 500ms ease, transform 500ms ease;
+}
 

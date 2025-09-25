@@ -1,15 +1,15 @@
-<div class="min-h-screen">
+<div class="min-h-screen" data-aos="fade-up">
   <!-- Header Section -->
-  <div class="mb-8">
+  <div class="mb-8" data-aos="fade-up">
     <h1 class="text-3xl font-bold tracking-tight text-gray-900">Your Cart</h1>
     <p class="mt-2 text-lg text-gray-600">Review your items and proceed to checkout</p>
   </div>
 
   @if(count($items) > 0)
     <!-- Cart Items -->
-    <div class="space-y-4 mb-8">
+    <div class="space-y-4 mb-8" data-aos="fade-up" data-aos-delay="60">
       @foreach($items as $i => $it)
-        <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm hover:shadow-md transition-shadow duration-200">
+        <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm hover:shadow-md transition-shadow duration-200" data-aos="fade-up" data-aos-delay="{{ min($i * 60, 360) }}">
           <div class="p-6">
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
               <!-- Product Info -->
@@ -91,7 +91,7 @@
     </div>
 
     <!-- Cart Summary -->
-    <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm p-6 mb-8">
+    <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm p-6 mb-8" data-aos="fade-up" data-aos-delay="80">
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-xl font-semibold text-gray-900">Order Summary</h2>
         <span class="text-sm text-gray-500">{{ count($items) }} item{{ count($items) > 1 ? 's' : '' }}</span>
@@ -116,18 +116,18 @@
     </div>
 
     <!-- Action Buttons -->
-    <div class="flex flex-col sm:flex-row gap-4">
+    <div class="flex flex-col sm:flex-row gap-4" data-aos="fade-up" data-aos-delay="100">
       <a href="{{ route('shop.index') }}"
          class="flex-1 bg-gray-100 flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-gray-300 hover:bg-transparent cursor-pointer font-medium text-gray-700">
         Continue Shopping
       </a>
       @auth
-        <a href="{{ route('shop.checkout') }}" 
+        <a href="{{ route('shop.checkout') }}"
            class="flex-1 bg-[#fadde1] flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer font-medium">
           Proceed to Checkout
         </a>
       @else
-        <a href="{{ route('user.login') }}" 
+        <a href="{{ route('user.login') }}"
            class="flex-1 bg-[#fadde1] flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer font-medium">
           Login to Checkout
         </a>
@@ -136,7 +136,7 @@
 
   @else
     <!-- Empty Cart State -->
-    <div class="text-center py-16">
+    <div class="text-center py-16" data-aos="fade-up">
       <div class="w-24 h-24 bg-[#fadde1] rounded-full flex items-center justify-center mx-auto mb-6">
         <svg class="w-12 h-12 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"></path>

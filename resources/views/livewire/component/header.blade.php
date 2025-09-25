@@ -1,31 +1,32 @@
 <div>
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
-    <div class="flex p-4 lg:p-5 bg-primary  xl:px-32 px-5 ">
+    <div class="hidden lg:flex items-center bg-primary xl:px-32 px-5 lg:fixed lg:top-0 lg:left-0 lg:right-0 z-50 h-12 " data-aos="fade-down">
 
         <div class="flex justify-between w-full ">
             @if (empty(Auth::user()->role))
-                <ul class="flex justify-between gap-4 w-full">
+                <ul class="flex justify-between gap-4 w-full" data-aos="fade-down" data-aos-delay="60">
                     <li class="lg:hidden ">
                         <h1 class="text-2xl !tracking-widest">OnlyMaiNails</h1>
                         <small class="text-xs">Thank you for choosing Onlymainails</small>
                     </li>
-                    <ul class="flex gap-4 xl:ml-auto">
+                    <ul class="flex gap-4 xl:ml-auto" data-aos="fade-down" data-aos-delay="100">
                         <li class="hidden lg:block">Already a Member?</li>
-                        <li class="cursor-pointer"><a class="w-full" href="{{ route('user.login') }}">Login</a></li>
-                        <li class="cursor-pointer"><a class="w-full" href="{{ route('user.signup') }}">Sign Up</a></li>
+                        <li class="cursor-pointer"><a class="w-full ux-link" href="{{ route('user.login') }}">Login</a></li>
+                        <li class="cursor-pointer"><a class="w-full ux-link" href="{{ route('user.signup') }}">Sign Up</a></li>
                     </ul>
                 </ul>
             @else
-                <ul class="flex items-center justify-between w-full gap-4 lg:flex lg:justify-center ">
+                <ul class="flex items-center justify-between w-full gap-4 lg:flex lg:justify-center " data-aos="fade-down" data-aos-delay="60">
                     <li class="lg:hidden">
                         <h1 class="text-2xl">OnlyMaiNails</h1>
                     </li>
 
-                    <div class="hidden gap-4 lg:flex ml-auto">
-                        <li class="cursor-pointer"><a href="{{ route('shop.orders') }}">My Orders</a></li>
-                        <li class="cursor-pointer"><a href="{{ route('user.history_booking') }}">Booking History</a></li>
-                        <li class="cursor-pointer"><a href="{{ route('user.change_profile') }}">Change Profile</a></li>
-                    </div>
+                    <ul class="hidden gap-4 lg:flex ml-auto" data-aos="fade-down" data-aos-delay="100">
+                        <li class="cursor-pointer"><a class="ux-link" href="{{ route('shop.orders') }}">My Orders</a></li>
+                        <li class="cursor-pointer"><a class="ux-link" href="{{ Route('shop.cart') }}">Cart</a></li>
+                        <li class="cursor-pointer"><a class="ux-link" href="{{ route('user.history_booking') }}">Booking History</a></li>
+                        <li class="cursor-pointer"><a class="ux-link" href="{{ route('user.change_profile') }}">Change Profile</a></li>
+                    </ul>
 
                     <li class="">
                         <div class="flex justify-end gap-5">
@@ -102,37 +103,13 @@
                                 </div>
                             </div>
                         </div>
-                        <script>
-                            const button = document.getElementById('notificationButton');
-                            const dropdown = document.getElementById('dropdown');
-                            // Toggle dropdown visibility on button click
-                            button.addEventListener('click', function(event) {
-                                dropdown.classList.toggle('hidden');
-                                event.stopPropagation(); // Prevent the click from propagating to the document
-                            });
-                            // Prevent dropdown from closing when clicking inside it
-                            dropdown.addEventListener('click', function(event) {
-                                event.stopPropagation();
-                            });
-                            // Close dropdown when clicking outside
-                            document.addEventListener('click', function(event) {
-                                if (!dropdown.classList.contains('hidden') && !button.contains(event.target)) {
-                                    dropdown.classList.add('hidden');
-                                }
-                            });
-                            // Optional: Close dropdown if the user presses the 'Escape' key
-                            document.addEventListener('keydown', function(event) {
-                                if (event.key === 'Escape' && !dropdown.classList.contains('hidden')) {
-                                    dropdown.classList.add('hidden');
-                                }
-                            });
-                        </script>
+
                     </li>
                 </ul>
             @endif
         </div>
     </div>
-    <section id="nav-dekstop" class="bg-primary p-5 hidden lg:sticky lg:block  lg:top-0   xl:px-32 px-5 ">
+    <section id="nav-dekstop" class="bg-primary p-3 hidden lg:block lg:fixed lg:top-12 lg:left-0 lg:right-0 z-40 w-full   xl:px-32 px-5 " data-aos="fade-down">
         <div class="flex justify-between w-full ">
             {{-- Logo --}}
             <div class="">`
@@ -140,28 +117,32 @@
             </div>
             {{-- Logo --}}
             {{-- Menu --}}
-            <div class="flex items-center justify-center ">
+            <div class="flex items-center justify-center " data-aos="fade-down" data-aos-delay="60">
                 <ul class="flex justify-center gap-5 uppercase list-none">
-                    <li><a href="{{ Route('home') }}">Home</a></li>
-                    <li><a href="{{ Route('services') }}">Our Services</a></li>
-                    <li><a href="{{ Route('shop.index') }}">Shop</a></li>
-                    <li><a href="{{ Route('shop.cart') }}">Cart</a></li>
-                    <li><a href="{{ Route('contact_us') }}">Contact Us</a></li>
-                    <li class=""><a class="p-4 border border-white border-spacing-5 rounded-xl"
+                    <li><a class="ux-link" href="{{ Route('home') }}">Home</a></li>
+                    <li><a class="ux-link" href="{{ Route('services') }}">Our Services</a></li>
+                    <li><a class="ux-link" href="{{ Route('shop.index') }}">Shop</a></li>
+                    @if (empty(Auth::user()->role))
+                    <li><a class="ux-link" href="{{ Route('shop.cart') }}">Cart</a></li>
+                    @endif
+                    <li><a class="ux-link" href="{{ Route('contact_us') }}">Contact Us</a></li>
+                    <li class=""><a class="p-4 border border-white border-spacing-5 rounded-xl ux-btn"
                             href="{{ Route('book') }}">Book Now</a></li>
                 </ul>
             </div>
             {{-- Menu --}}
         </div>
     </section>
-    <section id="nav-mobile" class="bg-primary px-5 lg:hidden fixed bottom-0 w-full  rounded-t-lg ">
+    <!-- Desktop spacer to offset fixed header height -->
+    <div class="hidden lg:block h-24"></div>
+    <section id="nav-mobile" class="bg-primary px-5 lg:hidden fixed bottom-0 w-full  rounded-t-lg " data-aos="fade-up">
         <div class="flex justify-between w-full p-2">
             {{-- Menu --}}
             <div class="flex items-center w-full justify-evenly">
                 <ul class="flex items-center w-full gap-5 uppercase list-none justify-evenly">
                     <li>
                         <a href="{{ Route('home') }}"
-                            class="flex flex-col items-center justify-between h-full p-2 text-center">
+                            class="flex flex-col items-center justify-between h-full p-2 text-center ux-link">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="size-7">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -172,7 +153,7 @@
                     </li>
                     <li class="z-10">
                         <a href="{{ Route('services') }}"
-                            class="flex flex-col items-center justify-between h-full p-2 text-center">
+                            class="flex flex-col items-center justify-between h-full p-2 text-center ux-link">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="size-7">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -183,7 +164,7 @@
                     </li>
                     <li class="absolute p-2  bottom-5 bg-primary  rounded-full z-0 ">
                         <a href="{{ Route('book') }}"
-                            class="flex flex-col items-center justify-between h-full p-2 text-center">
+                            class="flex flex-col items-center justify-between h-full p-2 text-center ux-btn">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="size-7">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -193,7 +174,7 @@
                         </a>
                     </li>
                     <li class="z-10">
-                        <a href="{{ route('shop.index') }}" class="flex flex-col items-center justify-between h-full p-2 text-center">
+                        <a href="{{ route('shop.index') }}" class="flex flex-col items-center justify-between h-full p-2 text-center ux-link">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="size-7">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -204,7 +185,7 @@
                     </li>
                     <li>
                         <a wire:click="toggleDrawer"
-                            class="flex flex-col items-center justify-between h-full p-2 text-center">
+                            class="flex flex-col items-center justify-between h-full p-2 text-center ux-link">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="size-7">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -356,7 +337,7 @@
     {{-- Drawer --}}
     @if (Auth::user())
         @if (Auth::user()->email_verified_at == null && Auth::user()->gauth_id == null)
-            <div class="w-full p-4 bg-[#fadde1] border-t border-white">
+            <div class="w-full p-4 bg-[#fadde1] border-t border-white lg:mt-24">
                 <p class="text-center">
                     Oops! Your email isn’t verified yet.
                     <a wire:click='resendverified' class='underline cursor-pointer'>
@@ -368,29 +349,5 @@
             </div>
         @endif
     @endif
-    <script>
-        const button = document.getElementById('notificationButton');
-        const dropdown = document.getElementById('dropdown');
-        // Toggle dropdown visibility on button click
-        button.addEventListener('click', function(event) {
-            dropdown.classList.toggle('hidden');
-            event.stopPropagation(); // Prevent the click from propagating to the document
-        });
-        // Prevent dropdown from closing when clicking inside it
-        dropdown.addEventListener('click', function(event) {
-            event.stopPropagation();
-        });
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!dropdown.classList.contains('hidden') && !button.contains(event.target)) {
-                dropdown.classList.add('hidden');
-            }
-        });
-        // Optional: Close dropdown if the user presses the 'Escape' key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape' && !dropdown.classList.contains('hidden')) {
-                dropdown.classList.add('hidden');
-            }
-        });
-    </script>
+
 </div>

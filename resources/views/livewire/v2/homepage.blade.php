@@ -1,5 +1,5 @@
 <div>
-    <div class="">
+    <div class="" data-aos="fade-up">
         {{-- Header Title --}}
         <div class="mb-10 hidden xl:block">
             <h1 class=" title-h1 julius-sans-one-regular xl:text-center z-30 tracking-[15%] mb-3 ">
@@ -9,34 +9,34 @@
         {{-- Header Title --}}
         {{-- Container - Image --}}
         {{-- Desktop --}}
-        <div class="xl:grid grid-cols-4 grid-rows-2 gap-4 h-[40rem] mb-10 hidden">
+        <div class="xl:grid grid-cols-4 grid-rows-2 gap-4 h-[40rem] mb-10 hidden" data-aos="fade-up" data-aos-delay="60">
             @foreach($headerImages as $index => $image)
                 @if($index === 0)
                 <div class="row-span-2">
                     <img src="{{ asset('storage/' . $image->image_path) }}"
-                        alt="{{ $image->alt_text }}" class="mx-auto rounded-xl w-full h-full object-cover shadow-md">
+                        alt="{{ $image->alt_text }}" class="mx-auto rounded-xl w-full h-full object-cover shadow-md" data-aos="zoom-in" data-aos-delay="120">
                 </div>
                 @elseif($index === 1)
                 <div>
                     <img src="{{ asset('storage/' . $image->image_path) }}"
-                        alt="{{ $image->alt_text }}" class="mx-auto rounded-xl w-full h-full shadow-md object-cover">
+                        alt="{{ $image->alt_text }}" class="mx-auto rounded-xl w-full h-full shadow-md object-cover" data-aos="zoom-in" data-aos-delay="180">
                 </div>
                 @elseif($index === 2)
                 <div class="col-start-2 row-start-2">
                     <img src="{{ asset('storage/' . $image->image_path) }}"
-                        alt="{{ $image->alt_text }}" class="mx-auto rounded-xl w-full h-full shadow-md object-cover">
+                        alt="{{ $image->alt_text }}" class="mx-auto rounded-xl w-full h-full shadow-md object-cover" data-aos="zoom-in" data-aos-delay="220">
                 </div>
                 @elseif($index === 3)
                 <div class="col-span-2 row-span-2 col-start-3 row-start-1">
                     <img src="{{ asset('storage/' . $image->image_path) }}"
-                        alt="{{ $image->alt_text }}" class="mx-auto rounded-xl w-full h-full shadow-md object-cover">
+                        alt="{{ $image->alt_text }}" class="mx-auto rounded-xl w-full h-full shadow-md object-cover" data-aos="zoom-in" data-aos-delay="260">
                 </div>
                 @endif
             @endforeach
         </div>
         {{-- Desktop --}}
         {{-- Mobile --}}
-        <div id="indicators-carousel" class="relative w-full mb-10 h-[20rem] xl:hidden" data-carousel="static">
+        <div id="indicators-carousel" class="relative w-full mb-10 h-[20rem] xl:hidden" data-carousel="static" data-aos="fade-up">
             <!-- Carousel wrapper -->
             <div class="relative h-[20rem] overflow-hidden rounded-lg">
                 @foreach($headerImages as $index => $image)
@@ -50,8 +50,8 @@
             <!-- Slider indicators -->
             <div class="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2">
                 @foreach($headerImages as $index => $image)
-                <button type="button" class="w-3 h-3 rounded-full" 
-                    aria-current="{{ $index === 0 ? 'true' : 'false' }}" 
+                <button type="button" class="w-3 h-3 rounded-full"
+                    aria-current="{{ $index === 0 ? 'true' : 'false' }}"
                     aria-label="Slide {{ $index + 1 }}"
                     data-carousel-slide-to="{{ $index }}">
                 </button>
@@ -61,7 +61,7 @@
         {{-- Mobile --}}
         {{-- Container - Image --}}
         {{-- Container - Promo --}}
-        <div id="indicators-carousel" class="relative w-full xl:mb-10 mb-10 xl:h-36" data-carousel="static">
+        <div id="indicators-carousel" class="relative w-full xl:mb-10 mb-10 xl:h-36" data-carousel="static" data-aos="fade-up" data-aos-delay="100">
             <!-- Carousel wrapper -->
             <div class="relative h-56 overflow-hidden rounded-lg md:h-36">
                 @foreach($promoImages as $index => $image)
@@ -75,8 +75,8 @@
             <!-- Slider indicators -->
             <div class="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2">
                 @foreach($promoImages as $index => $image)
-                <button type="button" class="w-3 h-3 rounded-full" 
-                    aria-current="{{ $index === 0 ? 'true' : 'false' }}" 
+                <button type="button" class="w-3 h-3 rounded-full"
+                    aria-current="{{ $index === 0 ? 'true' : 'false' }}"
                     aria-label="Slide {{ $index + 1 }}"
                     data-carousel-slide-to="{{ $index }}">
                 </button>
@@ -110,9 +110,9 @@
         </div>
         {{-- Container - Promo --}}
         {{-- About Us --}}
-        <div class="xl:mb-10 mb-40  align-middle">
+        <div class="xl:mb-10 mb-40  align-middle" data-aos="fade-up">
             <div class="grid xl:grid-cols-2 grid-cols-1 gap-10">
-                <div class="">
+                <div class="" data-aos="fade-right">
                     {{-- Img --}}
                     <img src="{{ asset('img/0V9A9946.jpg') }}"
                         class="mx-auto rounded-xl w-full xl:h-[42rem] object-cover shadow-md" alt="">
@@ -121,7 +121,7 @@
                     <small class="font-thin italic">Owner & CEO of OnlyMaiNails</small>
                     {{-- Caption  --}}
                 </div>
-                <div class="xl:py-10 ">
+                <div class="xl:py-10 " data-aos="fade-left" data-aos-delay="60">
                     <h1 class=" julius-sans-one-regular mb-10 title-h1">About Our Studio</h1>
                     <div class="mb-10">
                         <p class="mb-10">
@@ -157,8 +157,8 @@
         </div>
         {{-- About Us --}}
         {{-- LOCATION --}}
-        <div class="grid xl:grid-cols-2 grid-cols-1 gap-10 mb-36">
-            <div class="relative">
+        <div class="grid xl:grid-cols-2 grid-cols-1 gap-10 mb-36" data-aos="fade-up">
+            <div class="relative" data-aos="fade-right">
                 <div class="absolute bottom-0 left-0 -z-10">
                     <svg width="112" height="111" viewBox="0 0 112 111" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -183,7 +183,7 @@
                     class="xl:text-5xl text-2xl julius-sans-one-regular z-30 tracking-[15%] mb-3 text-left bottom-0 absolute">
                     Location</h1>
             </div>
-            <div class="">
+            <div class="" data-aos="fade-left" data-aos-delay="60">
                 <iframe
                     src="{{ $data_homepage['gmapsLinks'] }}"
                     class="w-full min-h-[25rem]" allowfullscreen="" loading="lazy"
@@ -193,8 +193,8 @@
         </div>
         {{-- LOCATION --}}
         {{-- Contact Us --}}
-        <div class="grid xl:grid-cols-2 grid-cols-1 gap-10 mb-36">
-            <div class="relative">
+        <div class="grid xl:grid-cols-2 grid-cols-1 gap-10 mb-36" data-aos="fade-up">
+            <div class="relative" data-aos="fade-right">
                 <div class="absolute bottom-0 left-0 -z-10">
                     <svg width="112" height="111" viewBox="0 0 112 111" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -219,7 +219,7 @@
                     class="xl:text-5xl text-2xl julius-sans-one-regular z-30 tracking-[15%] mb-3 text-left bottom-0 absolute">
                     Contact Us</h1>
             </div>
-            <div class="">
+            <div class="" data-aos="fade-left" data-aos-delay="60">
 
                 <div class="flex flex-col gap-4">
                     <div class="flex gap-3">

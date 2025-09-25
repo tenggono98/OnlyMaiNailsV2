@@ -1,6 +1,6 @@
 <div>
     {{-- Container List Services --}}
-    <div class="flex flex-col gap-4 mb-5">
+    <div class="flex flex-col gap-4 mb-5" data-aos="fade-up">
         @foreach ($services as $card)
         @php
             $image_link = '';
@@ -13,14 +13,14 @@
             elseif($card->name_service_categori == 'Other Services')
                 $image_link = asset('img/IMG_3174.jpg')
         @endphp
-        <h1 class="text-3xl  ">{{ $card->name_service_categori }}</h1>
-            <div class="grid grid-cols-3 gap-10 mb-5 ">
-                    <div class="">
+        <h1 class="text-3xl  " data-aos="fade-up">{{ $card->name_service_categori }}</h1>
+            <div class="grid grid-cols-3 gap-10 mb-5 " data-aos="fade-up" data-aos-delay="60">
+                    <div class="" data-aos="zoom-in">
                         <img src="{{ $image_link }}"  class="rounded-xl max-h-60 w-full object-cover object-center" alt="">
                     </div>
                     <div class="col-span-2 ">
                         @foreach ($card->services as $item)
-                            <div class="flex  justify-between">
+                            <div class="flex  justify-between" data-aos="fade-up" data-aos-delay="90">
                                 <div class="mb-2">
                                     <h1 class="text-2xl">{{ $item->name_service }}</h1>
                                 </div>
@@ -37,7 +37,7 @@
 
 
     {{-- More Information --}}
-        <div class="grid grid-cols-3 gap-10 mb-5">
+        <div class="grid grid-cols-3 gap-10 mb-5" data-aos="fade-up">
             <div class="col-span-2">
                 <h1 class="text-2xl  text-left mb-5">Have a Question?</h1>
                 <div class="flex flex-col gap-4 float-left">

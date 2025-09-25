@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "air-datepicker": "^3.5.3",
+        "aos": "^2.3.4",
         "flatpickr": "^4.6.13",
         "flowbite": "^2.3.0",
         "flowbite-datepicker": "^1.2.6",

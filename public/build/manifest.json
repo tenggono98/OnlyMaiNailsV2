@@ -40,22 +40,25 @@
     "src": "public/font/black_mango/TTF/BlackMango-Regular.ttf"
   },
   "resources/css/app-admin.css": {
-    "file": "assets/app-admin-Cphgfq_p.css",
+    "file": "assets/app-admin-B_hTvZyR.css",
     "src": "resources/css/app-admin.css",
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-Ckv6fAwo.css",
+    "file": "assets/app-1KKqBoEU.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-CKFlGIQ9.js",
+    "file": "assets/app-BrwoaXe5.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
       "_index-CLQ_oLGC.js"
+    ],
+    "css": [
+      "assets/app-B0a9OMnn.css"
     ]
   },
   "resources/js/datepicker.js": {
