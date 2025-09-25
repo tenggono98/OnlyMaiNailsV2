@@ -16,11 +16,12 @@ cmds = [
 cmds = [
     "php artisan package:discover --ansi",
     "php artisan storage:link || true",
-    "php artisan optimize"
+    "php artisan optimize",
+    "chmod +x start.sh"
 ]
 
 [start]
-cmd = "bash start.sh"
+cmd = ["bash", "start.sh"]
 
 [variables]
 PHP_VERSION = "8.3"
