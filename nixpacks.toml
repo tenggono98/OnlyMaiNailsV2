@@ -1,0 +1,29 @@
+[phases.setup]
+nixPkgs = [
+    "php83",
+    "php83Packages.composer",
+    "nodejs_20"
+]
+
+[phases.install]
+cmds = [
+    "composer install --optimize-autoloader --no-interaction",
+    "npm ci",
+    "npm run build"
+]
+
+[phases.build]
+cmds = [
+    "php artisan package:discover --ansi",
+    "php artisan storage:link || true",
+    "php artisan optimize"
+]
+
+[start]
+cmd = "bash start.sh"
+
+[variables]
+PHP_VERSION = "8.3"
+NODE_VERSION = "20"
+APP_ENV = "production"
+APP_DEBUG = "false"
