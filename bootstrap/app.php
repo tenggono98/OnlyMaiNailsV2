@@ -9,6 +9,9 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Console\Scheduling\Schedule;
 
 return Application::configure(basePath: dirname(__DIR__))
+    ->withProviders([
+        \App\Providers\HttpsServiceProvider::class,
+    ])
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         commands: __DIR__.'/../routes/console.php',
@@ -20,6 +23,14 @@ return Application::configure(basePath: dirname(__DIR__))
             'redirectToUserLogin' =>\App\Http\Middleware\RedirectToUserLogin::class
 
         ]);
+        
+        // Force HTTPS in production
+        if (env('FORCE_HTTPS', false)) {
+            $middleware->web(append: [
+                \Illuminate\Http\Middleware\HandleCors::class,
+                \Illuminate\Foundation\Http\Middleware\TrustProxies::class,
+            ]);
+        }
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

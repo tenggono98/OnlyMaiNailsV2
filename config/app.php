@@ -53,6 +53,19 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Force HTTPS
+    |--------------------------------------------------------------------------
+    |
+    | When this option is enabled, Laravel will force all URLs to be generated
+    | using HTTPS instead of HTTP. This is useful when your application is
+    | behind a proxy or load balancer that handles SSL termination.
+    |
+    */
+    
+    'force_https' => env('FORCE_HTTPS', false),
 
     /*
     |--------------------------------------------------------------------------
