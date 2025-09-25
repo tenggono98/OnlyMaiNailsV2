@@ -58,8 +58,26 @@ document.addEventListener('DOMContentLoaded', () => {
         disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
     });
 
+    // Ensure AOS re-initializes after Livewire DOM updates (prevents elements staying hidden)
+    if (window.Livewire && window.AOS) {
+        try {
+            Livewire.hook('message.processed', () => AOS.refresh());
+        } catch (e) {
+            // no-op for Livewire v3 without this hook
+        }
+    }
+
+    window.addEventListener('livewire:navigated', () => {
+        if (window.AOS) {
+            AOS.refreshHard();
+        }
+    });
+
     // Auto-apply AOS to direct children of content-flow (staggered)
     document.querySelectorAll('.content-flow').forEach((container) => {
+        if (container.hasAttribute('data-aos-skip')) {
+            return; // do not auto-apply in marked containers
+        }
         Array.from(container.children).forEach((child, idx) => {
             if (!child.hasAttribute('data-aos')) {
                 child.setAttribute('data-aos', 'fade-up');

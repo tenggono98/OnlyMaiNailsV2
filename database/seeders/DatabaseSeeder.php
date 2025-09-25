@@ -174,6 +174,10 @@ class DatabaseSeeder extends Seeder
                     'name' => 'instagram',
                     'value' => 'onlymainails'
                 ],
+                [
+                    'name' => 'ContactInboxEmail',
+                    'value' => 'maixesthetics@gmail.com'
+                ],
 
 
             ]);
