@@ -7,6 +7,12 @@ set -e
 echo "Waiting for database connection..."
 php artisan migrate --force
 
+# Generate APP_KEY if not set
+if [ -z "$APP_KEY" ] || [ "$APP_KEY" = "" ]; then
+    echo "🔑 Generating application key..."
+    php artisan key:generate --force
+fi
+
 # Clear and cache configuration
 echo "Optimizing application..."
 php artisan config:clear

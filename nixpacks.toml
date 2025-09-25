@@ -30,3 +30,4 @@ PHP_VERSION = "8.2"
 NODE_VERSION = "20"
 APP_ENV = "local"
 APP_DEBUG = "false"
+
