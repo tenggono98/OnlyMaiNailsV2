@@ -57,6 +57,13 @@ class Login extends Component
             session()->regenerate();
             // Clear rate limiting counter on successful login
             RateLimiter::clear($key);
+            
+            // Check if user was redirected from checkout
+            if (session()->has('checkout_redirect')) {
+                session()->forget('checkout_redirect');
+                return redirect()->route('shop.checkout');
+            }
+            
             // Redirect to intended page or dashboard
             return redirect()->intended();
         }

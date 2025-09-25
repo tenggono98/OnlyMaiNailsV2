@@ -19,6 +19,35 @@
                     </a>
                 </li>
                 <li>
+                    <button type="button" id="shopMenuButton"
+                        class="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group justify-between">
+                        <span class="inline-flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor"
+                                class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm9-9h3.11c.523 0 .98.335 1.122.836l1.263 4.606a2.25 2.25 0 0 1-2.174 2.808H9.28m-3.124-9 1.5 5.625M7.5 14.25h10.836a2.25 2.25 0 0 0 2.182-1.713l1.313-5.25H6.375" />
+                              </svg>
+                            <span class="ms-3 whitespace-nowrap">Shop</span>
+                        </span>
+                        <svg id="shopChevron" class="w-4 h-4 text-gray-500 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <ul id="shopSubmenu" class="hidden mt-1 space-y-1 ps-8">
+                        <li>
+                            <a href="{{ route('admin.shop.products') }}" class="flex items-center p-2 text-gray-700 rounded hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">Products</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.shop.stock') }}" class="flex items-center p-2 text-gray-700 rounded hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">Stock</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.shop.orders') }}" class="flex items-center p-2 text-gray-700 rounded hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">Orders</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.shop.invoices') }}" class="flex items-center p-2 text-gray-700 rounded hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">Invoices</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
                     <a href="{{ route('admin.service') }}"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -242,6 +271,17 @@
         <script>
             const button = document.getElementById('notificationButton');
             const dropdown = document.getElementById('dropdown');
+            // Shop submenu toggle
+            const shopMenuButton = document.getElementById('shopMenuButton');
+            const shopSubmenu = document.getElementById('shopSubmenu');
+            const shopChevron = document.getElementById('shopChevron');
+            if (shopMenuButton) {
+                shopMenuButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    shopSubmenu.classList.toggle('hidden');
+                    shopChevron.classList.toggle('rotate-180');
+                });
+            }
             // Toggle dropdown visibility on button click
             button.addEventListener('click', function(event) {
                 dropdown.classList.toggle('hidden');
