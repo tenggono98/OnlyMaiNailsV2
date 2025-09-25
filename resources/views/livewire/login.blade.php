@@ -12,7 +12,7 @@
             <form wire:submit='login'>
                 @csrf
 
-                <div class="flex flex-col gap-3 p-4 my-5 border-[#fadde1] border rounded-lg">
+                <div class="flex flex-col gap-3 p-4 my-5 border-brand-accent-light border rounded-lg">
 
                     <div class="flex-auto">
                         <label for="">Email</label><br>
@@ -29,7 +29,7 @@
                     </div>
                     <div class="flex-auto ">
                         <div class="float-end">
-                        <a href="{{ route('password.request') }}" class="text-right hover:text-[#bca5a8]">Forget your password ?</a>
+                        <a href="{{ route('password.request') }}" class="text-right hover:text-brand-accent-medium">Forget your password ?</a>
 
                         </div>
 
@@ -43,7 +43,7 @@
                     <div class="flex-auto">
 
                         <button  type="submit"
-                            class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">Login</button>
+                            class="bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer w-full">Login</button>
 
                     </div>
 
@@ -56,18 +56,18 @@
 
             <div class="flex items-center py-5">
                 <div class="flex-auto">
-                    <hr class="border-t border-[#fadde1]">
+                    <hr class="border-t border-brand-accent-light">
                 </div>
                 <div class="px-4">
                     <h1 class="text-lg text-center">OR</h1>
                 </div>
                 <div class="flex-auto">
-                    <hr class="border-t border-[#fadde1]">
+                    <hr class="border-t border-brand-accent-light">
                 </div>
             </div>
 
             <a href="{{ route('oauth.google') }}" class="w-full">
-            <div class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">
+            <div class="bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer">
                 <div class="">
                     <svg class="w-8 h-8 text-red-500"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M17.788 5.108A9 9 0 1021 12h-8" /></svg>
                 </div>

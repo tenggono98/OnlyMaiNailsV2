@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===================== */
+/* Color Variables */
+/* ===================== */
+:root {
+    --color-primary: #d3e4dc;
+    --color-primary-hover: #bcdabb;
+    --color-background: #d3e4dc;
+    --color-surface: #f5f6f0;
+    --color-card: #f5f6f1;
+    --color-input: #f8f8f3;
+    --color-border: #f8f7f2;
+}
+
 
     @font-face {
     font-family: 'Cheque-Black';
@@ -232,11 +245,11 @@ p , li , span ,a, article , b , small , ::placeholder , select , label {
 }
 
 .form-control{
-    @apply border-[#fadde1] rounded-lg;
+    @apply border-brand-accent-light rounded-lg;
 }
 
 .btn-normal{
-    @apply bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer ;
+    @apply bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer ;
 }
 /* Link and button base polish */
 a, button {
@@ -245,13 +258,13 @@ a, button {
 
 button:focus-visible, a:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(250, 221, 225, 0.8);
+    box-shadow: 0 0 0 3px rgba(211, 228, 220, 0.8);
     border-radius: 0.5rem;
 }
 
 
 .bg-primary{
-    @apply bg-[#FFF4F8];
+    @apply bg-brand-base-1;
 }
 
 
@@ -324,7 +337,7 @@ div[modal-backdrop] {
 
 .ux-link:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(250, 221, 225, 0.8);
+    box-shadow: 0 0 0 3px rgba(211, 228, 220, 0.8);
     border-radius: 0.5rem;
 }
 

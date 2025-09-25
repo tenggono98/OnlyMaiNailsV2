@@ -42,7 +42,7 @@
                     <div class="flex-auto">
                         <button wire:click="next('flagPolicies')"
                         type="button"
-                        class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">
+                        class="bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer w-full">
                     Next
                     </button>
                     </div>
@@ -57,7 +57,7 @@
                     <h1 class="mb-4 text-xl ">Client Information</h1>
                     <!-- Client information form goes here -->
                     @if (!Auth::user())
-                        <div class="flex flex-col gap-3 p-4 my-5 border-[#fadde1] border rounded-lg">
+                        <div class="flex flex-col gap-3 p-4 my-5 border-brand-accent-light border rounded-lg">
                             <div class="flex-auto">
                                 <label for="">Full Name <span class="text-xs text-red-600">*</span></label><br>
                                 <input type="text" class="w-full form-control" name="" id=""
@@ -101,19 +101,19 @@
                             </div>
                             <div class="flex items-center py-5">
                                 <div class="flex-auto">
-                                    <hr class="border-t border-[#fadde1]">
+                                    <hr class="border-t border-brand-accent-light">
                                 </div>
                                 <div class="px-4">
                                     <h1 class="text-lg text-center">OR</h1>
                                 </div>
                                 <div class="flex-auto">
-                                    <hr class="border-t border-[#fadde1]">
+                                    <hr class="border-t border-brand-accent-light">
                                 </div>
                             </div>
                             <div class="">
                                 <a href="{{ route('oauth.google') }}" class="w-full">
                                     <div
-                                        class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">
+                                        class="bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer">
                                         <div class="">
                                             <svg class="w-8 h-8 text-red-500" width="24" height="24"
                                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
@@ -130,11 +130,11 @@
                             </div>
                         </div>
                     @else
-                        <div class="p-4 my-5 border-[#fadde1] border rounded-lg">
+                        <div class="p-4 my-5 border-brand-accent-light border rounded-lg">
                             <h1>Hello, {{ Auth::user()->name }}!</h1>
                             <p>Is this your account? If not, you can switch to a different one.</p>
                             <a wire:click="logout"
-                                class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer my-3">Logout</a>
+                                class="bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer my-3">Logout</a>
                             @if (Auth::user()->phone == null)
                                 <p class="my-2 font-bold">You're need to fill in some required information</p>
                                 <div class="">
@@ -182,7 +182,7 @@
                         <div class="flex-auto">
                             <button wire:click="next('informationClient')"
                             type="button"
-                            class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full flex">
+                            class="bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer w-full flex">
                         <!-- Default text -->
                         <span wire:loading.remove wire:target="next">Next</span>
                         @if(Auth::user() == null)
@@ -219,7 +219,7 @@
                                                     $indexDate;
                                             @endphp
                                             <label for="{{ $inputId }}"
-                                                class="flex text-nowrap items-center justify-center p-2 border rounded-md cursor-pointer border-[#fadde1] {{ $bookingTime->is_book == true ? 'bg-gray-300 border-none' : '' }}">
+                                                class="flex text-nowrap items-center justify-center p-2 border rounded-md cursor-pointer border-brand-accent-light {{ $bookingTime->is_book == true ? 'bg-gray-300 border-none' : '' }}">
                                                 <input wire:model.live='timeBooking'
                                                     {{ $bookingTime->is_book == true ? 'disabled' : '' }}
                                                     type="radio" id="{{ $inputId }}" name="timeSlot"
@@ -235,11 +235,11 @@
                     <div class="flex w-full gap-3">
                         <div class="">
                             <button wire:click="back('pickDateAndTime')" type="button"
-                                class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">Back</button>
+                                class="bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer">Back</button>
                         </div>
                         <div class="flex-auto">
                             <button wire:click="next('pickDateAndTime')" type="button"
-                                class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">Next</button>
+                                class="bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer w-full">Next</button>
                         </div>
                     </div>
                 </div>
@@ -263,9 +263,9 @@
                         <div class="flex flex-col gap-4 mt-10 mb-2 lg:flex-row">
                             @foreach ($serviceCategory as $key => $cat)
                                 <div x-on:click="openCategory = openCategory === {{ $key }} ? null : {{ $key }}"
-                                    :class="openCategory === {{ $key }} ? 'border-white bg-[#fadde1]' :
-                                        'border-[#fadde1]'"
-                                    class="flex-auto p-4 border rounded-lg hover:cursor-pointer hover:border-white hover:bg-[#fadde1]">
+                                    :class="openCategory === {{ $key }} ? 'border-white bg-brand-accent-light' :
+                                        'border-brand-accent-light'"
+                                    class="flex-auto p-4 border rounded-lg hover:cursor-pointer hover:border-white hover:bg-brand-accent-light">
                                     <p>{{ $cat->name_service_categori }}</p>
                                 </div>
                             @endforeach
@@ -274,11 +274,11 @@
                         @foreach ($serviceCategory as $key => $cat)
                             {{-- Category Item --}}
                             <div x-bind:class="openCategory !== {{ $key }} ? 'hidden' : ''"
-                                class="border rounded-lg border-[#fadde1] mb-10 mt-2">
+                                class="border rounded-lg border-brand-accent-light mb-10 mt-2">
                                 @foreach ($cat->services as $serv)
                                     <label for="{{ $cat->id }}-{{ $serv->id }}">
                                         <div
-                                            class="flex justify-between p-2 hover:cursor-pointer hover:border-white hover:bg-[#fadde1]">
+                                            class="flex justify-between p-2 hover:cursor-pointer hover:border-white hover:bg-brand-accent-light">
                                             <div>
                                                 {{ $serv->name_service }}
                                             </div>
@@ -311,11 +311,11 @@
                         <div class="flex w-full gap-3">
                             <div class="">
                                 <button wire:click="back('service')" type="button"
-                                    class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">Back</button>
+                                    class="bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer">Back</button>
                             </div>
                             <div class="flex-auto">
                                 <button wire:click="next('service')" type="button"
-                                    class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">Next</button>
+                                    class="bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer w-full">Next</button>
                             </div>
                         </div>
                     </div>
@@ -366,11 +366,11 @@
                     <div class="flex w-full gap-3">
                         <div class="">
                             <button wire:click="back('summary')" type="button"
-                                class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">Back</button>
+                                class="bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer">Back</button>
                         </div>
                         <div class="flex-auto">
                             <button wire:click="next('summary')" type='submit'  wire:confirm='Are you sure you want to proceed with your order?'
-                                class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full">
+                                class="bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer w-full">
 
                                 <!-- Default text -->
                                 <span wire:loading.remove wire:target="save">Submit</span>

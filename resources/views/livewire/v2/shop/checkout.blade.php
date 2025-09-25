@@ -19,7 +19,7 @@
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" data-aos="fade-up" data-aos-delay="60">
     <!-- Order Summary -->
     <div class="lg:col-span-2">
-      <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm p-6" data-aos="fade-up" data-aos-delay="80">
+      <div class="bg-white rounded-xl border border-brand-accent-light shadow-sm p-6" data-aos="fade-up" data-aos-delay="80">
         <h2 class="text-xl font-semibold text-gray-900 mb-6">Order Summary</h2>
 
         <div class="space-y-4">
@@ -45,7 +45,7 @@
                   <div class="text-sm text-gray-600">{{ $it['variant_name'] }}</div>
                 @endif
                 <div class="mt-1">
-                  <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-medium bg-[#fadde1] text-gray-800">
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-medium bg-brand-accent-light text-gray-800">
                     SKU: {{ $it['sku'] }}
                   </span>
                 </div>
@@ -66,7 +66,7 @@
     <!-- Order Details & Payment -->
     <div class="lg:col-span-1">
       <!-- Total Summary -->
-      <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm p-6 mb-6" data-aos="fade-up" data-aos-delay="100">
+      <div class="bg-white rounded-xl border border-brand-accent-light shadow-sm p-6 mb-6" data-aos="fade-up" data-aos-delay="100">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Order Total</h3>
 
         <div class="space-y-3">
@@ -88,19 +88,19 @@
       </div>
 
       <!-- Notes Section -->
-      <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm p-6 mb-6" data-aos="fade-up" data-aos-delay="120">
+      <div class="bg-white rounded-xl border border-brand-accent-light shadow-sm p-6 mb-6" data-aos="fade-up" data-aos-delay="120">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Order Notes</h3>
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Additional Information</label>
           <textarea wire:model.defer="notes"
-                    class="w-full p-3 border border-[#fadde1] rounded-lg form-control resize-none"
+                    class="w-full p-3 border border-brand-accent-light rounded-lg form-control resize-none"
                     rows="4"
                     placeholder="Any special instructions or notes for your order..."></textarea>
         </div>
       </div>
 
       <!-- Payment Information -->
-      <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm p-6 mb-6" data-aos="fade-up" data-aos-delay="140">
+      <div class="bg-white rounded-xl border border-brand-accent-light shadow-sm p-6 mb-6" data-aos="fade-up" data-aos-delay="140">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Payment Information</h3>
         <div class="space-y-4">
           <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
@@ -120,7 +120,7 @@
       <!-- Action Buttons -->
       <div class="space-y-3" data-aos="fade-up" data-aos-delay="160">
         <button wire:click="placeOrder"
-                class="w-full bg-[#fadde1] flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer font-medium">
+                class="w-full bg-brand-accent-light flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer font-medium">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>

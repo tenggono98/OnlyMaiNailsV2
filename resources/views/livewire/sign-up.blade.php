@@ -3,7 +3,7 @@
     <h1 class="mb-4 text-xl ">Client Register</h1>
     <!-- Client information form goes here -->
     @if (!Auth::user())
-        <div class="flex flex-col gap-3 p-4 my-5 border-[#fadde1] border rounded-lg">
+        <div class="flex flex-col gap-3 p-4 my-5 border-brand-accent-light border rounded-lg">
             <div class="flex-auto">
                 <label for="">Full Name <span class="text-xs text-red-600">*</span></label><br>
                 <input type="text" class="w-full form-control" name="" id="" wire:model='fullNameClient'>
@@ -43,19 +43,19 @@
             </div>
             <div class="flex items-center py-5">
                 <div class="flex-auto">
-                    <hr class="border-t border-[#fadde1]">
+                    <hr class="border-t border-brand-accent-light">
                 </div>
                 <div class="px-4">
                     <h1 class="text-lg text-center">OR</h1>
                 </div>
                 <div class="flex-auto">
-                    <hr class="border-t border-[#fadde1]">
+                    <hr class="border-t border-brand-accent-light">
                 </div>
             </div>
             <div class="">
                 <a href="{{ route('oauth.google') }}" class="w-full">
                     <div
-                        class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">
+                        class="bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer">
                         <div class="">
                             <svg class="w-8 h-8 text-red-500" width="24" height="24" viewBox="0 0 24 24"
                                 stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
@@ -72,11 +72,11 @@
             </div>
         </div>
     @else
-        <div class="p-4 my-5 border-[#fadde1] border rounded-lg">
+        <div class="p-4 my-5 border-brand-accent-light border rounded-lg">
             <h1>Hello, {{ Auth::user()->name }}!</h1>
             <p>Is this your account? If not, you can switch to a different one.</p>
             <a wire:click="logout"
-                class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer my-3">Logout</a>
+                class="bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer my-3">Logout</a>
             @if (Auth::user()->phone == null)
                 <p class="my-2 font-bold">You're need to fill in some required information</p>
                 <div class="">
@@ -124,7 +124,7 @@
     <div class="flex w-full gap-3">
         <div class="flex-auto">
             <button wire:click="store()" type="button"
-                class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer w-full flex">
+                class="bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer w-full flex">
                 <!-- Default text -->
                 <span>Submit</span>
                 @if (Auth::user() == null)

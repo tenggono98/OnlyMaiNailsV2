@@ -96,7 +96,7 @@
             {{-- Review Comment - Start --}}
             @foreach ($review as $r)
                 {{-- Card  --}}
-                <div class="p-4 border-[#fadde1] border  rounded-lg">
+                <div class="p-4 border-brand-accent-light border  rounded-lg">
                     <article>
                         <div class="flex items-center mb-4">
                             <div class="font-medium dark:text-white">
@@ -113,7 +113,7 @@
                 {{-- Review Comment - End --}}
             @endforeach
             {{-- Card  --}}
-            <div class="p-4 border-[#fadde1] border  flex justify-center items-center rounded-lg">
+            <div class="p-4 border-brand-accent-light border  flex justify-center items-center rounded-lg">
                 <div class="">
                     <a href="" class="transition-transform hover:underline">
                         <h1 class="">View More</h1>

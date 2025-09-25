@@ -14,11 +14,11 @@
             <div class="flex flex-col gap-4 p-4">
                 <!-- Search Name -->
                 <input type="text" placeholder="Search Product Name" id="search-product"
-                    class="p-2 border border-[#fadde1] rounded">
+                    class="p-2 border border-brand-accent-light rounded">
                 <!-- Product Line -->
                 <div>
                     <button
-                        class="flex items-center justify-between w-full p-2 text-left border border-[#fadde1] rounded"
+                        class="flex items-center justify-between w-full p-2 text-left border border-brand-accent-light rounded"
                         onclick="toggleDropdown('product-line')">
                         <div>
                             <h1>Product</h1>
@@ -38,7 +38,7 @@
                 <!-- Category Filter -->
                 <div>
                     <button
-                        class="flex items-center justify-between w-full p-2 text-left border border-[#fadde1] rounded"
+                        class="flex items-center justify-between w-full p-2 text-left border border-brand-accent-light rounded"
                         onclick="toggleDropdown('category-filter')">
                         <div>
                             <h1>Category</h1>
@@ -74,7 +74,7 @@
                 <!-- Color -->
                 <div>
                     <button
-                        class="flex items-center justify-between w-full p-2 text-left border border-[#fadde1] rounded"
+                        class="flex items-center justify-between w-full p-2 text-left border border-brand-accent-light rounded"
                         onclick="toggleDropdown('color-filter')">
                         <div>
                             <h1>Color</h1>
@@ -90,11 +90,11 @@
                 <div class="flex flex-row gap-2">
                     <div>
                         <label for="min-price" class="block">Min</label>
-                        <input type="number" id="min-price" class="p-2 border border-[#fadde1] rounded">
+                        <input type="number" id="min-price" class="p-2 border border-brand-accent-light rounded">
                     </div>
                     <div>
                         <label for="max-price" class="block">Max</label>
-                        <input type="number" id="max-price" class="p-2 border border-[#fadde1] rounded">
+                        <input type="number" id="max-price" class="p-2 border border-brand-accent-light rounded">
                     </div>
                 </div>
             </div>
@@ -132,7 +132,7 @@
                     {{-- Show Filter --}}
                 </div>
                 <div class="grid grid-cols-3 gap-3 ">
-                    <div class="p-4 border border-[#fadde1] rounded-lg">
+                    <div class="p-4 border border-brand-accent-light rounded-lg">
                         <img class="w-auto mx-auto rounded-2xl h-42"
                             src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=2899&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                             alt="">
@@ -149,7 +149,7 @@
 
                         </div>
                     </div>
-                    <div class="p-4 border border-[#fadde1] rounded-lg">
+                    <div class="p-4 border border-brand-accent-light rounded-lg">
                         <img class="w-auto mx-auto rounded-2xl h-42"
                             src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=2899&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                             alt="">
@@ -157,7 +157,7 @@
                                 <h1>Product 1</h1>
                             </div>
                     </div>
-                    <div class="p-4 border border-[#fadde1] rounded-lg">
+                    <div class="p-4 border border-brand-accent-light rounded-lg">
                         <img class="w-auto mx-auto rounded-2xl h-42"
                             src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=2899&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                             alt="">

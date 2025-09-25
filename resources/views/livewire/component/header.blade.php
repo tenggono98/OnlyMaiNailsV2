@@ -337,7 +337,7 @@
     {{-- Drawer --}}
     @if (Auth::user())
         @if (Auth::user()->email_verified_at == null && Auth::user()->gauth_id == null)
-            <div class="w-full p-4 bg-[#fadde1] border-t border-white lg:mt-24">
+            <div class="w-full p-4 bg-brand-base-1 border-t border-white lg:mt-24">
                 <p class="text-center">
                     Oops! Your email isn’t verified yet.
                     <a wire:click='resendverified' class='underline cursor-pointer'>

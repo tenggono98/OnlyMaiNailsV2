@@ -11,11 +11,22 @@ export default {
         '!./resources/views/pdf/**/*.blade.php',
     ],
 
-
     theme: {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                'brand': {
+                    'base-1': '#f6f7f1',
+                    'base-2': '#f5f6f0', 
+                    'base-3': '#f5f6f1',
+                    'base-4': '#f8f8f3',
+                    'base-5': '#faf9f5',
+                    'base-6': '#f8f7f2',
+                    'accent-light': '#efcabe',
+                    'accent-medium': '#bcdabb',
+                }
             },
         },
     },

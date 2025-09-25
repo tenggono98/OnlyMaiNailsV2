@@ -4,7 +4,7 @@
     <div class="relative">
       <div class="text-center">
         <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
-          Our <span class="text-[#fadde1]">Shop</span>
+          Our <span class="text-brand-accent-light">Shop</span>
         </h1>
         <p class="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">
           Discover our premium collection of nail products and accessories, carefully curated for the perfect manicure experience.
@@ -19,18 +19,18 @@
     <div class="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4" data-aos="fade-up" data-aos-delay="80">
       <div class="flex items-center gap-4">
         <h2 class="text-2xl font-semibold text-gray-900">Products</h2>
-        <span class="px-3 py-1 bg-[#fadde1] text-gray-800 text-sm font-medium rounded-lg">
+        <span class="px-3 py-1 bg-brand-accent-light text-gray-800 text-sm font-medium rounded-lg">
           {{ count($products) }} items
         </span>
       </div>
       <div class="flex items-center gap-3">
-        <button class="bg-[#fadde1] flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">
+        <button class="bg-brand-accent-light flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
           </svg>
           Filter
         </button>
-        <button class="bg-[#fadde1] flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer">
+        <button class="bg-brand-accent-light flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
           </svg>
@@ -42,7 +42,7 @@
     <!-- Products Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" data-aos="fade-up" data-aos-delay="100">
       @forelse($products as $p)
-        <a href="{{ route('shop.product', $p->id) }}" class="group relative bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-[#fadde1] hover:border-[#fadde1]" data-aos="fade-up" data-aos-delay="{{ min($loop->index * 60, 360) }}">
+        <a href="{{ route('shop.product', $p->id) }}" class="group relative bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-brand-accent-light hover:border-brand-accent-light" data-aos="fade-up" data-aos-delay="{{ min($loop->index * 60, 360) }}">
           <!-- Product Image -->
           <div class="relative aspect-square overflow-hidden bg-gray-100">
             @if($p->image_path)
@@ -62,7 +62,7 @@
           <div class="p-4">
             <!-- SKU Badge -->
             <div class="mb-2">
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-lg text-xs font-medium bg-[#fadde1] text-gray-800">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-lg text-xs font-medium bg-brand-accent-light text-gray-800">
                 {{ $p->sku }}
               </span>
             </div>
@@ -123,7 +123,7 @@
               @endif
 
               <!-- Add to Cart Button -->
-              <button class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 bg-[#fadde1] text-gray-800 rounded-lg hover:border hover:border-[#fadde1] hover:bg-transparent transform hover:scale-105 transition-all duration-200">
+              <button class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 bg-brand-accent-light text-gray-800 rounded-lg hover:border hover:border-brand-accent-light hover:bg-transparent transform hover:scale-105 transition-all duration-200">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"></path>
                 </svg>
@@ -134,7 +134,7 @@
       @empty
         <!-- Empty State -->
         <div class="col-span-full flex flex-col items-center justify-center py-16 text-center">
-          <div class="w-24 h-24 bg-[#fadde1] rounded-full flex items-center justify-center mb-6">
+          <div class="w-24 h-24 bg-brand-accent-light rounded-full flex items-center justify-center mb-6">
             <svg class="w-12 h-12 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
             </svg>
@@ -148,7 +148,7 @@
     <!-- Load More Button -->
     @if(count($products) > 0)
       <div class="mt-12 text-center">
-        <button class="bg-[#fadde1] flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer px-8 py-3 font-semibold">
+        <button class="bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer px-8 py-3 font-semibold">
           Load More Products
         </button>
       </div>

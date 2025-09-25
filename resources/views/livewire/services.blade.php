@@ -21,7 +21,7 @@
             <div class="grid gap-4 lg:grid-cols-4">
                 @foreach ($services as $card )
                   {{-- Card --}}
-                  <div class="p-4 border rounded-lg border-[#fadde1]">
+                  <div class="p-4 border rounded-lg border-brand-accent-light">
                     <h1 class="text-2xl text-center">{{ $card->name_service_categori }}</h1>
                     @foreach ($card->services as $item)
 

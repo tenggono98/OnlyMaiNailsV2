@@ -9,7 +9,7 @@
     <!-- Cart Items -->
     <div class="space-y-4 mb-8" data-aos="fade-up" data-aos-delay="60">
       @foreach($items as $i => $it)
-        <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm hover:shadow-md transition-shadow duration-200" data-aos="fade-up" data-aos-delay="{{ min($i * 60, 360) }}">
+        <div class="bg-white rounded-xl border border-brand-accent-light shadow-sm hover:shadow-md transition-shadow duration-200" data-aos="fade-up" data-aos-delay="{{ min($i * 60, 360) }}">
           <div class="p-6">
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
               <!-- Product Info -->
@@ -35,7 +35,7 @@
                       <div class="mt-1 text-sm text-gray-600">{{ $it['variant_name'] }}</div>
                     @endif
                     <div class="mt-1">
-                      <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-medium bg-[#fadde1] text-gray-800">
+                      <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-medium bg-brand-accent-light text-gray-800">
                         SKU: {{ $it['sku'] }}
                       </span>
                     </div>
@@ -54,16 +54,16 @@
                 <!-- Quantity Controls -->
                 <div class="flex items-center">
                   <button wire:click="decrement({{ $i }})"
-                          class="w-10 h-10 flex items-center justify-center bg-[#fadde1] border border-[#fadde1] rounded-l-lg hover:bg-transparent hover:border-[#fadde1] transition-colors">
+                          class="w-10 h-10 flex items-center justify-center bg-brand-accent-light border border-brand-accent-light rounded-l-lg hover:bg-transparent hover:border-brand-accent-light transition-colors">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
                     </svg>
                   </button>
-                  <div class="w-16 h-10 flex items-center justify-center border-t border-b border-[#fadde1] bg-white text-center font-medium">
+                  <div class="w-16 h-10 flex items-center justify-center border-t border-b border-brand-accent-light bg-white text-center font-medium">
                     {{ $it['qty'] }}
                   </div>
                   <button wire:click="increment({{ $i }})"
-                          class="w-10 h-10 flex items-center justify-center bg-[#fadde1] border border-[#fadde1] rounded-r-lg hover:bg-transparent hover:border-[#fadde1] transition-colors">
+                          class="w-10 h-10 flex items-center justify-center bg-brand-accent-light border border-brand-accent-light rounded-r-lg hover:bg-transparent hover:border-brand-accent-light transition-colors">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
@@ -91,7 +91,7 @@
     </div>
 
     <!-- Cart Summary -->
-    <div class="bg-white rounded-xl border border-[#fadde1] shadow-sm p-6 mb-8" data-aos="fade-up" data-aos-delay="80">
+    <div class="bg-white rounded-xl border border-brand-accent-light shadow-sm p-6 mb-8" data-aos="fade-up" data-aos-delay="80">
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-xl font-semibold text-gray-900">Order Summary</h2>
         <span class="text-sm text-gray-500">{{ count($items) }} item{{ count($items) > 1 ? 's' : '' }}</span>
@@ -123,12 +123,12 @@
       </a>
       @auth
         <a href="{{ route('shop.checkout') }}"
-           class="flex-1 bg-[#fadde1] flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer font-medium">
+           class="flex-1 bg-brand-accent-light flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer font-medium">
           Proceed to Checkout
         </a>
       @else
         <a href="{{ route('user.login') }}"
-           class="flex-1 bg-[#fadde1] flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer font-medium">
+           class="flex-1 bg-brand-accent-light flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer font-medium">
           Login to Checkout
         </a>
       @endauth
@@ -137,7 +137,7 @@
   @else
     <!-- Empty Cart State -->
     <div class="text-center py-16" data-aos="fade-up">
-      <div class="w-24 h-24 bg-[#fadde1] rounded-full flex items-center justify-center mx-auto mb-6">
+      <div class="w-24 h-24 bg-brand-accent-light rounded-full flex items-center justify-center mx-auto mb-6">
         <svg class="w-12 h-12 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"></path>
         </svg>
@@ -145,7 +145,7 @@
       <h3 class="text-xl font-semibold text-gray-900 mb-2">Your cart is empty</h3>
       <p class="text-gray-600 mb-6">Looks like you haven't added any items to your cart yet.</p>
       <a href="{{ route('shop.index') }}"
-         class="bg-[#fadde1] flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer font-medium inline-flex">
+         class="bg-brand-accent-light flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer font-medium inline-flex">
         Start Shopping
       </a>
     </div>

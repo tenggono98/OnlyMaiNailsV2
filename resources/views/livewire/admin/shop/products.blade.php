@@ -60,7 +60,7 @@
             <h4 class="text-sm font-medium text-gray-900 border-b border-gray-200 pb-2">Pricing & Inventory</h4>
 
             <div class="rounded-lg bg-blue-50 border border-blue-200 p-3 text-sm text-blue-800">
-              Pricing and stock are managed via variants. Manage variant images in <a href="{{ route('admin.shop.variant-images') }}" class="text-[#fadde1] underline">Variant Images</a>.
+              Pricing and stock are managed via variants. Manage variant images in <a href="{{ route('admin.shop.variant-images') }}" class="text-brand-accent-light underline">Variant Images</a>.
             </div>
           </div>
 
