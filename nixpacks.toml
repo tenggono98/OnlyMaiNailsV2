@@ -1,61 +1,32 @@
-# Nixpacks configuration for Laravel + Vite deployment on Dokploy
-# This configuration handles PHP backend and Node.js frontend build process
-
 [phases.setup]
-nixPkgs = ["php82", "php82Packages.composer", "nodejs_18", "npm", "git"]
+nixPkgs = [
+    "php83",
+    "php83Packages.composer",
+    "imagemagick",
+    "nodejs_20"
+]
 
 [phases.install]
 cmds = [
-    "composer install --no-dev --optimize-autoloader --no-interaction",
-    "npm ci --only=production"
+    "composer install --optimize-autoloader --no-interaction",
+    "npm ci",
+    "npm run build"
 ]
 
 [phases.build]
 cmds = [
-    "npm run build",
-    "php artisan config:cache",
-    "php artisan route:cache", 
-    "php artisan view:cache",
-    "php artisan event:cache",
-    "php artisan storage:link"
+    "php artisan package:discover --ansi",
+    "php artisan storage:link || true",
+    "php artisan optimize"
 ]
 
 [start]
-cmd = "php artisan serve --host=0.0.0.0 --port=$PORT"
+cmd = "./start.sh"
 
 [variables]
-PHP_VERSION = "8.2"
-NODE_VERSION = "18"
-NPM_CONFIG_PRODUCTION = "false"
-
-# Environment variables that should be available during build
-[buildtimeVariables]
+PHP_VERSION = "8.3"
+NODE_VERSION = "20"
 APP_ENV = "production"
 APP_DEBUG = "false"
-APP_URL = "https://onlymainails.alfonso-server.online/"
-
-# Define the build context
-providers = ["php", "node"]
-
-# Build phases configuration
-[phases.preInstall]
-cmds = [
-    "echo 'Starting Laravel + Vite build process...'",
-    "php --version",
-    "node --version",
-    "npm --version"
-]
-
-[phases.postBuild]
-cmds = [
-    "echo 'Build completed successfully!'",
-    "echo 'Frontend assets built with Vite'",
-    "echo 'Laravel caches optimized'"
-]
-
-# Ensure proper file permissions
-[phases.finalize]
-cmds = [
-    "chmod -R 755 storage bootstrap/cache",
-    "chown -R www-data:www-data storage bootstrap/cache"
-]
+FORCE_HTTPS = "true"
+SESSION_SECURE_COOKIE = "true"
