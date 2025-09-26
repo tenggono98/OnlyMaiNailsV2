@@ -68,32 +68,94 @@
           <div class="space-y-4">
             <h4 class="text-sm font-medium text-gray-900 border-b border-gray-200 pb-2">Product Image</h4>
 
-            <div class="space-y-3">
-              <div class="flex items-center justify-center w-full">
-                <label for="product-image" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-                  <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                    <svg class="w-8 h-8 mb-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                    </svg>
-                    <p class="mb-2 text-sm text-gray-500">
-                      <span class="font-semibold">Click to upload</span> or drag and drop
-                    </p>
-                    <p class="text-xs text-gray-500">PNG, JPG or GIF (MAX. 2MB)</p>
-                  </div>
-                  <input id="product-image" type="file" wire:model="image" accept="image/*" class="hidden" />
-                </label>
-              </div>
-
-              @if ($image)
-                <div class="flex items-center justify-center p-4 bg-gray-50 rounded-lg">
-                  <img src="{{ $image->temporaryUrl() }}" class="object-cover w-24 h-24 rounded-lg shadow-sm" />
-                  <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-900">{{ $image->getClientOriginalName() }}</p>
-                    <p class="text-xs text-gray-500">{{ number_format($image->getSize() / 1024, 1) }} KB</p>
-                  </div>
+            <!-- Upload Options -->
+            <div class="p-3 bg-gray-50 rounded-lg">
+                <div class="flex items-center space-x-4">
+                    <label class="flex items-center">
+                        <input type="radio" wire:model="useCropper" value="true" class="mr-2">
+                        <span class="text-sm font-medium text-gray-700">Use Image Cropper (Recommended)</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" wire:model="useCropper" value="false" class="mr-2">
+                        <span class="text-sm font-medium text-gray-700">Direct Upload</span>
+                    </label>
                 </div>
-              @endif
+                <p class="text-xs text-gray-500 mt-2">
+                    Image Cropper allows you to crop and resize images to the perfect dimensions ({{ $outputWidth }}x{{ $outputHeight }}px)
+                </p>
             </div>
+
+            @if($useCropper)
+                <!-- Image Cropper Component -->
+                <div class="space-y-4">
+                    <livewire:component.image-cropper 
+                        :crop-options="$cropOptions"
+                        :output-width="$outputWidth"
+                        :output-height="$outputHeight"
+                        :output-format="'jpg'"
+                        :output-quality="0.9"
+                        wire:key="product-image-cropper-{{ now()->timestamp }}"
+                    />
+                    
+                    <!-- Show cropped image preview if available -->
+                    @if($hasCroppedImage && $croppedImagePreview)
+                        <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
+                            <div class="flex items-center space-x-3">
+                                <div class="flex-shrink-0">
+                                    <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-medium text-green-800">Product Image Cropped Successfully!</h4>
+                                    <p class="text-sm text-green-700">Your product image has been cropped and is ready to be saved with the product.</p>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <img src="{{ $croppedImagePreview }}" alt="Cropped preview" class="w-16 h-16 object-cover rounded">
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            @else
+                <!-- Direct Upload Form -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-center w-full">
+                        <label for="product-image" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <svg class="w-8 h-8 mb-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                </svg>
+                                <p class="mb-2 text-sm text-gray-500">
+                                    <span class="font-semibold">Click to upload</span> or drag and drop
+                                </p>
+                                <p class="text-xs text-gray-500">PNG, JPG or GIF (MAX. 2MB)</p>
+                            </div>
+                            <input id="product-image" type="file" wire:model="image" accept="image/*" class="hidden" />
+                        </label>
+                    </div>
+
+                    @if ($image && !$hasCroppedImage)
+                        <div class="flex items-center justify-center p-4 bg-gray-50 rounded-lg">
+                            @if(is_string($image))
+                                <!-- Show stored image -->
+                                <img src="{{ asset('storage/' . $image) }}" class="object-cover w-24 h-24 rounded-lg shadow-sm" />
+                                <div class="ml-4">
+                                    <p class="text-sm font-medium text-gray-900">Product Image</p>
+                                    <p class="text-xs text-gray-500">Ready to save</p>
+                                </div>
+                            @else
+                                <!-- Show uploaded file -->
+                                <img src="{{ $image->temporaryUrl() }}" class="object-cover w-24 h-24 rounded-lg shadow-sm" />
+                                <div class="ml-4">
+                                    <p class="text-sm font-medium text-gray-900">{{ $image->getClientOriginalName() }}</p>
+                                    <p class="text-xs text-gray-500">{{ number_format($image->getSize() / 1024, 1) }} KB</p>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+                </div>
+            @endif
           </div>
 
           <!-- Action Buttons -->

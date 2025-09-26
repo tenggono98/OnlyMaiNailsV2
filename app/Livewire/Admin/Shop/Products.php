@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Shop;
 
 use App\Models\MProduct;
 use App\Models\MProductVariant;
+use App\Services\ImageUploadService;
 use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Layout;
@@ -32,6 +33,20 @@ class Products extends Component
     public $image;
     public $id_edit;
     public $is_edit = false;
+    
+    // Image cropping options
+    public $useCropper = true;
+    public $cropAspectRatio = [1, 1]; // Square aspect ratio for product images
+    public $outputWidth = 800;
+    public $outputHeight = 800;
+    public $cropOptions = [];
+    
+    // Loading states
+    public $isProcessingImage = false;
+    public $processingMessage = 'Processing image...';
+    public $croppedImagePreview = null;
+    public $croppedImageData = null;
+    public $hasCroppedImage = false;
 
     public function render()
     {
@@ -39,10 +54,136 @@ class Products extends Component
         return view('livewire.admin.shop.products');
     }
 
+    public function mount()
+    {
+        $this->setupCropOptions();
+    }
+
+    protected function setupCropOptions()
+    {
+        $this->cropOptions = [
+            'aspectRatio' => $this->cropAspectRatio[0] / $this->cropAspectRatio[1],
+            'viewMode' => 1,
+            'dragMode' => 'move',
+            'autoCropArea' => 0.8,
+            'background' => true,
+            'responsive' => true,
+            'restore' => false,
+            'checkCrossOrigin' => true,
+            'checkOrientation' => true,
+            'modal' => true,
+            'guides' => true,
+            'center' => true,
+            'highlight' => true,
+            'cropBoxMovable' => true,
+            'cropBoxResizable' => true,
+            'toggleDragModeOnDblclick' => true,
+            'minWidth' => 100,
+            'minHeight' => 100,
+            'maxWidth' => $this->outputWidth * 2,
+            'maxHeight' => $this->outputHeight * 2,
+        ];
+    }
+
     public function resetForm()
     {
-        $this->reset(['sku','name_service','description','price_service','stock','status','image','id_edit','is_edit']);
+        $this->reset(['sku','name_service','description','price_service','stock','status','image','id_edit','is_edit','croppedImageData','croppedImagePreview','hasCroppedImage']);
         $this->variants = [];
+    }
+
+    public function handleCroppedImage($imageData = null)
+    {
+        // Debug: Log the received data structure
+        \Log::info('Products handleCroppedImage received:', ['data' => $imageData]);
+        
+        if (!$imageData) {
+            $this->addError('image', 'No image data received.');
+            return;
+        }
+
+        // Handle different data structures
+        $imageDataString = null;
+        $filename = 'cropped-product-image.jpg';
+        
+        if (is_array($imageData)) {
+            if (isset($imageData['data'])) {
+                $imageDataString = $imageData['data'];
+                $filename = $imageData['filename'] ?? 'cropped-product-image.jpg';
+            } else {
+                $this->addError('image', 'Invalid image data structure received.');
+                return;
+            }
+        } else {
+            // If it's a string, treat it as base64 data
+            $imageDataString = $imageData;
+        }
+
+        // Automatically save the cropped image and set it to the main form
+        $this->isProcessingImage = true;
+        $this->processingMessage = 'Processing cropped image...';
+
+        try {
+            $imageService = new ImageUploadService();
+            
+            // Create a temporary file from the cropped image data
+            $croppedImagePath = $this->createTempFileFromBase64($imageDataString);
+            
+            // Create UploadedFile instance from the cropped image
+            $croppedFile = new \Illuminate\Http\UploadedFile(
+                $croppedImagePath,
+                $filename,
+                'image/jpeg',
+                null,
+                true
+            );
+
+            // Upload the cropped image
+            $result = $imageService->uploadImage($croppedFile, [
+                'width' => $this->outputWidth,
+                'height' => $this->outputHeight,
+                'quality' => 90,
+                'format' => 'jpg',
+                'path' => 'products',
+            ]);
+
+            // Clean up temporary file
+            unlink($croppedImagePath);
+
+            // Store the image path for the main form
+            $this->image = $result['path']; // Store the path instead of UploadedFile
+            $this->croppedImagePreview = $imageDataString; // Show preview
+            $this->hasCroppedImage = true;
+            
+            $this->alert('success', 'Product image cropped and ready! You can now save the product.');
+            
+        } catch (\Exception $e) {
+            $this->addError('image', 'Error processing cropped image: ' . $e->getMessage());
+        } finally {
+            $this->isProcessingImage = false;
+        }
+    }
+
+
+    protected function createTempFileFromBase64($base64Data)
+    {
+        // Remove data URL prefix if present
+        if (strpos($base64Data, 'data:') === 0) {
+            $base64Data = substr($base64Data, strpos($base64Data, ',') + 1);
+        }
+
+        $imageData = base64_decode($base64Data);
+        $tempPath = tempnam(sys_get_temp_dir(), 'cropped_product_image_');
+        file_put_contents($tempPath, $imageData);
+
+        return $tempPath;
+    }
+
+    // Add this method to handle the event from the child component
+    public function getListeners()
+    {
+        return [
+            'imageCropped' => 'handleCroppedImage',
+        ];
     }
 
     public function save()
@@ -92,8 +233,17 @@ class Products extends Component
         ];
 
         if ($this->image) {
-            $path = $this->image->store('products', 'public');
-            $data['image_path'] = $path;
+            // Check if it's already a stored path (from cropped image) or a new upload
+            if (is_string($this->image)) {
+                // It's already a stored path from cropped image
+                $data['image_path'] = $this->image;
+                \Log::info('Using cropped image path:', ['path' => $this->image]);
+            } else {
+                // It's a new file upload
+                $path = $this->image->store('products', 'public');
+                $data['image_path'] = $path;
+                \Log::info('Storing new image:', ['path' => $path]);
+            }
         }
 
         if ($this->is_edit) {
@@ -102,10 +252,13 @@ class Products extends Component
                 $this->alert('error', 'Product not found');
                 return;
             }
-            if ($this->image && $product->image_path) {
+            // Only delete old image if we have a new one and it's not already stored (cropped)
+            if ($this->image && $product->image_path && !is_string($this->image)) {
                 Storage::disk('public')->delete($product->image_path);
             }
             $product->update($data);
+            \Log::info('Product updated:', ['id' => $product->id, 'image_path' => $data['image_path'] ?? 'no image']);
+            
             // Replace variants
             MProductVariant::where('m_product_id', $product->id)->delete();
             foreach ($this->variants as $v) {
@@ -126,6 +279,8 @@ class Products extends Component
             $this->alert('success', 'Product updated');
         } else {
             $product = MProduct::create($data);
+            \Log::info('Product created:', ['id' => $product->id, 'image_path' => $data['image_path'] ?? 'no image']);
+            
             foreach ($this->variants as $v) {
                 if (!empty($v['name'])) {
                     $baseSku = $v['sku'] ?? ($this->sku.'-'.strtoupper(generateUUID(4)));

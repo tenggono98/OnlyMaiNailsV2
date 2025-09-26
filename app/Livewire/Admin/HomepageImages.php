@@ -4,6 +4,7 @@ namespace App\Livewire\Admin;
 
 use App\Models\HomepageImage;
 use App\Services\ImageUploadService;
+use App\Livewire\Traits\HasImageCropper;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\WithFileUploads;
@@ -16,6 +17,7 @@ class HomepageImages extends Component
 {
     use WithFileUploads;
     use LivewireAlert;
+    use HasImageCropper;
 
     public $images;
 
@@ -30,18 +32,7 @@ class HomepageImages extends Component
     #[Validate('required|integer|min:1')]
     public $displayOrder;
 
-    // Image cropping options
-    public $useCropper = true;
-    public $cropAspectRatio = [16, 9]; // Default 16:9 for homepage images
-    public $outputWidth = 1920;
-    public $outputHeight = 1080;
-    public $cropOptions = [];
-    
-    // Loading states
-    public $isProcessingImage = false;
-    public $processingMessage = 'Processing image...';
-    public $croppedImagePreview = null;
-    public $croppedImageData = null;
+    // HomepageImages specific properties
 
     protected function rules()
     {
@@ -55,33 +46,8 @@ class HomepageImages extends Component
     public function mount()
     {
         $this->loadImages();
-        $this->setupCropOptions();
-    }
-
-    protected function setupCropOptions()
-    {
-        $this->cropOptions = [
-            'aspectRatio' => $this->cropAspectRatio,
-            'viewMode' => 1, // Restrict crop box within image
-            'dragMode' => 'move',
-            'autoCropArea' => 0.8,
-            'background' => true,
-            'responsive' => true,
-            'restore' => false,
-            'checkCrossOrigin' => true,
-            'checkOrientation' => true,
-            'modal' => true,
-            'guides' => true,
-            'center' => true,
-            'highlight' => true,
-            'cropBoxMovable' => true,
-            'cropBoxResizable' => true,
-            'toggleDragModeOnDblclick' => true,
-            'minWidth' => 800,
-            'minHeight' => 450,
-            'maxWidth' => 4000,
-            'maxHeight' => 2250,
-        ];
+        // Use homepage preset for dimensions
+        $this->usePreset('homepage');
     }
 
     public function render()
@@ -98,7 +64,8 @@ class HomepageImages extends Component
 
     public function save()
     {
-        if (!$this->newImage) {
+        // Check if we have a cropped image or regular image
+        if (!$this->newImage && !$this->croppedImageData) {
             $this->addError('newImage', 'Please upload an image.');
             return;
         }
@@ -111,15 +78,38 @@ class HomepageImages extends Component
         try {
             $imageService = new ImageUploadService();
             
-            // Upload and process the image
-            $result = $imageService->uploadImage($this->newImage, [
-                'width' => $this->outputWidth,
-                'height' => $this->outputHeight,
-                'crop' => true,
-                'quality' => 90,
-                'format' => 'jpg',
-                'path' => 'homepage-images',
-            ]);
+            if ($this->croppedImageData) {
+                // Handle cropped image
+                $croppedImagePath = $this->createTempFileFromBase64($this->croppedImageData);
+                
+                $croppedFile = new \Illuminate\Http\UploadedFile(
+                    $croppedImagePath,
+                    'cropped-homepage-image.jpg',
+                    'image/jpeg',
+                    null,
+                    true
+                );
+
+                $result = $imageService->uploadImage($croppedFile, [
+                    'width' => $this->outputWidth,
+                    'height' => $this->outputHeight,
+                    'quality' => 90,
+                    'format' => 'jpg',
+                    'path' => 'homepage-images',
+                ]);
+
+                unlink($croppedImagePath);
+            } else {
+                // Handle regular image upload
+                $result = $imageService->uploadImage($this->newImage, [
+                    'width' => $this->outputWidth,
+                    'height' => $this->outputHeight,
+                    'crop' => true,
+                    'quality' => 90,
+                    'format' => 'jpg',
+                    'path' => 'homepage-images',
+                ]);
+            }
 
             HomepageImage::create([
                 'image_path' => $result['path'],
@@ -128,8 +118,10 @@ class HomepageImages extends Component
                 'display_order' => $this->displayOrder,
                 'status' => '1'
             ]);
+            
+            \Log::info('HomepageImage created:', ['path' => $result['path'], 'alt_text' => $this->altText]);
 
-            $this->reset(['newImage', 'altText', 'displayOrder']);
+            $this->reset(['newImage', 'altText', 'displayOrder', 'croppedImageData', 'croppedImagePreview']);
             $this->loadImages();
             $this->alert('success', 'Image added successfully');
             
@@ -140,10 +132,11 @@ class HomepageImages extends Component
         }
     }
 
+
     public function handleCroppedImage($imageData = null)
     {
         // Debug: Log the received data structure
-        \Log::info('handleCroppedImage received:', ['data' => $imageData]);
+        \Log::info('HomepageImages handleCroppedImage received:', ['data' => $imageData]);
         
         if (!$imageData) {
             $this->addError('newImage', 'No image data received.');
@@ -152,12 +145,12 @@ class HomepageImages extends Component
 
         // Handle different data structures
         $imageDataString = null;
-        $filename = 'cropped-image.jpg';
+        $filename = 'cropped-homepage-image.jpg';
         
         if (is_array($imageData)) {
             if (isset($imageData['data'])) {
                 $imageDataString = $imageData['data'];
-                $filename = $imageData['filename'] ?? 'cropped-image.jpg';
+                $filename = $imageData['filename'] ?? 'cropped-homepage-image.jpg';
             } else {
                 $this->addError('newImage', 'Invalid image data structure received.');
                 return;
@@ -174,83 +167,6 @@ class HomepageImages extends Component
         $this->alert('success', 'Image cropped successfully! Please fill in the details below and click Save Image.');
     }
 
-    public function saveCroppedImage()
-    {
-        if (!$this->croppedImageData) {
-            $this->addError('croppedImageData', 'No cropped image data available.');
-            return;
-        }
-
-        $this->isProcessingImage = true;
-        $this->processingMessage = 'Saving cropped image...';
-
-        try {
-            // Validate required fields
-            $this->validate([
-                'altText' => 'required|string|max:255',
-                'displayOrder' => 'required|integer|min:1'
-            ]);
-
-            $imageService = new ImageUploadService();
-            
-            // Create a temporary file from the cropped image data
-            $croppedImagePath = $this->createTempFileFromBase64($this->croppedImageData);
-            
-            // Create UploadedFile instance from the cropped image
-            $croppedFile = new \Illuminate\Http\UploadedFile(
-                $croppedImagePath,
-                'cropped-image.jpg',
-                'image/jpeg',
-                null,
-                true
-            );
-
-            // Upload the cropped image
-            $result = $imageService->uploadImage($croppedFile, [
-                'width' => $this->outputWidth,
-                'height' => $this->outputHeight,
-                'quality' => 90,
-                'format' => 'jpg',
-                'path' => 'homepage-images',
-            ]);
-
-            // Clean up temporary file
-            unlink($croppedImagePath);
-
-            HomepageImage::create([
-                'image_path' => $result['path'],
-                'alt_text' => $this->altText,
-                'section' => $this->section,
-                'display_order' => $this->displayOrder,
-                'status' => '1'
-            ]);
-
-            // Reset form and clear cropped data
-            $this->reset(['newImage', 'altText', 'displayOrder', 'croppedImageData', 'croppedImagePreview']);
-            $this->loadImages();
-            $this->alert('success', 'Image cropped and saved successfully!');
-            
-        } catch (\Exception $e) {
-            $this->addError('croppedImageData', 'Error saving cropped image: ' . $e->getMessage());
-        } finally {
-            $this->isProcessingImage = false;
-        }
-    }
-
-    public function clearCroppedImage()
-    {
-        $this->reset(['croppedImageData', 'croppedImagePreview', 'altText', 'displayOrder']);
-        $this->alert('info', 'Cropped image cleared. You can start over.');
-    }
-
-    // Add this method to handle the event from the child component
-    public function getListeners()
-    {
-        return [
-            'imageCropped' => 'handleCroppedImage',
-        ];
-    }
-
     protected function createTempFileFromBase64($base64Data)
     {
         // Remove data URL prefix if present
@@ -259,7 +175,7 @@ class HomepageImages extends Component
         }
 
         $imageData = base64_decode($base64Data);
-        $tempPath = tempnam(sys_get_temp_dir(), 'cropped_image_');
+        $tempPath = tempnam(sys_get_temp_dir(), 'cropped_homepage_image_');
         file_put_contents($tempPath, $imageData);
 
         return $tempPath;

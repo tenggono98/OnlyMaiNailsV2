@@ -14,11 +14,100 @@ class ImageUploadService
     protected string $disk;
     protected string $basePath;
 
+    // Predefined configurations for different use cases
+    protected array $presets = [
+        'homepage' => [
+            'width' => 1920,
+            'height' => 1080,
+            'aspectRatio' => [16, 9],
+            'quality' => 90,
+            'format' => 'jpg',
+            'path' => 'homepage-images',
+        ],
+        'product' => [
+            'width' => 800,
+            'height' => 800,
+            'aspectRatio' => [1, 1],
+            'quality' => 90,
+            'format' => 'jpg',
+            'path' => 'products',
+        ],
+        'variant' => [
+            'width' => 600,
+            'height' => 600,
+            'aspectRatio' => [1, 1],
+            'quality' => 90,
+            'format' => 'jpg',
+            'path' => 'shop/variants',
+        ],
+        'thumbnail' => [
+            'width' => 300,
+            'height' => 300,
+            'aspectRatio' => [1, 1],
+            'quality' => 85,
+            'format' => 'jpg',
+            'path' => 'thumbnails',
+        ],
+        'banner' => [
+            'width' => 1200,
+            'height' => 400,
+            'aspectRatio' => [3, 1],
+            'quality' => 90,
+            'format' => 'jpg',
+            'path' => 'banners',
+        ],
+    ];
+
     public function __construct(string $disk = 'public', string $basePath = 'images')
     {
         $this->imageManager = new ImageManager(new Driver());
         $this->disk = $disk;
         $this->basePath = $basePath;
+    }
+
+    /**
+     * Upload image using a predefined preset
+     *
+     * @param UploadedFile $file
+     * @param string $preset
+     * @param array $overrides
+     * @return array
+     */
+    public function uploadWithPreset(UploadedFile $file, string $preset, array $overrides = []): array
+    {
+        if (!isset($this->presets[$preset])) {
+            throw new \InvalidArgumentException("Preset '{$preset}' not found. Available presets: " . implode(', ', array_keys($this->presets)));
+        }
+
+        $presetOptions = $this->presets[$preset];
+        $options = array_merge($presetOptions, $overrides);
+
+        return $this->uploadImage($file, $options);
+    }
+
+    /**
+     * Get preset configuration
+     *
+     * @param string $preset
+     * @return array
+     */
+    public function getPreset(string $preset): array
+    {
+        if (!isset($this->presets[$preset])) {
+            throw new \InvalidArgumentException("Preset '{$preset}' not found. Available presets: " . implode(', ', array_keys($this->presets)));
+        }
+
+        return $this->presets[$preset];
+    }
+
+    /**
+     * Get all available presets
+     *
+     * @return array
+     */
+    public function getAvailablePresets(): array
+    {
+        return array_keys($this->presets);
     }
 
     /**

@@ -75,7 +75,7 @@
                         @endif
                         
                         <!-- Form Fields -->
-                        <form wire:submit.prevent="saveCroppedImage" class="space-y-4">
+                        <form wire:submit.prevent="save" class="space-y-4">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block mb-2 text-sm font-medium text-gray-900">Alt Text</label>
@@ -92,18 +92,9 @@
                                 </div>
                             </div>
 
-                            <!-- Save Button -->
-                            <div class="flex justify-end space-x-3">
-                                <button type="button" wire:click="clearCroppedImage" 
-                                        class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    Clear & Start Over
-                                </button>
-                                <button type="submit" 
-                                        class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        {{ !$croppedImagePreview ? 'disabled' : '' }}>
-                                    Save Image
-                                </button>
-                            </div>
+                            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                                Add Image
+                            </button>
                         </form>
                     </div>
                 @else
