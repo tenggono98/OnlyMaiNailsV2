@@ -3,6 +3,7 @@ namespace App\Providers;
 use App\Mail\VerifyEmailUser;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Support\Facades\URL;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -27,5 +28,9 @@ class AppServiceProvider extends ServiceProvider
             return (new VerifyEmailUser($mailData))
                         ->to($notifiable->email); // Specify the recipient
         });
+
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
     }
 }
