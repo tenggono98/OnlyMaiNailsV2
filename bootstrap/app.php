@@ -24,11 +24,15 @@ return Application::configure(basePath: dirname(__DIR__))
 
         ]);
         
+        // Always apply TrustProxies middleware for Cloudflare
+        $middleware->web(append: [
+            \App\Http\Middleware\TrustProxies::class,
+        ]);
+        
         // Force HTTPS in production
         if (env('FORCE_HTTPS', false)) {
             $middleware->web(append: [
                 \Illuminate\Http\Middleware\HandleCors::class,
-                \Illuminate\Foundation\Http\Middleware\TrustProxies::class,
             ]);
         }
     })
