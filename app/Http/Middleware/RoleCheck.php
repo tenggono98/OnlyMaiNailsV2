@@ -23,6 +23,12 @@ class RoleCheck
             $userRole = Auth::user()->role;
             $url = $request->path();
 
+            // If the URL contains 'Admin' and the role is not allowed
+            if (stripos($url, 'admin') !== false && !in_array($userRole, $roles)) {
+                Auth::logout();
+                return redirect()->route('login')->with('status', 'You are not authorized to access this page.');
+            }
+
             // Check if the user's role is one of the allowed roles
             if (in_array($userRole, $roles)) {
                 return $next($request);
@@ -30,22 +36,14 @@ class RoleCheck
 
             // If role doesn't match, log out the user and redirect based on their role
             Auth::logout();
-            
-            // Redirect to appropriate login based on the URL or role
-            if (stripos($url, 'admin') !== false || in_array('admin', $roles)) {
-                return redirect()->route('login')->with('status', 'You are not authorized to access this page.');
-            } else {
+            if ($userRole === 'user') {
                 return redirect()->route('user.login')->with('status', 'You are not authorized to access this page.');
             }
+
+            // Add more conditions for different roles if needed
         }
 
         // Default redirection for non-authenticated users
-        // Check if this is an admin route
-        $url = $request->path();
-        if (stripos($url, 'admin') !== false || in_array('admin', $roles)) {
-            return redirect()->route('login')->with('status', 'Please log in to access this page.');
-        } else {
-            return redirect()->route('user.login')->with('status', 'Please log in to access this page.');
-        }
+        return redirect()->route('user.login')->with('status', 'Please log in to access this page.');
     }
 }

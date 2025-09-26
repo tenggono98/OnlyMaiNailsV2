@@ -1,7 +1,6 @@
 <?php
 
 use App\Livewire\Forms\LoginForm;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
@@ -21,21 +20,12 @@ new #[Layout('layouts.guest')] class extends Component
 
         Session::regenerate();
 
-        // Redirect based on user role and intended destination
-        $user = Auth::user();
-        $intended = session()->pull('url.intended', route('home'));
-        
-        if ($user) {
-            if ($user->role === 'admin') {
-                // Admin users go to admin dashboard or intended admin page
-                $this->redirectIntended(default: route('admin.dashboard', absolute: false), navigate: true);
-            } else {
-                // Regular users go to home or intended user page
-                $this->redirectIntended(default: route('home', absolute: false), navigate: true);
-            }
+        // $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        if(Auth::user() && Auth::user()->role != 'user'){
+         $this->redirectIntended(default: route('admin.dashboard', absolute: false), navigate: true);
         } else {
-            // Fallback redirect
-            $this->redirectIntended(default: route('home', absolute: false), navigate: true);
+            Auth::guard('web')->logout();
+             $this->redirect()->route('login')->with('status', 'You are not authorized to access this page.');
         }
     }
 }; ?>

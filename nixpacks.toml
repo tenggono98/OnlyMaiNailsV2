@@ -15,6 +15,7 @@ cmds = [
 [phases.build]
 cmds = [
     "php artisan package:discover --ansi",
+    "php artisan storage:link || true",
     "php artisan optimize"
 ]
 
