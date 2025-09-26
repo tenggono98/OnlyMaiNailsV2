@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://onlymainails.alfonso-server.online'),
+    'url' => env('APP_URL', 'localhost'),
     
     /*
     |--------------------------------------------------------------------------

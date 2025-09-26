@@ -23,37 +23,123 @@
 
             <!-- Add Image Form -->
             <div class="mb-8 p-4 bg-white rounded-lg shadow">
-
                 <h3 class="text-lg font-semibold mb-4">Add New Image</h3>
-                <form wire:submit.prevent="save" class="space-y-4">
-                    <div>
-                        <label class="block mb-2 text-sm font-medium text-gray-900">Image</label>
-                        <input type="file" wire:model="newImage" accept="image/*" 
-                               class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
-                        <p class="mt-1 text-sm text-gray-500">
-                            Recommended image size: 1920x1080px. Maximum file size: 2MB. Supported formats: JPG, PNG, WebP.
-                        </p>
-                        @error('newImage') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                
+                <!-- Upload Options -->
+                <div class="mb-4 p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center space-x-4">
+                        <label class="flex items-center">
+                            <input type="radio" wire:model="useCropper" value="true" class="mr-2">
+                            <span class="text-sm font-medium text-gray-700">Use Image Cropper (Recommended)</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" wire:model="useCropper" value="false" class="mr-2">
+                            <span class="text-sm font-medium text-gray-700">Direct Upload</span>
+                        </label>
                     </div>
+                    <p class="text-xs text-gray-500 mt-2">
+                        Image Cropper allows you to crop and resize images to the perfect dimensions ({{ $outputWidth }}x{{ $outputHeight }}px)
+                    </p>
+                </div>
 
-                    <div>
-                        <label class="block mb-2 text-sm font-medium text-gray-900">Alt Text</label>
-                        <input type="text" wire:model="altText" 
-                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        @error('altText') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                @if($useCropper)
+                    <!-- Image Cropper Component -->
+                    <div class="space-y-4">
+                        <livewire:component.image-cropper 
+                            :crop-options="$cropOptions"
+                            :output-width="$outputWidth"
+                            :output-height="$outputHeight"
+                            :output-format="'jpg'"
+                            :output-quality="0.9"
+                            wire:key="image-cropper-{{ $section }}-{{ now()->timestamp }}"
+                        />
+                        
+                        <!-- Show cropped image preview if available -->
+                        @if($croppedImagePreview)
+                            <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
+                                <div class="flex items-center space-x-3">
+                                    <div class="flex-shrink-0">
+                                        <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="text-sm font-medium text-green-800">Image Cropped Successfully!</h4>
+                                        <p class="text-sm text-green-700">Your image has been cropped and is ready to be saved.</p>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <img src="{{ $croppedImagePreview }}" alt="Cropped preview" class="w-16 h-16 object-cover rounded">
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        
+                        <!-- Form Fields -->
+                        <form wire:submit.prevent="saveCroppedImage" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block mb-2 text-sm font-medium text-gray-900">Alt Text</label>
+                                    <input type="text" wire:model="altText" 
+                                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                    @error('altText') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                                </div>
+
+                                <div>
+                                    <label class="block mb-2 text-sm font-medium text-gray-900">Display Order</label>
+                                    <input type="number" wire:model="displayOrder" min="1"
+                                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                    @error('displayOrder') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+
+                            <!-- Save Button -->
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" wire:click="clearCroppedImage" 
+                                        class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    Clear & Start Over
+                                </button>
+                                <button type="submit" 
+                                        class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        {{ !$croppedImagePreview ? 'disabled' : '' }}>
+                                    Save Image
+                                </button>
+                            </div>
+                        </form>
                     </div>
+                @else
+                    <!-- Direct Upload Form -->
+                    <form wire:submit.prevent="save" class="space-y-4">
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-gray-900">Image</label>
+                            <input type="file" wire:model="newImage" accept="image/*" 
+                                   class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <p class="mt-1 text-sm text-gray-500">
+                                Recommended image size: {{ $outputWidth }}x{{ $outputHeight }}px. Maximum file size: 10MB. Supported formats: JPG, PNG, WebP.
+                            </p>
+                            @error('newImage') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        </div>
 
-                    <div>
-                        <label class="block mb-2 text-sm font-medium text-gray-900">Display Order</label>
-                        <input type="number" wire:model="displayOrder" min="1"
-                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        @error('displayOrder') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                    </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block mb-2 text-sm font-medium text-gray-900">Alt Text</label>
+                                <input type="text" wire:model="altText" 
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                @error('altText') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                            </div>
 
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">
-                        Add Image
-                    </button>
-                </form>
+                            <div>
+                                <label class="block mb-2 text-sm font-medium text-gray-900">Display Order</label>
+                                <input type="number" wire:model="displayOrder" min="1"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                @error('displayOrder') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+
+                        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                            Add Image
+                        </button>
+                    </form>
+                @endif
             </div>
 
             <!-- Images List -->
@@ -98,4 +184,48 @@
             </div>
         </div>
     </div>
+
+    <!-- Loading Modal -->
+    @if($isProcessingImage)
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" 
+             x-data="{ show: @entangle('isProcessingImage') }"
+             x-show="show"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0">
+            <div class="bg-white rounded-xl shadow-2xl p-8 text-center max-w-md mx-4">
+                <!-- Loading Animation -->
+                <div class="relative mb-6">
+                    <div class="animate-spin rounded-full h-16 w-16 border-4 border-gray-200 mx-auto"></div>
+                    <div class="animate-spin rounded-full h-16 w-16 border-4 border-blue-600 border-t-transparent absolute top-0 left-1/2 transform -translate-x-1/2"></div>
+                </div>
+                
+                <!-- Loading Content -->
+                <div class="space-y-3">
+                    <h3 class="text-lg font-semibold text-gray-900">{{ $processingMessage }}</h3>
+                    <p class="text-gray-600 text-sm">This may take a few moments depending on image size</p>
+                    
+                    <!-- Progress Steps -->
+                    <div class="mt-6 space-y-2">
+                        <div class="flex items-center justify-center space-x-2 text-sm text-gray-500">
+                            <div class="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
+                            <span>Processing image...</span>
+                        </div>
+                        <div class="flex items-center justify-center space-x-2 text-sm text-gray-400">
+                            <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+                            <span>Optimizing for web...</span>
+                        </div>
+                        <div class="flex items-center justify-center space-x-2 text-sm text-gray-400">
+                            <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+                            <span>Saving to database...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
 </div>
