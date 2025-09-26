@@ -23,10 +23,10 @@ class RoleCheck
             $userRole = Auth::user()->role;
             $url = $request->path();
 
-            // If the URL contains 'Admin' and the role is not allowed
+            // If the URL contains 'admin' and the role is not allowed
             if (stripos($url, 'admin') !== false && !in_array($userRole, $roles)) {
                 Auth::logout();
-                return redirect()->route('login')->with('status', 'You are not authorized to access this page.');
+                return redirect()->route('user.login')->with('status', 'You are not authorized to access this page.');
             }
 
             // Check if the user's role is one of the allowed roles
