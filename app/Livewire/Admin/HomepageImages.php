@@ -33,6 +33,9 @@ class HomepageImages extends Component
     public $displayOrder;
 
     // HomepageImages specific properties
+    protected $listeners = [
+        'imageCropped' => 'handleCroppedImage',
+    ];
 
     protected function rules()
     {
@@ -66,13 +69,37 @@ class HomepageImages extends Component
 
     public function save()
     {
+        \Log::info('HomepageImages save() called', [
+            'hasNewImage' => !is_null($this->newImage),
+            'hasCroppedData' => !is_null($this->croppedImageData),
+            'altText' => $this->altText,
+            'displayOrder' => $this->displayOrder,
+            'section' => $this->section,
+        ]);
+
+        // Debug: Show that save method was called
+        $this->alert('info', 'Save method called - checking data...');
+
         // Check if we have a cropped image or regular image
         if (!$this->newImage && !$this->croppedImageData) {
             $this->addError('newImage', 'Please upload an image.');
             return;
         }
 
-        $this->validate();
+        try {
+            $this->validate();
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            \Log::error('HomepageImages validation failed', [
+                'errors' => $e->errors(),
+                'data' => [
+                    'altText' => $this->altText,
+                    'displayOrder' => $this->displayOrder,
+                    'hasNewImage' => !is_null($this->newImage),
+                    'hasCroppedData' => !is_null($this->croppedImageData),
+                ]
+            ]);
+            throw $e;
+        }
 
         $this->isProcessingImage = true;
         $this->processingMessage = 'Processing and uploading image...';
