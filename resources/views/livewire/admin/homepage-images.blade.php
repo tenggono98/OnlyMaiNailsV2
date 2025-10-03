@@ -23,7 +23,13 @@
 
             <!-- Add Image Form -->
             <div class="mb-8 p-4 bg-white rounded-lg shadow">
-                <h3 class="text-lg font-semibold mb-4">Add New Image</h3>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">Add New Image</h3>
+                    <button type="button" wire:click="testSave" 
+                            class="px-3 py-1 bg-yellow-500 text-white text-sm rounded hover:bg-yellow-600">
+                        Test Database
+                    </button>
+                </div>
                 
                 <!-- Upload Options -->
                 <div class="mb-4 p-3 bg-gray-50 rounded-lg">
