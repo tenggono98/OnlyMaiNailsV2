@@ -161,19 +161,40 @@ class ImageUploadService
      */
     protected function processImage(UploadedFile $file, array $options): ImageInterface
     {
-        $image = $this->imageManager->read($file->getPathname());
+        try {
+            \Log::info('Processing image', [
+                'file' => $file->getClientOriginalName(),
+                'size' => $file->getSize(),
+                'path' => $file->getPathname(),
+                'options' => $options
+            ]);
 
-        // Apply crop data if provided (from CropperJS)
-        if ($options['cropData']) {
-            $image = $this->applyCropData($image, $options['cropData']);
+            $image = $this->imageManager->read($file->getPathname());
+
+            // Apply crop data if provided (from CropperJS)
+            if ($options['cropData']) {
+                \Log::info('Applying crop data', ['cropData' => $options['cropData']]);
+                $image = $this->applyCropData($image, $options['cropData']);
+            }
+
+            // Resize if dimensions are specified
+            if ($options['width'] || $options['height']) {
+                \Log::info('Resizing image', [
+                    'width' => $options['width'],
+                    'height' => $options['height']
+                ]);
+                $image = $this->resizeImage($image, $options);
+            }
+
+            return $image;
+        } catch (\Exception $e) {
+            \Log::error('Image processing failed', [
+                'file' => $file->getClientOriginalName(),
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw new \Exception("Image processing failed: " . $e->getMessage());
         }
-
-        // Resize if dimensions are specified
-        if ($options['width'] || $options['height']) {
-            $image = $this->resizeImage($image, $options);
-        }
-
-        return $image;
     }
 
     /**
@@ -255,19 +276,45 @@ class ImageUploadService
      */
     protected function storeImage(ImageInterface $image, string $path, int $quality, string $format): string
     {
-        // Encode image with specified format and quality
-        $encodedImage = $image->toJpeg($quality);
-        
-        if ($format === 'png') {
-            $encodedImage = $image->toPng();
-        } elseif ($format === 'webp') {
-            $encodedImage = $image->toWebp($quality);
+        try {
+            // Ensure directory exists
+            $directory = dirname($path);
+            if (!Storage::disk($this->disk)->exists($directory)) {
+                Storage::disk($this->disk)->makeDirectory($directory);
+            }
+
+            // Encode image with specified format and quality
+            $encodedImage = $image->toJpeg($quality);
+            
+            if ($format === 'png') {
+                $encodedImage = $image->toPng();
+            } elseif ($format === 'webp') {
+                $encodedImage = $image->toWebp($quality);
+            }
+
+            \Log::info('Storing image', [
+                'path' => $path,
+                'format' => $format,
+                'quality' => $quality,
+                'size' => strlen($encodedImage)
+            ]);
+
+            // Store the image
+            $stored = Storage::disk($this->disk)->put($path, $encodedImage);
+            
+            if (!$stored) {
+                throw new \Exception("Failed to store image at path: {$path}");
+            }
+
+            return $path;
+        } catch (\Exception $e) {
+            \Log::error('Image storage failed', [
+                'path' => $path,
+                'error' => $e->getMessage(),
+                'disk' => $this->disk
+            ]);
+            throw new \Exception("Image storage failed: " . $e->getMessage());
         }
-
-        // Store the image
-        Storage::disk($this->disk)->put($path, $encodedImage);
-
-        return $path;
     }
 
     /**
@@ -370,7 +417,7 @@ class ImageUploadService
     public function validateImage(UploadedFile $file, array $rules = []): array
     {
         $defaultRules = [
-            'max_size' => 5 * 1024 * 1024, // 5MB
+            'max_size' => 10 * 1024 * 1024, // 10MB - match Livewire validation
             'allowed_types' => ['jpg', 'jpeg', 'png', 'webp'],
             'min_width' => null,
             'min_height' => null,

@@ -184,16 +184,48 @@ trait HasImageCropper
      */
     protected function createTempFileFromBase64($base64Data)
     {
-        // Remove data URL prefix if present
-        if (strpos($base64Data, 'data:') === 0) {
-            $base64Data = substr($base64Data, strpos($base64Data, ',') + 1);
+        try {
+            \Log::info('Creating temp file from base64', [
+                'data_length' => strlen($base64Data),
+                'has_data_prefix' => strpos($base64Data, 'data:') === 0
+            ]);
+
+            // Remove data URL prefix if present
+            if (strpos($base64Data, 'data:') === 0) {
+                $base64Data = substr($base64Data, strpos($base64Data, ',') + 1);
+            }
+
+            $imageData = base64_decode($base64Data);
+            
+            if ($imageData === false) {
+                throw new \Exception('Invalid base64 data provided');
+            }
+
+            $tempPath = tempnam(sys_get_temp_dir(), 'cropped_image_');
+            
+            if ($tempPath === false) {
+                throw new \Exception('Failed to create temporary file');
+            }
+
+            $bytesWritten = file_put_contents($tempPath, $imageData);
+            
+            if ($bytesWritten === false) {
+                throw new \Exception('Failed to write image data to temporary file');
+            }
+
+            \Log::info('Temp file created successfully', [
+                'path' => $tempPath,
+                'size' => $bytesWritten
+            ]);
+
+            return $tempPath;
+        } catch (\Exception $e) {
+            \Log::error('Failed to create temp file from base64', [
+                'error' => $e->getMessage(),
+                'data_length' => strlen($base64Data)
+            ]);
+            throw new \Exception("Failed to process cropped image: " . $e->getMessage());
         }
-
-        $imageData = base64_decode($base64Data);
-        $tempPath = tempnam(sys_get_temp_dir(), 'cropped_image_');
-        file_put_contents($tempPath, $imageData);
-
-        return $tempPath;
     }
 
     /**
