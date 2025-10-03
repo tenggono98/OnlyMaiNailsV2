@@ -10,6 +10,8 @@ if [ -z "$APP_KEY" ] || [ "$APP_KEY" = "" ]; then
     php artisan key:generate --force
 fi
 
+composer install --optimize-autoloader --no-interaction
+
 # Create storage link if it doesn't exist
 echo "📁 Creating storage link..."
 php artisan storage:link || echo "⚠️  Storage link already exists"
