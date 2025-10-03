@@ -255,19 +255,40 @@ class ImageUploadService
      */
     protected function storeImage(ImageInterface $image, string $path, int $quality, string $format): string
     {
-        // Encode image with specified format and quality
-        $encodedImage = $image->toJpeg($quality);
-        
-        if ($format === 'png') {
-            $encodedImage = $image->toPng();
-        } elseif ($format === 'webp') {
-            $encodedImage = $image->toWebp($quality);
+        try {
+            // Ensure directory exists
+            $directory = dirname($path);
+            if (!Storage::disk($this->disk)->exists($directory)) {
+                Storage::disk($this->disk)->makeDirectory($directory);
+            }
+
+            // Encode image with specified format and quality
+            $encodedImage = $image->toJpeg($quality);
+            
+            if ($format === 'png') {
+                $encodedImage = $image->toPng();
+            } elseif ($format === 'webp') {
+                $encodedImage = $image->toWebp($quality);
+            }
+
+            // Store the image
+            $stored = Storage::disk($this->disk)->put($path, $encodedImage);
+            
+            if (!$stored) {
+                throw new \Exception("Failed to store image at path: {$path}");
+            }
+
+            return $path;
+        } catch (\Exception $e) {
+            \Log::error('ImageUploadService storeImage error', [
+                'path' => $path,
+                'format' => $format,
+                'quality' => $quality,
+                'error' => $e->getMessage(),
+                'disk' => $this->disk
+            ]);
+            throw $e;
         }
-
-        // Store the image
-        Storage::disk($this->disk)->put($path, $encodedImage);
-
-        return $path;
     }
 
     /**

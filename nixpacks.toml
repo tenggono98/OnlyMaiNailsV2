@@ -2,20 +2,23 @@
 nixPkgs = [
     "php83",
     "php83Packages.composer",
+    "php83Extensions.gd",
     "nodejs_20"
 ]
 
 [phases.install]
 cmds = [
     "composer install --optimize-autoloader --no-interaction",
-    "npm ci",
+    "npm ci --silent",
     "npm run build"
 ]
 
 [phases.build]
 cmds = [
     "php artisan package:discover --ansi",
-    "php artisan optimize"
+    "php artisan optimize",
+    "composer install --optimize-autoloader --no-interaction --no-dev",
+    "npm prune --production"
 ]
 
 [start]
@@ -26,3 +29,7 @@ PHP_VERSION = "8.3"
 NODE_VERSION = "20"
 APP_ENV = "production"
 APP_DEBUG = "false"
+UPLOAD_MAX_FILESIZE = "10M"
+POST_MAX_SIZE = "10M"
+MEMORY_LIMIT = "256M"
+MAX_EXECUTION_TIME = "60"
