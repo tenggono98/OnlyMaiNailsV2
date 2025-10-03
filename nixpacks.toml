@@ -2,14 +2,14 @@
 nixPkgs = [
     "php83",
     "php83Packages.composer",
-    "php83Packages.gd",
+    "php83Extensions.gd",
     "nodejs_20"
 ]
 
 [phases.install]
 cmds = [
-    "composer install --optimize-autoloader --no-interaction",
-    "npm ci",
+    "composer install --optimize-autoloader --no-interaction --no-dev",
+    "npm ci --only=production",
     "npm run build"
 ]
 
