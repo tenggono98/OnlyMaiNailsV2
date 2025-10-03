@@ -10,6 +10,19 @@ if [ -z "$APP_KEY" ] || [ "$APP_KEY" = "" ]; then
     php artisan key:generate --force
 fi
 
+# Create storage directories and set permissions
+echo "📁 Setting up storage directories..."
+mkdir -p storage/app/public/homepage-images
+mkdir -p storage/app/public/products
+mkdir -p storage/app/public/shop/variants
+mkdir -p storage/app/public/thumbnails
+mkdir -p storage/app/public/banners
+mkdir -p storage/app/public/images
+
+# Set proper permissions
+chmod -R 755 storage/
+chmod -R 755 bootstrap/cache/
+
 # Create storage link if it doesn't exist
 echo "📁 Creating storage link..."
 php artisan storage:link || echo "⚠️  Storage link already exists"
