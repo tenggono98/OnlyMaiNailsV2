@@ -3,20 +3,22 @@ nixPkgs = [
     "php83",
     "php83Packages.composer",
     "php83Extensions.gd",
-    "nodejs_20"
+    "nodejs_20",
+    "npm"
 ]
 
 [phases.install]
 cmds = [
     "composer install --optimize-autoloader --no-interaction --no-dev",
-    "npm ci --only=production",
+    "npm ci",
     "npm run build"
 ]
 
 [phases.build]
 cmds = [
     "php artisan package:discover --ansi",
-    "php artisan optimize"
+    "php artisan optimize",
+    "npm prune --production"
 ]
 
 [start]
