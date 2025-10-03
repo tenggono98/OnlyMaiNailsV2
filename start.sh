@@ -34,9 +34,13 @@ php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
-# NPM Run Build
+# NPM Run Build (only if not already built)
 echo "🔨 Building application..."
-npm run build
+if [ ! -d "public/build" ] || [ ! -f "public/build/manifest.json" ]; then
+    npm run build
+else
+    echo "✅ Build already exists, skipping..."
+fi
 
 # Run migrations if needed (uncomment if you want automatic migrations)
 # echo "🗄️  Running migrations..."

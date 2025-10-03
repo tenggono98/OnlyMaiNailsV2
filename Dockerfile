@@ -23,11 +23,14 @@ WORKDIR /var/www/html
 # Copy application files
 COPY . .
 
-# Install PHP dependencies
-RUN composer install --optimize-autoloader --no-dev --no-interaction
+# Install PHP dependencies (with dev for build)
+RUN composer install --optimize-autoloader --no-interaction
 
 # Install Node.js dependencies and build assets
 RUN npm ci --silent && npm run build
+
+# Remove dev dependencies after build
+RUN composer install --optimize-autoloader --no-dev --no-interaction && npm prune --production
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \

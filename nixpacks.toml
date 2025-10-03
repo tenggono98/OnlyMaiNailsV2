@@ -8,7 +8,7 @@ nixPkgs = [
 
 [phases.install]
 cmds = [
-    "composer install --optimize-autoloader --no-interaction --no-dev",
+    "composer install --optimize-autoloader --no-interaction",
     "npm ci --silent",
     "npm run build"
 ]
@@ -17,6 +17,7 @@ cmds = [
 cmds = [
     "php artisan package:discover --ansi",
     "php artisan optimize",
+    "composer install --optimize-autoloader --no-interaction --no-dev",
     "npm prune --production"
 ]
 
