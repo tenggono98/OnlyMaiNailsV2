@@ -3,14 +3,13 @@ nixPkgs = [
     "php83",
     "php83Packages.composer",
     "php83Extensions.gd",
-    "nodejs_20",
-    "npm"
+    "nodejs_20"
 ]
 
 [phases.install]
 cmds = [
     "composer install --optimize-autoloader --no-interaction --no-dev",
-    "npm ci",
+    "npm ci --silent",
     "npm run build"
 ]
 
@@ -33,3 +32,7 @@ UPLOAD_MAX_FILESIZE = "10M"
 POST_MAX_SIZE = "10M"
 MEMORY_LIMIT = "256M"
 MAX_EXECUTION_TIME = "60"
+
+[providers]
+php = "8.3"
+node = "20"
