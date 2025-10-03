@@ -113,20 +113,7 @@ class ImageCropper extends Component
 
         try {
             // Log the data structure for debugging
-            \Log::info('ImageCropper processCroppedImage data:', [
-                'data_type' => gettype($this->croppedImageData),
-                'data_length' => is_string($this->croppedImageData) ? strlen($this->croppedImageData) : 'N/A',
-                'is_array' => is_array($this->croppedImageData),
-                'has_data_key' => is_array($this->croppedImageData) && isset($this->croppedImageData['data']),
-                'server_info' => [
-                    'php_version' => PHP_VERSION,
-                    'memory_limit' => ini_get('memory_limit'),
-                    'upload_max_filesize' => ini_get('upload_max_filesize'),
-                    'post_max_size' => ini_get('post_max_size'),
-                    'temp_dir' => sys_get_temp_dir(),
-                    'temp_writable' => is_writable(sys_get_temp_dir()),
-                ]
-            ]);
+            \Log::info('ImageCropper processCroppedImage data:', ['data' => $this->croppedImageData]);
             
             // The croppedImageData should already be in the correct format from handleImageSelected
             $imageData = $this->croppedImageData;
@@ -151,11 +138,6 @@ class ImageCropper extends Component
             $this->reset(['image', 'croppedImageData', 'showCropper', 'uploadedImageUrl']);
 
         } catch (\Exception $e) {
-            \Log::error('ImageCropper processCroppedImage error:', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-                'data_type' => gettype($this->croppedImageData),
-            ]);
             $this->isProcessing = false;
             $this->addError('image', 'Error processing image: ' . $e->getMessage());
         }

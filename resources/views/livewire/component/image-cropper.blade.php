@@ -187,8 +187,8 @@
     @endif
 
     <!-- Include CropperJS CSS and JS -->
-    <link rel="stylesheet" href="{{ asset('node_modules/cropperjs/dist/cropper.min.css') }}">
-    <script src="{{ asset('node_modules/cropperjs/dist/cropper.min.js') }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
 
     <script>
         // Alpine.js component for cropper modal
