@@ -82,7 +82,7 @@ class ImageCropper extends Component
             $this->isUploading = true;
             
             $this->validate([
-                'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:10240', // 10MB max
+                'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:65536', // 64MB max
             ]);
 
             $this->showCropper = true;

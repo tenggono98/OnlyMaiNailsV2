@@ -48,7 +48,7 @@ class VariantImages extends Component
             'selectedProductId' => 'required|integer|exists:m_products,id',
             'selectedVariantId' => 'required|integer|exists:m_product_variants,id',
             'newImages' => 'required|array',
-            'newImages.*' => 'image|max:6144',
+            'newImages.*' => 'image|max:65536',
         ]);
 
         $variant = MProductVariant::where('m_product_id', $this->selectedProductId)->find($this->selectedVariantId);

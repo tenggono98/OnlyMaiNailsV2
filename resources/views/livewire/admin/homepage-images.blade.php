@@ -105,7 +105,7 @@
                             <input type="file" wire:model="newImage" accept="image/*" 
                                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             <p class="mt-1 text-sm text-gray-500">
-                                Recommended image size: {{ $outputWidth }}x{{ $outputHeight }}px. Maximum file size: 10MB. Supported formats: JPG, PNG, WebP.
+                                Recommended image size: {{ $outputWidth }}x{{ $outputHeight }}px. Maximum file size: 64MB. Supported formats: JPG, PNG, WebP.
                             </p>
                             @error('newImage') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>

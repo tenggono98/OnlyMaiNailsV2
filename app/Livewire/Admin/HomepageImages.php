@@ -21,7 +21,7 @@ class HomepageImages extends Component
 
     public $images;
 
-    #[Validate('image|mimes:jpg,jpeg,png,webp|max:10240')]
+    #[Validate('image|mimes:jpg,jpeg,png,webp|max:65536')]
     public $newImage;
 
     public $section = 'header';
@@ -37,7 +37,7 @@ class HomepageImages extends Component
     protected function rules()
     {
         return [
-            'newImage' => 'image|mimes:jpg,jpeg,png,webp|max:10240',
+            'newImage' => 'image|mimes:jpg,jpeg,png,webp|max:65536',
             'altText' => 'required|string|max:255',
             'displayOrder' => 'required|integer|min:1'
         ];
@@ -48,6 +48,8 @@ class HomepageImages extends Component
         $this->loadImages();
         // Use homepage preset for dimensions
         $this->usePreset('homepage');
+        // Initialize default display order to next available slot
+        $this->displayOrder = $this->getNextDisplayOrder();
     }
 
     public function render()
@@ -121,8 +123,10 @@ class HomepageImages extends Component
             
             \Log::info('HomepageImage created:', ['path' => $result['path'], 'alt_text' => $this->altText]);
 
-            $this->reset(['newImage', 'altText', 'displayOrder', 'croppedImageData', 'croppedImagePreview']);
+            $this->reset(['newImage', 'altText', 'croppedImageData', 'croppedImagePreview']);
             $this->loadImages();
+            // Set display order to next available after successful save
+            $this->displayOrder = $this->getNextDisplayOrder();
             $this->alert('success', 'Image added successfully');
             
         } catch (\Exception $e) {
@@ -211,5 +215,16 @@ class HomepageImages extends Component
     {
         $this->section = $section;
         $this->loadImages();
+        // Update display order for the selected section
+        $this->displayOrder = $this->getNextDisplayOrder();
+    }
+
+    /**
+     * Get next display order for current section
+     */
+    protected function getNextDisplayOrder(): int
+    {
+        $maxOrder = (int) HomepageImage::where('section', $this->section)->max('display_order');
+        return $maxOrder + 1 ?: 1;
     }
 }

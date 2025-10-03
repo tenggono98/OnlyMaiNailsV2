@@ -417,7 +417,7 @@ class ImageUploadService
     public function validateImage(UploadedFile $file, array $rules = []): array
     {
         $defaultRules = [
-            'max_size' => 10 * 1024 * 1024, // 10MB - match Livewire validation
+            'max_size' => 64 * 1024 * 1024, // 64MB - match .user.ini configuration
             'allowed_types' => ['jpg', 'jpeg', 'png', 'webp'],
             'min_width' => null,
             'min_height' => null,
