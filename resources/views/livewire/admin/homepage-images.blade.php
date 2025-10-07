@@ -21,6 +21,31 @@
                 </ul>
             </div>
 
+            <!-- Section-specific upload guidelines -->
+            <div class="mb-4">
+                @if($section === 'header')
+                    <div class="p-4 rounded-lg bg-blue-50 border border-blue-200 text-blue-900">
+                        <div class="font-semibold mb-1">Header images – randomized grid</div>
+                        <ul class="list-disc list-inside text-sm space-y-1">
+                            <li>Use large, high-quality images (minimum 1600×1600 px).</li>
+                            <li>Subject centered; edges may be cropped by different tile sizes.</li>
+                            <li>Supported aspect buckets: 1:1, 3:2, 4:3, 2:3 (display tiles vary).</li>
+                            <li>Images are optimized and may be auto-cropped to fit randomized containers.</li>
+                        </ul>
+                    </div>
+                @elseif($section === 'promo')
+                    <div class="p-4 rounded-lg bg-blue-50 border border-blue-200 text-blue-900">
+                        <div class="font-semibold mb-1">Promo images – carousel banner</div>
+                        <ul class="list-disc list-inside text-sm space-y-1">
+                            <li>Prefer landscape banners; recommended 1920×1080 (16:9) or 1800×600 (3:1).</li>
+                            <li>Subject and key text centered; container uses object-cover and fixed height.</li>
+                            <li>Keep safe margins on left/right; edges can be cropped on smaller screens.</li>
+                            <li>Images are optimized on upload for performance.</li>
+                        </ul>
+                    </div>
+                @endif
+            </div>
+
             <!-- Add Image Form -->
             <div class="mb-8 p-4 bg-white rounded-lg shadow">
                 <div class="flex justify-between items-center mb-4">
@@ -46,6 +71,15 @@
                     <p class="text-xs text-gray-500 mt-2">
                         Image Cropper allows you to crop and resize images to the perfect dimensions ({{ $outputWidth }}x{{ $outputHeight }}px)
                     </p>
+                    @if($section === 'header')
+                        <p class="text-xs text-gray-500 mt-1">
+                            Tip: Upload at least 1600×1600 px so we can safely crop to 1:1, 3:2, 4:3, or 2:3 tiles.
+                        </p>
+                    @elseif($section === 'promo')
+                        <p class="text-xs text-gray-500 mt-1">
+                            Tip: Landscape banner works best (16:9 or ~3:1). Keep important content centered.
+                        </p>
+                    @endif
                 </div>
 
                 @if($useCropper)
