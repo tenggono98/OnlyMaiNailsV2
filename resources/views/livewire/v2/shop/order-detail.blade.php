@@ -150,7 +150,7 @@
           <h2 class="text-xl font-semibold text-gray-900 mb-4">Actions</h2>
           <div class="space-y-3">
             @if($order->status === 'pending')
-              <button class="w-full bg-red-100 flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-red-300 hover:bg-transparent cursor-pointer font-medium text-red-700">
+              <button class="w-full btn-danger">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
@@ -159,7 +159,7 @@
             @endif
 
             <a href="{{ route('shop.index') }}"
-               class="w-full bg-[#fadde1] flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer font-medium">
+               class="w-full btn-order">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
               </svg>

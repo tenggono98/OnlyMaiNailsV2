@@ -28,6 +28,12 @@ class Booking extends Component
     use LivewireAlert;
     // Variable General
     public $googleCalendarLink, $is_edit = false, $id_edit, $tax = false, $deposit, $indexDate;
+    // Variable for Rescheduling
+    public $is_reschedule = false, $id_reschedule;
+    #[Validate('required', as: 'Reschedule Date')]
+    public $rescheduleDateBook;
+    #[Validate('required', as: 'Reschedule Time')]
+    public $rescheduleTimeBook;
     // Variable Table
     public $booking;
     // Variable Input
@@ -43,7 +49,7 @@ class Booking extends Component
     public $servicsBook = [];
     public $totalPriceTaxBook;
     // Event listener to capture selected services
-    protected $listeners = ['servicesSelected', 'selectedCustomer', 'selectedDate', 'selectedTime', 'googleRedirect'];
+    protected $listeners = ['servicesSelected', 'selectedCustomer', 'selectedDate', 'selectedTime', 'googleRedirect', 'selectedRescheduleDate', 'selectedRescheduleTime'];
     //  For Search
     protected $queryString = [
         'searchStartDate' => ['except' => ''],
@@ -262,11 +268,214 @@ class Booking extends Component
         } else
             $this->alert('warning', 'Deposit fails to be updated!');
     }
-    public function cancelBooking()
+    public function cancelBooking($id)
     {
+        // Get Booking by ID
+        $booking = TBooking::find($id);
+        
+        if (!$booking) {
+            $this->alert('error', 'Booking not found!');
+            return;
+        }
+
+        // Check if booking is already cancelled
+        if ($booking->status === 'cancel') {
+            $this->alert('warning', 'This booking is already cancelled!');
+            return;
+        }
+
+        // Reset Schedule Status
+        $scheduleTime = TDSchedule::find($booking->t_d_schedule_id);
+        if ($scheduleTime) {
+            $scheduleTime->is_book = '0';
+            $scheduleTime->save();
+        }
+
+        // Update Booking Status to Cancel by Admin
+        $booking->status = 'cancel';
+        $booking->cancel_by_role = 'admin';
+        $booking->cancel_by = Auth::id();
+        $booking->updated_by = Auth::id();
+        $booking->save();
+
+        // Create Notification for User
+        $notif = new Notification;
+        $notif->title_notification = 'Booking Cancelled';
+        $notif->description_notification = 'Your booking code: ' . $booking->code_booking . ' has been cancelled by admin.';
+        $notif->referance_id = $booking->uuid;
+        $notif->for_role_notification = 'user';
+        $notif->notif_for = $booking->user_id;
+        $notif->url = route('user.reschedule_or_cancel', [$booking->uuid]);
+        $notif->created_by = Auth::id();
+        $notif->save();
+
+        // Send Email to Client (optional - you can uncomment if needed)
+        try {
+            $mailData = [
+                'clientName' => $booking->client->name,
+                'booking_code' => $booking->code_booking,
+                'booking_date' => \Carbon\Carbon::parse($booking->scheduleDateBook->date_schedule)->format('l , d F Y'),
+                'booking_time' => \Carbon\Carbon::parse($booking->scheduleTimeBook->time)->format('h:i A'),
+                'cancelled_by' => 'Admin',
+                'files' => []
+            ];
+            Mail::to($booking->client->email)->send(new MailBooking($mailData));
+        } catch (\Exception $e) {
+            Log::warning('Failed to send cancellation email to client', [
+                'booking_id' => $booking->id,
+                'user_id' => $booking->client->id ?? null,
+                'email' => $booking->client->email ?? null,
+                'error' => $e->getMessage(),
+            ]);
+        }
+
+        $this->alert('success', 'Booking has been cancelled successfully!');
+        $this->resetExcept($this->exludeResetVariable);
     }
     public function rescheduleBooking()
     {
+        // Validate required fields for rescheduling
+        $this->validate([
+            'rescheduleDateBook' => 'required',
+            'rescheduleTimeBook' => 'required',
+        ]);
+
+        // Get the original booking
+        $originalBooking = TBooking::with('detailService')->find($this->id_reschedule);
+        
+        if (!$originalBooking) {
+            $this->alert('error', 'Original booking not found!');
+            return;
+        }
+
+        // Check if booking is already rescheduled
+        if ($originalBooking->reschedule_flag_booking == '1') {
+            $this->alert('warning', 'This booking has already been rescheduled once!');
+            return;
+        }
+
+        // Check if the new time slot is available
+        $newTimeSlot = TDSchedule::find($this->rescheduleTimeBook);
+        if (!$newTimeSlot || $newTimeSlot->is_book == '1') {
+            $this->alert('error', 'The selected time slot is not available!');
+            return;
+        }
+
+        // Create new booking for reschedule
+        $newBooking = new TBooking();
+        $newBooking->uuid = generateUUID(10);
+        $newBooking->code_booking = generateBookingCode(4);
+        $newBooking->created_by = Auth::id();
+        $newBooking->t_schedule_id = $this->rescheduleDateBook;
+        $newBooking->t_d_schedule_id = $this->rescheduleTimeBook;
+        $newBooking->user_id = $originalBooking->user_id;
+        $newBooking->qty_people_booking = $originalBooking->qty_people_booking;
+        $newBooking->total_price_booking = $originalBooking->total_price_booking;
+        $newBooking->total_price_after_tax_booking = $originalBooking->total_price_after_tax_booking;
+        $newBooking->deposit_price_booking = $originalBooking->deposit_price_booking;
+        $newBooking->reschedule_flag_booking = '1';
+        $newBooking->reschedule_booking_original_id = $originalBooking->id;
+        $newBooking->is_deposit_paid = $originalBooking->is_deposit_paid;
+        $newBooking->confirm_payment = $originalBooking->confirm_payment;
+        $newBooking->status = '1'; // Active status for new booking
+        $newBooking->save();
+
+        // Update original booking status
+        $originalBooking->reschedule_flag_booking = '1';
+        $originalBooking->status = 'reschedule';
+        $originalBooking->updated_by = Auth::id();
+        $originalBooking->save();
+
+        // Free up the old time slot
+        $oldScheduleTime = TDSchedule::find($originalBooking->t_d_schedule_id);
+        if ($oldScheduleTime) {
+            $oldScheduleTime->is_book = '0';
+            $oldScheduleTime->save();
+        }
+
+        // Book the new time slot
+        $newTimeSlot->is_book = '1';
+        $newTimeSlot->save();
+
+        // Copy all services from original booking to new booking
+        foreach ($originalBooking->detailService as $service) {
+            $tdService = new TDBooking();
+            $tdService->t_booking_id = $newBooking->id;
+            $tdService->m_service_id = $service->m_service_id;
+            $tdService->name_service = $service->name_service;
+            $tdService->price_service = $service->price_service;
+            $tdService->save();
+        }
+
+        // Create notification for user
+        $notif = new Notification;
+        $notif->title_notification = 'Booking Rescheduled';
+        $notif->description_notification = 'Your booking code: ' . $originalBooking->code_booking . ' has been rescheduled to: ' . $newBooking->code_booking;
+        $notif->referance_id = $newBooking->uuid;
+        $notif->for_role_notification = 'user';
+        $notif->notif_for = $originalBooking->user_id;
+        $notif->url = route('user.reschedule_or_cancel', [$newBooking->uuid]);
+        $notif->created_by = Auth::id();
+        $notif->save();
+
+        // Send email to client
+        try {
+            $mailData = [
+                'clientName' => $originalBooking->client->name,
+                'booking_code' => $newBooking->code_booking,
+                'original_booking_code' => $originalBooking->code_booking,
+                'booking_date' => \Carbon\Carbon::parse($newBooking->scheduleDateBook->date_schedule)->format('l , d F Y'),
+                'booking_time' => \Carbon\Carbon::parse($newBooking->scheduleTimeBook->time)->format('h:i A'),
+                'rescheduled_by' => 'Admin',
+                'files' => []
+            ];
+            Mail::to($originalBooking->client->email)->send(new MailBooking($mailData));
+        } catch (\Exception $e) {
+            Log::warning('Failed to send reschedule email to client', [
+                'original_booking_id' => $originalBooking->id,
+                'new_booking_id' => $newBooking->id,
+                'user_id' => $originalBooking->client->id ?? null,
+                'email' => $originalBooking->client->email ?? null,
+                'error' => $e->getMessage(),
+            ]);
+        }
+
+        $this->alert('success', 'Booking has been rescheduled successfully! New booking code: ' . $newBooking->code_booking);
+        $this->resetRescheduleForm();
+        $this->resetExcept($this->exludeResetVariable);
+        $this->dispatch('closeModal', ['id' => 'reschedule-modal']);
+    }
+
+    public function startReschedule($id)
+    {
+        $this->resetRescheduleForm();
+        $this->is_reschedule = true;
+        $this->id_reschedule = $id;
+        
+        // Get the booking details
+        $booking = TBooking::find($id);
+        if ($booking) {
+            $this->rescheduleDateBook = $booking->t_schedule_id;
+            $this->rescheduleTimeBook = $booking->t_d_schedule_id;
+        }
+    }
+
+    public function resetRescheduleForm()
+    {
+        $this->is_reschedule = false;
+        $this->id_reschedule = null;
+        $this->rescheduleDateBook = null;
+        $this->rescheduleTimeBook = null;
+    }
+
+    public function selectedRescheduleDate($selectedDate)
+    {
+        $this->rescheduleDateBook = $selectedDate;
+    }
+
+    public function selectedRescheduleTime($selectedTime)
+    {
+        $this->rescheduleTimeBook = $selectedTime;
     }
     public function completeBooking($uuid){
         $booking = TBooking::find($uuid);

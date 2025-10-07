@@ -248,8 +248,59 @@ p , li , span ,a, article , b , small , ::placeholder , select , label {
     @apply border-brand-accent-light rounded-lg;
 }
 
+/* ===================== */
+/* Button Components */
+/* ===================== */
+
+/* Primary Button - Standard */
+.btn-primary {
+    @apply bg-brand-accent-light inline-flex items-center justify-center gap-2 rounded-lg px-4 p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer font-medium transition-all duration-200 leading-none text-base min-h-[44px] whitespace-nowrap;
+}
+
+/* Primary Button - Small */
+.btn-primary-sm {
+    @apply bg-brand-accent-light inline-flex items-center justify-center gap-2 rounded-lg px-3 p-2 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer text-sm font-medium transition-all duration-200 leading-none min-h-[36px] whitespace-nowrap;
+}
+
+/* Primary Button - Large */
+.btn-primary-lg {
+    @apply bg-brand-accent-light inline-flex items-center justify-center gap-2 rounded-lg px-5 p-4 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer text-lg font-medium transition-all duration-200 leading-none min-h-[52px] whitespace-nowrap;
+}
+
+/* Secondary Button - Standard */
+.btn-secondary {
+    @apply bg-gray-100 inline-flex items-center justify-center gap-2 rounded-lg px-4 p-3 hover:border hover:border-gray-300 hover:bg-transparent cursor-pointer font-medium text-gray-700 transition-all duration-200 leading-none text-base min-h-[44px] whitespace-nowrap;
+}
+
+/* Secondary Button - Small */
+.btn-secondary-sm {
+    @apply bg-gray-100 inline-flex items-center justify-center gap-2 rounded-lg px-3 p-2 hover:border hover:border-gray-300 hover:bg-transparent cursor-pointer text-sm font-medium text-gray-700 transition-all duration-200 leading-none min-h-[36px] whitespace-nowrap;
+}
+
+/* Danger Button */
+.btn-danger {
+    @apply bg-red-100 inline-flex items-center justify-center gap-2 rounded-lg px-4 p-3 hover:border hover:border-red-300 hover:bg-transparent cursor-pointer font-medium text-red-700 transition-all duration-200 leading-none text-base min-h-[44px] whitespace-nowrap;
+}
+
+/* Order Button (Pink) */
+.btn-order {
+    @apply bg-[#fadde1] inline-flex items-center justify-center gap-2 rounded-lg px-4 p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer font-medium transition-all duration-200 leading-none text-base min-h-[44px] whitespace-nowrap;
+}
+
+/* ===================== */
+/* Select Components     */
+/* ===================== */
+.select-primary {
+    @apply appearance-none bg-brand-accent-light border border-brand-accent-light text-gray-800 rounded-lg px-4 pr-8 cursor-pointer text-base h-11 leading-none;
+}
+
+.select-primary-sm {
+    @apply appearance-none bg-brand-accent-light border border-brand-accent-light text-gray-800 rounded-lg px-3 pr-8 cursor-pointer text-sm h-9 leading-none;
+}
+
+/* Legacy button class for backward compatibility */
 .btn-normal{
-    @apply bg-brand-accent-light flex gap-4 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer ;
+    @apply bg-brand-accent-light inline-flex items-center justify-center gap-2 rounded-lg px-4 p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer font-medium transition-all duration-200 leading-none text-base min-h-[44px] whitespace-nowrap;
 }
 /* Link and button base polish */
 a, button {

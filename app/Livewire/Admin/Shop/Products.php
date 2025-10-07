@@ -228,6 +228,7 @@ class Products extends Component
         $data = [
             'sku' => $this->sku,
             'name_service' => $this->name_service,
+            'slug' => MProduct::generateSlug($this->sku, $this->name_service),
             'description' => $this->description,
             'price_service' => 0,
             'stock' => 0,
@@ -254,6 +255,12 @@ class Products extends Component
                 $this->alert('error', 'Product not found');
                 return;
             }
+            
+            // Regenerate slug if SKU or name changed
+            if ($product->sku !== $this->sku || $product->name_service !== $this->name_service) {
+                $data['slug'] = MProduct::generateSlug($this->sku, $this->name_service);
+            }
+            
             // Only delete old image if we have a new one and it's not already stored (cropped)
             if ($this->image && $product->image_path && !is_string($this->image)) {
                 Storage::disk('public')->delete($product->image_path);

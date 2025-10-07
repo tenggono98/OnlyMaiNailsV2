@@ -69,7 +69,7 @@
           <!-- Order Actions -->
           <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200">
             <a href="{{ route('shop.order.detail', $order->uuid) }}"
-               class="flex-1 bg-[#fadde1] flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer font-medium">
+               class="flex-1 btn-order">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
@@ -78,7 +78,7 @@
             </a>
 
             @if($order->status === 'pending')
-              <button class="flex-1 bg-gray-100 flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-gray-300 hover:bg-transparent cursor-pointer font-medium text-gray-700">
+              <button class="flex-1 btn-secondary">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
@@ -99,7 +99,7 @@
         <h3 class="text-xl font-semibold text-gray-900 mb-2">No orders yet</h3>
         <p class="text-gray-600 mb-6">You haven't placed any orders yet. Start shopping to see your orders here.</p>
         <a href="{{ route('shop.index') }}"
-           class="bg-[#fadde1] inline-flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-[#fadde1] hover:bg-transparent cursor-pointer font-medium">
+           class="btn-order inline-flex">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
           </svg>

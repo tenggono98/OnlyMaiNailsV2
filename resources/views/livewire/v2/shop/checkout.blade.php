@@ -120,7 +120,7 @@
       <!-- Action Buttons -->
       <div class="space-y-3" data-aos="fade-up" data-aos-delay="160">
         <button wire:click="placeOrder"
-                class="w-full bg-brand-accent-light flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer font-medium">
+                class="w-full btn-primary">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
@@ -128,7 +128,7 @@
         </button>
 
         <a href="{{ route('shop.cart') }}"
-           class="w-full bg-gray-100 flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-gray-300 hover:bg-transparent cursor-pointer font-medium text-gray-700">
+           class="w-full btn-secondary">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
           </svg>

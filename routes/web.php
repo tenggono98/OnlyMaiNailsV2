@@ -22,7 +22,16 @@ Route::get('/', \App\Livewire\V2\Homepage::class)->name('home');
 Route::get('/services',\App\Livewire\V2\Services::class)->name('services');
 // Public Shop routes (no auth required)
 Route::get('/shop', \App\Livewire\V2\Shop\Products::class)->name('shop.index');
-Route::get('/shop/product/{id}', \App\Livewire\V2\Shop\ProductDetail::class)->name('shop.product');
+// Redirect old ID-based URLs to slug-based URLs for SEO (must come first)
+Route::get('/shop/product/{id}', function ($id) {
+    $product = \App\Models\MProduct::find($id);
+    if ($product && $product->slug) {
+        return redirect()->route('shop.product', $product->slug, 301);
+    }
+    abort(404);
+})->where('id', '[0-9]+');
+// Main product route with slug
+Route::get('/shop/product/{slug}', \App\Livewire\V2\Shop\ProductDetail::class)->name('shop.product');
 Route::get('/shop/cart', \App\Livewire\V2\Shop\Cart::class)->name('shop.cart');
 Route::get('/shop/checkout', \App\Livewire\V2\Shop\Checkout::class)->name('shop.checkout');
 Route::get('/shop/order/thank-you/{id}', \App\Livewire\V2\Shop\OrderThankYou::class)->name('shop.order.thankyou');

@@ -118,17 +118,17 @@
     <!-- Action Buttons -->
     <div class="flex flex-col sm:flex-row gap-4" data-aos="fade-up" data-aos-delay="100">
       <a href="{{ route('shop.index') }}"
-         class="flex-1 bg-gray-100 flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-gray-300 hover:bg-transparent cursor-pointer font-medium text-gray-700">
+         class="flex-1 btn-secondary">
         Continue Shopping
       </a>
       @auth
         <a href="{{ route('shop.checkout') }}"
-           class="flex-1 bg-brand-accent-light flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer font-medium">
+           class="flex-1 btn-primary">
           Proceed to Checkout
         </a>
       @else
         <a href="{{ route('user.login') }}"
-           class="flex-1 bg-brand-accent-light flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer font-medium">
+           class="flex-1 btn-primary">
           Login to Checkout
         </a>
       @endauth
@@ -145,7 +145,7 @@
       <h3 class="text-xl font-semibold text-gray-900 mb-2">Your cart is empty</h3>
       <p class="text-gray-600 mb-6">Looks like you haven't added any items to your cart yet.</p>
       <a href="{{ route('shop.index') }}"
-         class="bg-brand-accent-light flex gap-2 justify-center rounded-lg p-3 hover:border hover:border-brand-accent-light hover:bg-transparent cursor-pointer font-medium inline-flex">
+         class="btn-primary inline-flex">
         Start Shopping
       </a>
     </div>

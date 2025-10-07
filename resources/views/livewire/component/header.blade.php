@@ -126,7 +126,7 @@
                     <li><a class="ux-link" href="{{ Route('shop.cart') }}">Cart</a></li>
                     @endif
                     <li><a class="ux-link" href="{{ Route('contact_us') }}">Contact Us</a></li>
-                    <li class=""><a class="p-4 border border-white border-spacing-5 rounded-xl ux-btn"
+                    <li class=""><a class="p-4 bg-white border border-white border-spacing-5 rounded-xl ux-btn"
                             href="{{ Route('book') }}">Book Now</a></li>
                 </ul>
             </div>

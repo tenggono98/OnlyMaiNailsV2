@@ -105,7 +105,10 @@
                                         <div class="flex flex-col py-1">
                                             <button class="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100" wire:click="bookmarkGoogleCalendar({{ $row->user_id }},{{ $row->id }})">Google Calender</button>
                                             <button class="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100" wire:click="edit({{ $row->id }})" data-modal-target="add-modal" data-modal-toggle="add-modal">Edit</button>
-                                            <button class="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100" wire:click="bookmarkGoogleCalendar({{ $row->user_id }},{{ $row->id }})">Reschedule</button>
+                                            <button class="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100" wire:click="startReschedule({{ $row->id }})" data-modal-target="reschedule-modal" data-modal-toggle="reschedule-modal">Reschedule</button>
+                                            @if ($row->status !== 'cancel' && $row->status !== 'completed')
+                                                <button class="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100" wire:click="cancelBooking({{ $row->id }})" wire:confirm="Are you sure you want to cancel this booking?">Cancel Booking</button>
+                                            @endif
                                             @if ($row->status == false)
                                                 <button class="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100" wire:click="toggleStatus({{ $row->id }})">Activate</button>
                                                 <button class="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100" wire:click="confirmDelete('{{ $row->name_service }}', {{ $row->id }})">Delete</button>
@@ -268,6 +271,23 @@
             @endif
             <x-pages.inputs.error error="dateBook" />
             <x-pages.inputs.error error="timeBook" />
+        </div>
+    </x-pages.modal.modal>
+    
+    {{-- Reschedule Modal --}}
+    <x-pages.modal.modal id='reschedule-modal' title="Reschedule Booking" submitFunction='rescheduleBooking()'>
+        <div class="mb-4">
+            <p class="text-sm text-gray-600">Select new date and time for this booking:</p>
+        </div>
+        <div class="">
+            <label for="">Select New Schedule</label>
+            @if ($is_reschedule)
+                @livewire('component.module.schedule-selector', ['getSelectedTime' => $rescheduleTimeBook, 'getSelectedDate' => $rescheduleDateBook, 'getIndexDate' => '1'])
+            @else
+                @livewire('component.module.schedule-selector')
+            @endif
+            <x-pages.inputs.error error="rescheduleDateBook" />
+            <x-pages.inputs.error error="rescheduleTimeBook" />
         </div>
     </x-pages.modal.modal>
     {{-- Modal Zone --}}

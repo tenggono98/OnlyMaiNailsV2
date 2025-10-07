@@ -147,7 +147,7 @@
                     <li><a href="{{ Route('services') }}">Our Services</a></li>
                     {{-- <li><a href="{{ Route('product') }}">Product</a></li> --}}
                     <li><a href="{{ Route('contact_us') }}">Contact Us</a></li>
-                    <li class=""><a class="p-4 border border-white border-spacing-5 rounded-xl"
+                    <li class=""><a class="p-4 border border-white border-spacing-5 rounded-xl bg-white"
                             href="{{ Route('book') }}">Book Now</a></li>
                 </ul>
             </div>

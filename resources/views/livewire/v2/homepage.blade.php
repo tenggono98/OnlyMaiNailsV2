@@ -28,7 +28,7 @@
                     {{-- CTA Buttons --}}
                     <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-6 justify-center lg:justify-start mb-8 sm:mb-10 lg:mb-12" data-aos="fade-up" data-aos-delay="500">
                         <a href="{{ route('book') }}" 
-                           class="group bg-gray-900 hover:bg-gray-800 text-white px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 rounded-xl sm:rounded-2xl text-base sm:text-lg lg:text-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:-translate-y-1 flex items-center justify-center space-x-2 sm:space-x-3 shadow-lg">
+                           class="group bg-gray-900 hover:bg-gray-800 text-white px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 rounded-xl sm:rounded-2xl text-base sm:text-lg lg:text-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:-translate-y-1 flex items-center justify-center gap-2 sm:gap-3 shadow-lg">
                             <span class="transition-all duration-300 group-hover:text-white">Book Appointment</span>
                             <span class="transition-all duration-300 group-hover:translate-x-1 group-hover:scale-110">
                                 <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -38,7 +38,7 @@
                         </a>
                         
                         <a href="{{ route('services') }}" 
-                           class="group border-2 border-gray-300 hover:border-gray-900 text-gray-700 hover:text-gray-900 hover:bg-gray-50 px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 rounded-xl sm:rounded-2xl text-base sm:text-lg lg:text-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 hover:shadow-xl flex items-center justify-center space-x-2 sm:space-x-3">
+                           class="group border-2 border-gray-300 hover:border-gray-900 text-gray-700 hover:text-gray-900 hover:bg-gray-50 px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 rounded-xl sm:rounded-2xl text-base sm:text-lg lg:text-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 hover:shadow-xl flex items-center justify-center gap-2 sm:gap-3">
                             <span class="transition-all duration-300 group-hover:text-gray-900">View Services</span>
                             <span class="transition-all duration-300 group-hover:translate-x-1 group-hover:scale-110">
                                 <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -362,7 +362,7 @@
                     </div>
                     <div class="">
                         <button
-                            class="xl:text-4xl text-xl underline underline-offset-4 relative group flex items-center space-x-2">
+                            class="xl:text-4xl text-xl underline underline-offset-4 relative group flex items-center gap-2 bg-white ">
                             <span>Book Now</span>
                             <span class="transition-transform duration-300 group-hover:translate-x-2">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"

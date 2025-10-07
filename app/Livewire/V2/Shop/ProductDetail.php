@@ -15,9 +15,10 @@ class ProductDetail extends Component
     public $gallery = [];
     public $activeImage = 0;
 
-    public function mount($id)
+    public function mount($slug)
     {
-        $this->product = MProduct::with(['variants.images'])->findOrFail($id);
+        $this->product = MProduct::where('slug', $slug)->firstOrFail();
+        $this->product->load(['variants.images', 'reviews']);
         $this->variants = $this->product->variants;
         if ($this->variants && $this->variants->count() > 0) {
             $this->selectedVariantId = $this->variants->first()->id;
