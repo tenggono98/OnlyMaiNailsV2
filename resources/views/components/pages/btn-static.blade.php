@@ -7,25 +7,31 @@
 ])
 
 
+@php
+    $padding = 'px-3 py-1.5';
+    if ($size === 'text-sm') { $padding = 'px-4 py-2'; }
+    if ($size === 'text-base' || $size === 'text-lg') { $padding = 'px-5 py-2.5'; }
+    $base = 'inline-flex items-center rounded-lg font-medium '.$size.' '.$padding.' focus:ring-2 focus:ring-offset-2 border';
+@endphp
+
 @switch($type)
     @case('danger')
     <button type="{{ $action }}"
-            {{ $attributes->merge(['class' => 'w-full focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg ' . $size . ' p-4 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900']) }}>
+            {{ $attributes->merge(['class' => $base.' text-red-700 bg-white hover:bg-gray-50 border-red-200 focus:ring-red-500']) }}>
         <span >{{ $value }}</span>
-
     </button>
     @break
 
     @case('success')
     <button type="{{ $action }}"
-            {{ $attributes->merge(['class' => 'w-full focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg ' . $size . ' p-4 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800']) }}>
+            {{ $attributes->merge(['class' => $base.' text-green-700 bg-white hover:bg-gray-50 border-green-200 focus:ring-green-500']) }}>
         <span >{{ $value }}</span>
     </button>
     @break
 
     @case('info')
     <button type="{{ $action }}"
-            {{ $attributes->merge(['class' => 'w-full focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg ' . $size . ' p-4 dark:focus:ring-yellow-900']) }}>
+            {{ $attributes->merge(['class' => $base.' text-blue-700 bg-white hover:bg-gray-50 border-blue-200 focus:ring-blue-500']) }}>
         <span >{{ $value }}</span>
 
     </button>
@@ -33,24 +39,19 @@
 
     @case('icon')
     <button type="{{ $action }}"
-            {{ $attributes->merge(['class' => 'w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg ' . $size . ' p-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800']) }}>
-        <div class="flex gap-3">
+            {{ $attributes->merge(['class' => $base.' text-gray-700 bg-white hover:bg-gray-50 border-gray-200 focus:ring-gray-500']) }}>
+        <div class="flex items-center gap-2">
             @if($value)
-            <div class="flex items-center">
-                <span >{{ $value }}</span>
-
-            </div>
+            <span >{{ $value }}</span>
             @endif
-            <div class="flex items-center">
-                {!! $icon !!}
-            </div>
+            {!! $icon !!}
         </div>
     </button>
     @break
 
     @default
     <button type="{{ $action }}"
-            {{ $attributes->merge(['class' => 'w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg ' . $size . ' p-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800']) }}>
+            {{ $attributes->merge(['class' => $base.' text-gray-700 bg-white hover:bg-gray-50 border-gray-200 focus:ring-gray-500']) }}>
         <span >{{ $value }}</span>
 
     </button>

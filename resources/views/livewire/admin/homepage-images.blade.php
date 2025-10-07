@@ -91,27 +91,12 @@
                             :output-height="$outputHeight"
                             :output-format="'jpg'"
                             :output-quality="0.9"
-                            wire:key="image-cropper-{{ $section }}-{{ now()->timestamp }}"
+                            wire:key="image-cropper-{{ $section }}"
                         />
                         
                         <!-- Show cropped image preview if available -->
                         @if($croppedImagePreview)
-                            <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
-                                <div class="flex items-center space-x-3">
-                                    <div class="flex-shrink-0">
-                                        <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h4 class="text-sm font-medium text-green-800">Image Cropped Successfully!</h4>
-                                        <p class="text-sm text-green-700">Your image has been cropped and is ready to be saved.</p>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                                        <img src="{{ $croppedImagePreview }}" alt="Cropped preview" class="w-16 h-16 object-cover rounded">
-                                    </div>
-                                </div>
-                            </div>
+                            <x-ui.image-preview-single :src="$croppedImagePreview" title="Image Cropped Successfully" subtitle="Ready to save" />
                         @endif
                         
                         <!-- Form Fields -->
@@ -174,45 +159,43 @@
             </div>
 
             <!-- Images List -->
-            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <table class="w-full text-sm text-left text-gray-500">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">Image</th>
-                            <th scope="col" class="px-6 py-3">Alt Text</th>
-                            <th scope="col" class="px-6 py-3">Order</th>
-                            <th scope="col" class="px-6 py-3">Status</th>
-                            <th scope="col" class="px-6 py-3">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($images as $image)
-                        <tr class="bg-white border-b hover:bg-gray-50">
-                            <td class="px-6 py-4">
-                                <img src="{{ asset('storage/' . $image->image_path) }}" class="w-24 h-24 object-cover" alt="{{ $image->alt_text }}">
-                            </td>
-                            <td class="px-6 py-4">{{ $image->alt_text }}</td>
-                            <td class="px-6 py-4">{{ $image->display_order }}</td>
-                            <td class="px-6 py-4">
-                                <button wire:click="toggleStatus({{ $image->id }})"
-                                    class="font-medium {{ $image->status ? 'text-green-600' : 'text-red-600' }}">
-                                    {{ $image->status ? 'Active' : 'Inactive' }}
-                                </button>
-                            </td>
-                            <td class="px-6 py-4">
-                                <button wire:click="delete({{ $image->id }})"
-                                    wire:confirm="Are you sure you want to delete this image?"
-                                    class="font-medium text-red-600 hover:underline">Delete</button>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr class="bg-white border-b">
-                            <td colspan="5" class="px-6 py-4 text-center">No images found</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
+            <x-ui.admin-table :title="'Images'" :subtitle="'Total: '.($images->count() ?? count($images))" :paginator="$images">
+                <x-slot name="head">
+                    <tr>
+                        <x-ui.th>Image</x-ui.th>
+                        <x-ui.th>Alt Text</x-ui.th>
+                        <x-ui.th>Order</x-ui.th>
+                        <x-ui.th>Status</x-ui.th>
+                        <x-ui.th align="right">Actions</x-ui.th>
+                    </tr>
+                </x-slot>
+                @forelse($images as $image)
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <img src="{{ asset('storage/' . $image->image_path) }}" class="w-24 h-24 object-cover rounded" alt="{{ $image->alt_text }}">
+                        </td>
+                        <td class="px-6 py-4">{{ $image->alt_text }}</td>
+                        <td class="px-6 py-4">{{ $image->display_order }}</td>
+                        <td class="px-6 py-4">
+                            <button wire:click="toggleStatus({{ $image->id }})"
+                                class="font-medium {{ $image->status ? 'text-green-600' : 'text-red-600' }}">
+                                {{ $image->status ? 'Active' : 'Inactive' }}
+                            </button>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <button wire:click="delete({{ $image->id }})"
+                                wire:confirm="Are you sure you want to delete this image?"
+                                class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-red-700 bg-red-100 rounded-lg hover:bg-red-200 focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="px-6 py-8 text-center text-sm text-gray-500">No images found</td>
+                    </tr>
+                @endforelse
+            </x-ui.admin-table>
         </div>
     </div>
 

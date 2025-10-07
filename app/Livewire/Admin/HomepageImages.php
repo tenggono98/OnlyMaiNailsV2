@@ -51,6 +51,11 @@ class HomepageImages extends Component
         $this->loadImages();
         // Use homepage preset for dimensions
         $this->usePreset('homepage');
+        // Ensure cropper accuracy on borders
+        $this->cropOptions = array_merge(
+            config('cropper.defaults'),
+            $this->cropOptions ?? []
+        );
         // Initialize default display order to next available slot
         $this->displayOrder = $this->getNextDisplayOrder();
     }

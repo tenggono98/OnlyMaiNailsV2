@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Shop;
 
 use App\Models\MProduct;
 use App\Models\MProductVariant;
+use App\Models\MProductVariantImage;
 use App\Services\ImageUploadService;
 use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -30,6 +31,7 @@ class Products extends Component
     public $price_service = 0; // base price obsolete
     public $stock = 0; // base stock obsolete
     public $status = true;
+    // Product main image (separate from variant images)
     public $image;
     public $id_edit;
     public $is_edit = false;
@@ -48,6 +50,16 @@ class Products extends Component
     public $croppedImageData = null;
     public $hasCroppedImage = false;
 
+    // Variant images management (merged from old VariantImages)
+    public $selectedVariantId = null;
+    public $variantImages = [];
+    // Variant images upload buffer (separate from product main image)
+    public $variantNewImages = [];
+    public $useVariantCropper = false; // keep direct upload default for simplicity
+    public $variantOutputWidth = 600;
+    public $variantOutputHeight = 600;
+    public $variantCroppedImages = [];
+
     public function render()
     {
         $this->products = MProduct::with('variants')->orderByDesc('id')->get();
@@ -61,34 +73,24 @@ class Products extends Component
 
     protected function setupCropOptions()
     {
-        $this->cropOptions = [
-            'aspectRatio' => $this->cropAspectRatio[0] / $this->cropAspectRatio[1],
-            'viewMode' => 1,
-            'dragMode' => 'move',
-            'autoCropArea' => 0.8,
-            'background' => true,
-            'responsive' => true,
-            'restore' => false,
-            'checkCrossOrigin' => true,
-            'checkOrientation' => true,
-            'modal' => true,
-            'guides' => true,
-            'center' => true,
-            'highlight' => true,
-            'cropBoxMovable' => true,
-            'cropBoxResizable' => true,
-            'toggleDragModeOnDblclick' => true,
-            'minWidth' => 100,
-            'minHeight' => 100,
-            'maxWidth' => $this->outputWidth * 2,
-            'maxHeight' => $this->outputHeight * 2,
-        ];
+        $this->cropOptions = array_merge(
+            config('cropper.defaults'),
+            [
+                'aspectRatio' => $this->cropAspectRatio[0] / $this->cropAspectRatio[1],
+                'maxWidth' => $this->outputWidth * 2,
+                'maxHeight' => $this->outputHeight * 2,
+            ]
+        );
     }
 
     public function resetForm()
     {
         $this->reset(['sku','name_service','description','price_service','stock','status','image','id_edit','is_edit','croppedImageData','croppedImagePreview','hasCroppedImage']);
         $this->variants = [];
+        $this->selectedVariantId = null;
+        $this->variantImages = [];
+        $this->variantNewImages = [];
+        $this->variantCroppedImages = [];
     }
 
     public function handleCroppedImage($imageData = null)
@@ -317,7 +319,11 @@ class Products extends Component
         $this->price_service = 0;
         $this->stock = 0;
         $this->status = $product->status;
-        $this->variants = method_exists($product, 'variants') ? $product->variants()->get(['sku','name','price','stock','status'])->toArray() : [];
+        // Include id for selecting in variant images manager
+        $this->variants = method_exists($product, 'variants') ? $product->variants()->get(['id','sku','name','price','stock','status'])->toArray() : [];
+        // Do not auto-select to force explicit user selection
+        $this->selectedVariantId = null;
+        $this->variantImages = [];
     }
 
     public function addVariantRow()
@@ -352,6 +358,68 @@ class Products extends Component
             $counter++;
         }
         return $baseSku;
+    }
+
+    // ===== Variant Images (merged) =====
+    public function updatedSelectedVariantId()
+    {
+        $this->loadVariantImages();
+    }
+
+    // Fallback for explicit change events from the dropdown
+    public function onSelectVariant()
+    {
+        $this->loadVariantImages();
+    }
+
+    private function loadVariantImages(): void
+    {
+        if ($this->selectedVariantId) {
+            $imgs = MProductVariantImage::where('m_product_variant_id', $this->selectedVariantId)
+                ->orderBy('sort_order')
+                ->get();
+            $this->variantImages = $imgs->toArray();
+        } else {
+            $this->variantImages = [];
+        }
+    }
+
+    public function saveVariantImages()
+    {
+        $this->validate([
+            'selectedVariantId' => 'required|integer|exists:m_product_variants,id',
+            'variantNewImages' => 'required|array',
+            'variantNewImages.*' => 'image|max:65536',
+        ]);
+        $this->isProcessingImage = true;
+        $this->processingMessage = 'Uploading variant images...';
+
+        try {
+            $nextOrder = (int) MProductVariantImage::where('m_product_variant_id', $this->selectedVariantId)->max('sort_order');
+            foreach ($this->variantNewImages as $file) {
+                $nextOrder++;
+                $path = $file->store('shop/variants', 'public');
+                MProductVariantImage::create([
+                    'm_product_variant_id' => $this->selectedVariantId,
+                    'image_path' => $path,
+                    'sort_order' => $nextOrder,
+                ]);
+            }
+            $this->variantNewImages = [];
+            $this->loadVariantImages();
+            $this->alert('success', 'Variant images uploaded');
+        } finally {
+            $this->isProcessingImage = false;
+        }
+    }
+
+    public function deleteVariantImage($id)
+    {
+        $img = MProductVariantImage::find($id);
+        if (!$img) return;
+        Storage::disk('public')->delete($img->image_path);
+        $img->delete();
+        $this->loadVariantImages();
     }
 }
 

@@ -2,8 +2,51 @@
   <x-pages.admin.title-header-admin title="Shop - Products" />
 
   <div class="grid grid-cols-1 gap-8 mt-6 xl:grid-cols-3">
-    <!-- Product Form Section -->
-    <div class="xl:col-span-1">
+    <!-- Left: Step Navigation + Tips -->
+    <div class="xl:col-span-1 space-y-6">
+      <!-- Stepper / Tabs -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+        <div class="px-6 py-4 border-b border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-900">Product Setup</h3>
+          <p class="text-sm text-gray-600 mt-1">Complete each step below</p>
+        </div>
+        <div class="p-4 space-y-2">
+          <button type="button" class="w-full text-left px-3 py-2 rounded-lg border {{ !$is_edit ? 'border-blue-300 bg-blue-50 text-blue-900' : 'border-gray-200 hover:bg-gray-50' }}">
+            1. Basic Information
+          </button>
+          <button type="button" class="w-full text-left px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50">
+            2. Product Image
+          </button>
+          <button type="button" class="w-full text-left px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50">
+            3. Variants
+          </button>
+          <button type="button" class="w-full text-left px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50">
+            4. Variant Images
+          </button>
+        </div>
+      </div>
+
+      <!-- Sticky Tips -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+        <div class="px-6 py-4 border-b border-gray-200">
+          <h4 class="text-sm font-semibold text-gray-900">Helpful Tips</h4>
+        </div>
+        <div class="p-4 space-y-3 text-sm text-gray-700">
+          <div class="rounded-lg bg-blue-50 border border-blue-200 p-3 text-blue-800">
+            Use a clear SKU pattern (e.g., BRAND-CAT-###) for easy tracking.
+          </div>
+          <div class="rounded-lg bg-blue-50 border border-blue-200 p-3 text-blue-800">
+            Product image: square, ≥800×800; larger source (≥1200×1200) recommended.
+          </div>
+          <div class="rounded-lg bg-blue-50 border border-blue-200 p-3 text-blue-800">
+            Add variants to manage price and stock per option.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Form + List -->
+    <div class="xl:col-span-2">
       <div class="bg-white rounded-xl shadow-sm border border-gray-200">
         <div class="px-6 py-4 border-b border-gray-200">
           <h3 class="text-lg font-semibold text-gray-900">
@@ -14,7 +57,7 @@
           </p>
         </div>
 
-        <form wire:submit.prevent="save" class="p-6 space-y-6">
+        <form id="product-form" wire:submit.prevent="save" class="p-6 space-y-10">
           <!-- Basic Information -->
           <div class="space-y-4">
             <h4 class="text-sm font-medium text-gray-900 border-b border-gray-200 pb-2">Basic Information</h4>
@@ -55,18 +98,21 @@
             </div>
           </div>
 
-          <!-- Pricing & Inventory -->
-          <div class="space-y-4">
+          <!-- Variants note -->
+          <div class="space-y-3">
             <h4 class="text-sm font-medium text-gray-900 border-b border-gray-200 pb-2">Pricing & Inventory</h4>
-
             <div class="rounded-lg bg-blue-50 border border-blue-200 p-3 text-sm text-blue-800">
-              Pricing and stock are managed via variants. Manage variant images in <a href="{{ route('admin.shop.variant-images') }}" class="text-brand-accent-light underline">Variant Images</a>.
+              Pricing and stock are managed via variants. Manage variant images in <a href="{{ route('admin.shop.variant-images') }}" class="underline">Variant Images</a>.
             </div>
           </div>
 
           <!-- Product Image -->
           <div class="space-y-4">
             <h4 class="text-sm font-medium text-gray-900 border-b border-gray-200 pb-2">Product Image</h4>
+
+            <div class="rounded-lg bg-blue-50 border border-blue-200 p-3 text-sm text-blue-800">
+              Recommended: square image, at least 800×800 px. Keep the subject centered. This image represents the product in listings.
+            </div>
 
             <!-- Upload Options -->
             <div class="p-3 bg-gray-50 rounded-lg">
@@ -83,6 +129,7 @@
                 <p class="text-xs text-gray-500 mt-2">
                     Image Cropper allows you to crop and resize images to the perfect dimensions ({{ $outputWidth }}x{{ $outputHeight }}px)
                 </p>
+                <p class="text-xs text-gray-500 mt-1">Tip: Upload a larger image (≥ 1200×1200) for sharper results after cropping.</p>
             </div>
 
             @if($useCropper)
@@ -94,27 +141,12 @@
                         :output-height="$outputHeight"
                         :output-format="'jpg'"
                         :output-quality="0.9"
-                        wire:key="product-image-cropper-{{ now()->timestamp }}"
+                        wire:key="product-image-cropper-{{ $id_edit ?? 'new' }}"
                     />
                     
                     <!-- Show cropped image preview if available -->
                     @if($hasCroppedImage && $croppedImagePreview)
-                        <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
-                            <div class="flex items-center space-x-3">
-                                <div class="flex-shrink-0">
-                                    <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                                <div class="flex-1">
-                                    <h4 class="text-sm font-medium text-green-800">Product Image Cropped Successfully!</h4>
-                                    <p class="text-sm text-green-700">Your product image has been cropped and is ready to be saved with the product.</p>
-                                </div>
-                                <div class="flex-shrink-0">
-                                    <img src="{{ $croppedImagePreview }}" alt="Cropped preview" class="w-16 h-16 object-cover rounded">
-                                </div>
-                            </div>
-                        </div>
+                        <x-ui.image-preview-single :src="$croppedImagePreview" title="Product Image Ready" subtitle="Cropped and ready to save" />
                     @endif
                 </div>
             @else
@@ -158,17 +190,7 @@
             @endif
           </div>
 
-          <!-- Action Buttons -->
-          <div class="flex space-x-3 pt-4">
-            <button type="submit"
-                    class="flex-1 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-medium">
-              {{ $is_edit ? 'Update Product' : 'Create Product' }}
-            </button>
-            <button type="button" wire:click="resetForm"
-                    class="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 font-medium">
-              Reset
-            </button>
-          </div>
+          <!-- Action Buttons moved to bottom -->
         </form>
       </div>
 
@@ -253,49 +275,126 @@
           @endif
         </div>
       </div>
-    </div>
 
-    <!-- Products List Section -->
-    <div class="xl:col-span-2">
-      <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+      <!-- Variant Images Manager (merged) -->
+      <div class="mt-6 bg-white rounded-xl shadow-sm border border-gray-200">
         <div class="px-6 py-4 border-b border-gray-200">
-          <div class="flex items-center justify-between">
-            <div>
-              <h3 class="text-lg font-semibold text-gray-900">Products</h3>
-              <p class="text-sm text-gray-600 mt-1">{{ $products->count() }} products in your shop</p>
+          <h4 class="text-lg font-semibold text-gray-900">Variant Images</h4>
+          <p class="text-sm text-gray-600 mt-1">Manage images for each variant without leaving this page</p>
+        </div>
+        <div class="p-6 space-y-4">
+          @php
+            $hasPersistedVariants = collect($variants ?? [])->filter(function($v){ return isset($v['id']); })->count();
+          @endphp
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Select Variant</label>
+            <select wire:model.live="selectedVariantId" wire:change="onSelectVariant" class="w-full border border-gray-300 rounded-lg p-2.5" {{ $hasPersistedVariants === 0 ? 'disabled' : '' }}>
+              <option value="">-- Choose a variant --</option>
+              @foreach($variants as $v)
+                @if(isset($v['id']))
+                  <option value="{{ $v['id'] }}">{{ $v['name'] }} ({{ $v['sku'] }})</option>
+                @endif
+              @endforeach
+            </select>
+            @if($hasPersistedVariants === 0)
+              <p class="mt-2 text-xs text-gray-500">Save the product first, then return to upload variant images.</p>
+            @endif
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-1 space-y-4">
+              <div class="rounded-lg bg-blue-50 border border-blue-200 p-3 text-sm text-blue-800">
+                Variant images are shown on the product detail page gallery. Recommended: square 1:1, ≥600×600.
+              </div>
+              <form id="variant-images-form" wire:submit.prevent="saveVariantImages" class="space-y-3">
+                <label class="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-100 cursor-pointer {{ (!$selectedVariantId || $hasPersistedVariants === 0) ? 'opacity-50 cursor-not-allowed' : '' }}">
+                  <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg class="w-8 h-8 mb-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                    <p class="text-sm text-gray-600"><span class="font-medium">Click to upload</span> or drag and drop</p>
+                    <p class="text-xs text-gray-500">PNG, JPG up to 6MB each • Multiple files allowed</p>
+                  </div>
+                  <input id="variant-images-input" type="file" wire:model="variantNewImages" multiple class="hidden" accept="image/*" wire:key="variant-input-{{ $selectedVariantId ?? 'none' }}" {{ (!$selectedVariantId || $hasPersistedVariants === 0) ? 'disabled' : '' }} />
+                </label>
+                <x-ui.image-preview-multiple :files="$variantNewImages" title="Images Selected" clearEvent="$set('variantNewImages', [])" />
+                <button type="submit" wire:loading.attr="disabled" wire:target="saveVariantImages" class="w-full bg-[#fadde1] rounded-lg px-4 py-2 font-medium hover:border hover:border-[#fadde1] hover:bg-transparent {{ (!$selectedVariantId || empty($variantNewImages) || $hasPersistedVariants === 0) ? 'opacity-50 cursor-not-allowed' : '' }}" {{ (!$selectedVariantId || empty($variantNewImages) || $hasPersistedVariants === 0) ? 'disabled' : '' }}>
+                  <span wire:loading.remove wire:target="saveVariantImages">Upload</span>
+                  <span wire:loading wire:target="saveVariantImages">Uploading...</span>
+                </button>
+              </form>
             </div>
-            <div class="flex items-center space-x-3">
-              <div class="relative">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                  </svg>
+
+            <div class="lg:col-span-2">
+              <div class="bg-white rounded-xl border border-gray-200 p-5 relative">
+                <div class="absolute inset-0 bg-white/70 backdrop-blur-sm flex items-center justify-center z-10" wire:loading wire:target="saveVariantImages">
+                  <div class="flex items-center gap-3 text-gray-700">
+                    <svg class="animate-spin h-5 w-5 text-gray-700" viewBox="0 0 24 24"></svg>
+                    <span class="text-sm">Processing...</span>
+                  </div>
                 </div>
-                <input type="text" placeholder="Search products..."
-                       class="pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <div class="flex items-center justify-between mb-4">
+                  <h5 class="text-lg font-semibold text-gray-900">Images</h5>
+                  <span class="text-sm text-gray-500">{{ count($variantImages) }} image{{ count($variantImages) !== 1 ? 's' : '' }}</span>
+                </div>
+                @if(count($variantImages) === 0)
+                  <div class="text-center py-16">
+                    <svg class="w-14 h-14 mx-auto text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                    </svg>
+                    <p class="text-gray-600">No images uploaded for this variant yet.</p>
+                  </div>
+                @else
+                  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    @foreach($variantImages as $img)
+                      <div class="border rounded-lg overflow-hidden group">
+                        <img src="{{ asset('storage/'.$img['image_path']) }}" class="w-full h-40 object-cover" />
+                        <div class="p-2 flex items-center justify-between">
+                          <span class="text-xs text-gray-500">#{{ $img['id'] }}</span>
+                          <button wire:click="deleteVariantImage({{ $img['id'] }})" class="text-red-600 text-xs">Delete</button>
+                        </div>
+                      </div>
+                    @endforeach
+                  </div>
+                @endif
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="overflow-hidden">
-          @if($products->count() > 0)
-            <div class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                  <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SKU</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price (min variant)</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock (sum variants)</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Variants</th>
-                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                  </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                  @foreach($products as $p)
-                    <tr class="hover:bg-gray-50">
+      <!-- Final Actions -->
+      <div class="mt-6 bg-white rounded-xl shadow-sm border border-gray-200">
+        <div class="p-6 flex flex-col sm:flex-row gap-3 justify-end">
+          <button type="button" wire:click="resetForm"
+                  class="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 font-medium">
+            Reset
+          </button>
+          <button type="submit" form="product-form"
+                  class="px-6 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-medium">
+            {{ $is_edit ? 'Update Product' : 'Create Product' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Products List Section -->
+    <div class="xl:col-span-3">
+      <x-ui.admin-table title="Products" :subtitle="$products->count().' products in your shop'" search :paginator="$products">
+        <x-slot name="head">
+          <tr>
+            <x-ui.th width="40%">Product</x-ui.th>
+            <x-ui.th>SKU</x-ui.th>
+            <x-ui.th>Price (min variant)</x-ui.th>
+            <x-ui.th>Stock (sum variants)</x-ui.th>
+            <x-ui.th>Status</x-ui.th>
+            <x-ui.th>Variants</x-ui.th>
+            <x-ui.th align="right" width="140px">Actions</x-ui.th>
+          </tr>
+        </x-slot>
+        @if($products->count() > 0)
+          @foreach($products as $p)
+            <tr class="hover:bg-gray-50">
                       <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center">
                           <div class="flex-shrink-0 h-12 w-12">
@@ -386,13 +485,11 @@
                           </button>
                         </div>
                       </td>
-                    </tr>
-                  @endforeach
-                </tbody>
-              </table>
-            </div>
-          @else
-            <div class="text-center py-12">
+                  </tr>
+          @endforeach
+        @else
+          <tr>
+            <td colspan="7" class="text-center py-12">
               <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
               </svg>
@@ -405,10 +502,10 @@
                 </svg>
                 Create Your First Product
               </button>
-            </div>
-          @endif
-        </div>
-      </div>
+            </td>
+          </tr>
+        @endif
+      </x-ui.admin-table>
     </div>
   </div>
 </div>

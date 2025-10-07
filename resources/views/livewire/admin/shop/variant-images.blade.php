@@ -1,18 +1,40 @@
-<div class="p-6 bg-gray-50 min-h-screen">
-  <x-pages.admin.title-header-admin title="Shop - Variant Images" />
+<div class="p-6 {{ $embedded ? '' : 'bg-gray-50 min-h-screen' }}">
+  @unless($embedded)
+    <x-pages.admin.title-header-admin title="Shop - Variant Images" />
+  @endunless
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-    <!-- Left: Product & Variant Selector + Uploader -->
+    <!-- Left: Step Navigation + Selectors -->
     <div class="lg:col-span-1 space-y-6">
-      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-        <h3 class="text-lg font-semibold text-gray-900 mb-3">Select Product</h3>
-        <select wire:model.live="selectedProductId" class="w-full border border-gray-300 rounded-lg p-2.5">
-          <option value="">-- Choose a product --</option>
-          @foreach($products as $p)
-            <option value="{{ $p->id }}">{{ $p->name_service }} ({{ $p->sku }})</option>
-          @endforeach
-        </select>
+      <!-- Stepper / Tabs -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 {{ $embedded ? 'hidden' : '' }}">
+        <div class="px-5 py-4 border-b border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-900">Variant Images Setup</h3>
+          <p class="text-sm text-gray-600 mt-1">Follow steps to upload images</p>
+        </div>
+        <div class="p-4 space-y-2">
+          <button type="button" class="w-full text-left px-3 py-2 rounded-lg border border-blue-300 bg-blue-50 text-blue-900">
+            1. Select Product
+          </button>
+          <button type="button" class="w-full text-left px-3 py-2 rounded-lg border {{ $selectedProductId ? 'border-blue-300 bg-blue-50 text-blue-900' : 'border-gray-200 hover:bg-gray-50' }}">
+            2. Select Variant
+          </button>
+          <button type="button" class="w-full text-left px-3 py-2 rounded-lg border {{ ($selectedProductId && $selectedVariantId) ? 'border-blue-300 bg-blue-50 text-blue-900' : 'border-gray-200 hover:bg-gray-50' }}">
+            3. Upload Images
+          </button>
+        </div>
       </div>
+      @unless($embedded)
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Select Product</h3>
+          <select wire:model.live="selectedProductId" class="w-full border border-gray-300 rounded-lg p-2.5">
+            <option value="">-- Choose a product --</option>
+            @foreach($products as $p)
+              <option value="{{ $p->id }}">{{ $p->name_service }} ({{ $p->sku }})</option>
+            @endforeach
+          </select>
+        </div>
+      @endunless
 
       <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
         <h3 class="text-lg font-semibold text-gray-900 mb-3">Select Variant</h3>
@@ -28,6 +50,9 @@
 
       <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
         <h3 class="text-lg font-semibold text-gray-900 mb-3">Upload Images</h3>
+        <div class="mb-3 rounded-lg bg-blue-50 border border-blue-200 p-3 text-sm text-blue-800">
+          Variant images are shown on the product detail page gallery. Recommended: square images (1:1), at least 600×600 px. Keep the subject centered.
+        </div>
         
         <!-- Upload Options -->
         <div class="mb-4 p-3 bg-gray-50 rounded-lg">
@@ -44,6 +69,7 @@
             <p class="text-xs text-gray-500 mt-2">
                 Image Cropper allows you to crop and resize images to the perfect dimensions ({{ $outputWidth }}x{{ $outputHeight }}px)
             </p>
+            <p class="text-xs text-gray-500 mt-1">Tip: Upload multiple images; you can crop each before saving.</p>
         </div>
 
         @if($useCropper)
@@ -55,31 +81,12 @@
                     :output-height="$outputHeight"
                     :output-format="'jpg'"
                     :output-quality="0.9"
-                    wire:key="variant-image-cropper-{{ now()->timestamp }}"
+                    wire:key="variant-image-cropper-{{ $selectedVariantId ?? 'none' }}"
                 />
                 
                 <!-- Show cropped images preview if available -->
                 @if(!empty($croppedImages))
-                    <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
-                        <div class="flex items-center justify-between mb-3">
-                            <h4 class="text-sm font-medium text-green-800">Cropped Images Ready ({{ count($croppedImages) }})</h4>
-                            <button type="button" wire:click="clearAllCroppedImages" 
-                                    class="text-xs text-red-600 hover:text-red-800">
-                                Clear All
-                            </button>
-                        </div>
-                        <div class="grid grid-cols-3 gap-2">
-                            @foreach($croppedImages as $index => $croppedImage)
-                                <div class="relative border rounded-lg overflow-hidden">
-                                    <img src="{{ $croppedImage['preview'] }}" alt="Cropped preview" class="w-full h-20 object-cover">
-                                    <button type="button" wire:click="removeCroppedImage({{ $index }})" 
-                                            class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600">
-                                        ×
-                                    </button>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
+                    <x-ui.image-preview-multiple :files="$croppedImages" title="Cropped Images Ready" clearEvent="clearAllCroppedImages" />
                 @endif
                 
                 <!-- Action Buttons -->
@@ -109,19 +116,11 @@
             <input type="file" wire:model="newImages" multiple class="hidden" accept="image/*" {{ (!$selectedProductId || !$selectedVariantId) ? 'disabled' : '' }} />
           </label>
 
-          @if(!empty($newImages))
-            <div class="grid grid-cols-3 gap-2">
-              @foreach($newImages as $tmp)
-                <div class="border rounded-lg overflow-hidden">
-                  <img src="{{ $tmp->temporaryUrl() }}" class="w-full h-20 object-cover" />
-                </div>
-              @endforeach
-            </div>
-          @endif
+          <x-ui.image-preview-multiple :files="$newImages" title="Images Selected" clearEvent="$set('newImages', [])" />
 
           <button type="button" wire:click.prevent="saveImages" wire:loading.attr="disabled" class="w-full bg-[#fadde1] rounded-lg px-4 py-2 font-medium hover:border hover:border-[#fadde1] hover:bg-transparent {{ (!$selectedProductId || !$selectedVariantId) ? 'opacity-50 cursor-not-allowed' : '' }}" {{ (!$selectedProductId || !$selectedVariantId) ? 'disabled' : '' }}>
-            <span wire:loading.remove>Upload</span>
-            <span wire:loading>Uploading...</span>
+            <span wire:loading.remove wire:target="saveImages">Upload</span>
+            <span wire:loading wire:target="saveImages">Uploading...</span>
           </button>
           @error('newImages') <div class="text-red-600 text-sm">{{ $message }}</div> @enderror
           @error('newImages.*') <div class="text-red-600 text-sm">{{ $message }}</div> @enderror
@@ -130,33 +129,39 @@
       </div>
     </div>
 
-    <!-- Right: Images Grid -->
+    <!-- Right: Images Grid (Admin Table) -->
     <div class="lg:col-span-2">
-      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="text-lg font-semibold text-gray-900">Images</h3>
-          <span class="text-sm text-gray-500">{{ count($images) }} image{{ count($images) !== 1 ? 's' : '' }}</span>
+      <div class="relative" wire:loading.class="opacity-60" wire:target="saveImages saveAllCroppedImages deleteImage">
+        <div class="absolute inset-0 bg-white/70 backdrop-blur-sm flex items-center justify-center z-10" wire:loading wire:target="saveImages saveAllCroppedImages deleteImage">
+          <div class="flex items-center gap-3 text-gray-700">
+            <svg class="animate-spin h-5 w-5 text-gray-700" viewBox="0 0 24 24"></svg>
+            <span class="text-sm">Processing...</span>
+          </div>
         </div>
-        @if(count($images) === 0)
-          <div class="text-center py-16">
-            <svg class="w-14 h-14 mx-auto text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-            </svg>
-            <p class="text-gray-600">No images uploaded for this variant yet.</p>
-          </div>
-        @else
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            @foreach($images as $img)
-              <div class="border rounded-lg overflow-hidden group">
-                <img src="{{ asset('storage/'.$img['image_path']) }}" class="w-full h-40 object-cover" />
-                <div class="p-2 flex items-center justify-between">
-                  <span class="text-xs text-gray-500">#{{ $img['id'] }}</span>
-                  <button wire:click="deleteImage({{ $img['id'] }})" class="text-red-600 text-xs">Delete</button>
-                </div>
-              </div>
-            @endforeach
-          </div>
-        @endif
+        <x-ui.admin-table :title="'Images'" :subtitle="count($images).' image'.(count($images)!==1?'s':'')" :paginator="$images">
+          <x-slot name="head">
+            <tr>
+              <x-ui.th>#</x-ui.th>
+              <x-ui.th>Preview</x-ui.th>
+              <x-ui.th align="right">Actions</x-ui.th>
+            </tr>
+          </x-slot>
+          @forelse($images as $img)
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 text-xs text-gray-500">#{{ $img['id'] }}</td>
+              <td class="px-6 py-4">
+                <img src="{{ asset('storage/'.$img['image_path']) }}" class="w-24 h-24 object-cover rounded" />
+              </td>
+              <td class="px-6 py-4 text-right">
+                <button wire:click="deleteImage({{ $img['id'] }})" class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-red-700 bg-red-100 rounded-lg hover:bg-red-200 focus:ring-2 focus:ring-red-500 focus:ring-offset-2">Delete</button>
+              </td>
+            </tr>
+          @empty
+            <tr>
+              <td colspan="3" class="px-6 py-8 text-center text-sm text-gray-500">No images uploaded for this variant yet.</td>
+            </tr>
+          @endforelse
+        </x-ui.admin-table>
       </div>
     </div>
   </div>

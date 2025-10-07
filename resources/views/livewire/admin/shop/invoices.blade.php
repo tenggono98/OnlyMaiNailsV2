@@ -26,58 +26,51 @@
       </form>
     </div>
 
-    <!-- Invoices List Card -->
-    <div class="xl:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200">
-      <div class="px-6 py-4 border-b border-gray-200">
-        <h3 class="text-lg font-semibold text-gray-900">Invoices</h3>
-      </div>
-      <div class="p-6 overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Number</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order Items</th>
-              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            @forelse($invoices as $inv)
-              <tr class="hover:bg-gray-50">
-                <td class="px-6 py-4">{{ $inv->id }}</td>
-                <td class="px-6 py-4">{{ $inv->invoice_number }}</td>
-                <td class="px-6 py-4">#{{ $inv->t_order_id }}</td>
-                <td class="px-6 py-4 font-medium">${{ number_format($inv->total,2) }}</td>
-                <td class="px-6 py-4">
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                    {{ $inv->status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                    {{ ucfirst($inv->status) }}
-                  </span>
-                </td>
-                <td class="px-6 py-4">
-                  @if($inv->order && $inv->order->items)
-                    <div class="text-xs text-gray-700 space-y-1">
-                      @foreach($inv->order->items as $it)
-                        <div>- {{ $it->name }} @if($it->variant) <span class="text-gray-500">({{ $it->variant->name }})</span> @endif × {{ $it->qty }}</div>
-                      @endforeach
-                    </div>
-                  @endif
-                </td>
-                <td class="px-6 py-4 text-right space-x-2 whitespace-nowrap">
-                  <button wire:click="generatePdf({{ $inv->id }})" class="inline-flex items-center px-3 py-1.5 text-xs font-medium bg-gray-100 rounded-lg hover:bg-gray-200">Generate</button>
-                  <a href="{{ route('admin.shop.invoice.download', $inv->id) }}" class="inline-flex items-center px-3 py-1.5 text-xs font-medium bg-gray-100 rounded-lg hover:bg-gray-200">Download</a>
-                  <button wire:click="emailInvoice({{ $inv->id }})" class="inline-flex items-center px-3 py-1.5 text-xs font-medium bg-[#fadde1] rounded-lg hover:border hover:border-[#fadde1] hover:bg-transparent">Email</button>
-                </td>
-              </tr>
-            @empty
-              <tr><td colspan="5" class="px-6 py-8 text-center text-sm text-gray-500">No invoices</td></tr>
-            @endforelse
-          </tbody>
-        </table>
-      </div>
+    <!-- Invoices List using Admin Table -->
+    <div class="xl:col-span-2">
+      <x-ui.admin-table title="Invoices" :subtitle="$invoices->count().' total'" search :paginator="$invoices">
+        <x-slot name="head">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Number</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order Items</th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </x-slot>
+        @forelse($invoices as $inv)
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4">{{ $inv->id }}</td>
+            <td class="px-6 py-4">{{ $inv->invoice_number }}</td>
+            <td class="px-6 py-4">#{{ $inv->t_order_id }}</td>
+            <td class="px-6 py-4 font-medium">${{ number_format($inv->total,2) }}</td>
+            <td class="px-6 py-4">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                {{ $inv->status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                {{ ucfirst($inv->status) }}
+              </span>
+            </td>
+            <td class="px-6 py-4">
+              @if($inv->order && $inv->order->items)
+                <div class="text-xs text-gray-700 space-y-1">
+                  @foreach($inv->order->items as $it)
+                    <div>- {{ $it->name }} @if($it->variant) <span class="text-gray-500">({{ $it->variant->name }})</span> @endif × {{ $it->qty }}</div>
+                  @endforeach
+                </div>
+              @endif
+            </td>
+            <td class="px-6 py-4 text-right space-x-2 whitespace-nowrap">
+              <button wire:click="generatePdf({{ $inv->id }})" class="inline-flex items-center px-3 py-1.5 text-xs font-medium bg-gray-100 rounded-lg hover:bg-gray-200">Generate</button>
+              <a href="{{ route('admin.shop.invoice.download', $inv->id) }}" class="inline-flex items-center px-3 py-1.5 text-xs font-medium bg-gray-100 rounded-lg hover:bg-gray-200">Download</a>
+              <button wire:click="emailInvoice({{ $inv->id }})" class="inline-flex items-center px-3 py-1.5 text-xs font-medium bg-[#fadde1] rounded-lg hover:border hover:border-[#fadde1] hover:bg-transparent">Email</button>
+            </td>
+          </tr>
+        @empty
+          <tr><td colspan="7" class="px-6 py-8 text-center text-sm text-gray-500">No invoices</td></tr>
+        @endforelse
+      </x-ui.admin-table>
     </div>
   </div>
 </div>

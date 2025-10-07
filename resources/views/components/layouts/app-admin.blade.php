@@ -10,7 +10,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap" rel="stylesheet">
     </head>
-    <body class="bg-gray-100 ">
+    <body class="bg-gray-100 " x-data>
 
          <!-- Include the Livewire component for title update -->
         @livewire('component.module.title-updater')

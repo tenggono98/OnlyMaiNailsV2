@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\MService;
 use App\Models\MServiceCategory;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +13,8 @@ use Livewire\Attributes\Validate;
 
 class Service extends Component
 {
-    use LivewireAlert;
+    use LivewireAlert, WithPagination;
+    protected $paginationTheme = 'tailwind';
     // Search Variable
     public $searchName, $searchCategory, $searchStatus;
     // Component Variable
@@ -46,9 +48,12 @@ class Service extends Component
         // Search Status
         if ($this->searchStatus)
             $service->where('status', '=', ($this->searchStatus == 'active') ? '1' : '0');
-        $service = $service->get();
+        $service = $service->paginate(10);
         return view('livewire.admin.service', compact('service', 'category'))->layout('components.layouts.app-admin');
     }
+    public function updatingSearchName() { $this->resetPage(); }
+    public function updatingSearchCategory() { $this->resetPage(); }
+    public function updatingSearchStatus() { $this->resetPage(); }
     public function search()
     {
         // This method is intentionally left blank to allow form submission to trigger reactivity

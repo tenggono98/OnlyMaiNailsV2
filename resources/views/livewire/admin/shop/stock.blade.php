@@ -70,46 +70,39 @@
       </form>
     </div>
 
-    <!-- Recent Adjustments Card -->
-    <div class="xl:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200">
-      <div class="px-6 py-4 border-b border-gray-200">
-        <h3 class="text-lg font-semibold text-gray-900">Recent Adjustments</h3>
-      </div>
-      <div class="p-6 overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Variant</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Delta</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reason</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-          @forelse($adjustments as $a)
-            <tr class="hover:bg-gray-50">
-              <td class="px-6 py-3 text-sm text-gray-900">{{ $a->created_at }}</td>
-              <td class="px-6 py-3 text-sm text-gray-900">
-                @if($a->variant)
-                  <div class="font-medium">{{ $a->variant->name }}</div>
-                  <div class="text-xs text-gray-500">SKU: {{ $a->variant->sku }}</div>
-                @else
-                  <span class="text-gray-500">—</span>
-                @endif
-              </td>
-              <td class="px-6 py-3 text-sm text-gray-900">{{ $a->delta }}</td>
-              <td class="px-6 py-3 text-sm text-gray-700">{{ $a->reason }}</td>
-            </tr>
-          @empty
-            <tr>
-              <td colspan="4" class="px-6 py-8 text-center">
-                <p class="text-sm text-gray-500">No adjustments yet</p>
-              </td>
-            </tr>
-          @endforelse
-          </tbody>
-        </table>
-      </div>
+    <!-- Recent Adjustments using Admin Table -->
+    <div class="xl:col-span-2">
+      <x-ui.admin-table title="Recent Adjustments" :subtitle="$adjustments->count().' total'">
+        <x-slot name="head">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Variant</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Delta</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reason</th>
+          </tr>
+        </x-slot>
+        @forelse($adjustments as $a)
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-3 text-sm text-gray-900">{{ $a->created_at }}</td>
+            <td class="px-6 py-3 text-sm text-gray-900">
+              @if($a->variant)
+                <div class="font-medium">{{ $a->variant->name }}</div>
+                <div class="text-xs text-gray-500">SKU: {{ $a->variant->sku }}</div>
+              @else
+                <span class="text-gray-500">—</span>
+              @endif
+            </td>
+            <td class="px-6 py-3 text-sm text-gray-900">{{ $a->delta }}</td>
+            <td class="px-6 py-3 text-sm text-gray-700">{{ $a->reason }}</td>
+          </tr>
+        @empty
+          <tr>
+            <td colspan="4" class="px-6 py-8 text-center">
+              <p class="text-sm text-gray-500">No adjustments yet</p>
+            </td>
+          </tr>
+        @endforelse
+      </x-ui.admin-table>
     </div>
   </div>
 </div>

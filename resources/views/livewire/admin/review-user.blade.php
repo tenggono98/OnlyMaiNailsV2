@@ -6,72 +6,55 @@
     {{-- Action Zone --}}
     {{-- Action Zone --}}
     {{-- Table Zone --}}
-    <x-pages.table.table :header="['No', 'User', 'Booking Code', 'Time & Date', 'Comment', 'Status', 'Action']">
+    <x-ui.admin-table title="Reviews" :subtitle="count($review).' total'" :paginator="$review">
+        <x-slot name="head">
+            <tr>
+                <x-ui.th>No</x-ui.th>
+                <x-ui.th>User</x-ui.th>
+                <x-ui.th>Booking Code</x-ui.th>
+                <x-ui.th>Time & Date</x-ui.th>
+                <x-ui.th>Comment</x-ui.th>
+                <x-ui.th>Status</x-ui.th>
+                <x-ui.th>Action</x-ui.th>
+            </tr>
+        </x-slot>
         @if (count($review) > 0)
             @foreach ($review as $row)
-                <x-pages.table.tr>
-                    <x-pages.table.td>
-                        {{ $loop->iteration }}
-                    </x-pages.table.td>
-                    <x-pages.table.td>
-                        {{ $row->user->name ?? '' }}
-                    </x-pages.table.td>
-                    <x-pages.table.td>
-                        {{ $row->booking->code_booking ?? '' }}
-                    </x-pages.table.td>
-                    <x-pages.table.td>
-                        {{ Carbon\Carbon::parse($row->created_at)->format('l, d-m-Y h:i A') ?? '' }}
-                    </x-pages.table.td>
-                    <x-pages.table.td>
-                        <small class="text-wrap">{{ $row->description_review ?? '' }}</small>
-                    </x-pages.table.td>
-                    <x-pages.table.td>
+                <tr>
+                    <td class="px-6 py-4">{{ $loop->iteration }}</td>
+                    <td class="px-6 py-4">{{ $row->user->name ?? '' }}</td>
+                    <td class="px-6 py-4">{{ $row->booking->code_booking ?? '' }}</td>
+                    <td class="px-6 py-4">{{ Carbon\Carbon::parse($row->created_at)->format('l, d-m-Y h:i A') ?? '' }}</td>
+                    <td class="px-6 py-4"><small class="text-wrap">{{ $row->description_review ?? '' }}</small></td>
+                    <td class="px-6 py-4">
                         @if ($row->is_show_review == true)
                             <x-pages.badge type='success' value='Show' />
                         @else
                             <x-pages.badge type='danger' value='Hidden' />
                         @endif
-                    </x-pages.table.td>
-                    <x-pages.table.td>
+                    </td>
+                    <td class="px-6 py-4">
                         <div class="flex gap-2">
                             @if ($row->is_show_review == false)
-                                <div class="">
-                                    <x-pages.btn value="Show" type="success"
-                                        wire:click='toggleShow({{ $row->id }})' />
-                                </div>
+                                <div class=""><x-pages.btn value="Show" type="success" wire:click='toggleShow({{ $row->id }})' /></div>
                             @else
-                                <div class="">
-                                    <x-pages.btn value="Hidden" type="danger"
-                                        wire:click='toggleShow({{ $row->id }})' />
-                                </div>
+                                <div class=""><x-pages.btn value="Hidden" type="danger" wire:click='toggleShow({{ $row->id }})' /></div>
                             @endif
-                            <div class="">
-                                {{-- <x-pages.btn value="Edit" type="info" data-modal-target="add-modal"
-                            data-modal-toggle="add-modal" wire:click='edit({{ $row->id }})' /> --}}
-                            </div>
+                            <div class=""></div>
                             @if ($row->status == false)
-                                <div class="">
-                                    <x-pages.btn value="Active" type="success"
-                                        wire:click='toggleStatus({{ $row->id }})' />
-                                </div>
-                                <div class="">
-                                    <x-pages.btn value="Delete" type="danger"
-                                        wire:click="confirmDelete('{{ $row->user->name }}',{{ $row->id }})" />
-                                </div>
+                                <div class=""><x-pages.btn value="Active" type="success" wire:click='toggleStatus({{ $row->id }})' /></div>
+                                <div class=""><x-pages.btn value="Delete" type="danger" wire:click="confirmDelete('{{ $row->user->name }}',{{ $row->id }})" /></div>
                             @else
-                                <div class="">
-                                    <x-pages.btn value="Disable" type="danger"
-                                        wire:click='toggleStatus({{ $row->id }})' />
-                                </div>
+                                <div class=""><x-pages.btn value="Disable" type="danger" wire:click='toggleStatus({{ $row->id }})' /></div>
                             @endif
                         </div>
-                    </x-pages.table.td>
-                </x-pages.table.tr>
+                    </td>
+                </tr>
             @endforeach
         @else
-            <x-pages.table.notFound colspan='7' />
+            <tr><td colspan='7' class="px-6 py-8 text-center">No data found</td></tr>
         @endif
-    </x-pages.table.table>
+    </x-ui.admin-table>
     {{-- Table Zone --}}
     {{-- Modal Zone --}}
     {{-- Modal Zone --}}

@@ -60,120 +60,112 @@
             {{-- Action Zone --}}
             @if ($userType == 'admin')
                 {{-- Table Admin --}}
-                <x-pages.table.table :header="['No', 'Name', 'Email', 'Status', 'Action']">
+                <x-ui.admin-table title="Admins" :subtitle="count($users).' total'" :paginator="$users">
+                    <x-slot name="head">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                        </tr>
+                    </x-slot>
                     @if (count($users) > 0)
                         @foreach ($users as $row)
-                            <x-pages.table.tr>
-                                <x-pages.table.td>
-                                    {{ $loop->iteration }}
-                                </x-pages.table.td>
-                                <x-pages.table.td>
-                                    {{ $row->name }}
-                                </x-pages.table.td>
-                                <x-pages.table.td>
-                                    {{ $row->email }}
-                                </x-pages.table.td>
-                                <x-pages.table.td>
+                            <tr>
+                                <td class="px-6 py-4">{{ $loop->iteration }}</td>
+                                <td class="px-6 py-4">{{ $row->name }}</td>
+                                <td class="px-6 py-4">{{ $row->email }}</td>
+                                <td class="px-6 py-4">
                                     @if ($row->status == 1)
                                         <x-pages.badge type='success' value='Active' />
                                     @elseif($row->status == 0)
                                         <x-pages.badge type='danger' value='Deactivate' />
                                     @endif
-                                </x-pages.table.td>
-                                <x-pages.table.td>
+                                </td>
+                                <td class="px-6 py-4">
                                     <div class="flex gap-2">
                                         <div class="">
-                                            <x-pages.btn value="Edit" type="info" data-modal-target="add-modal"
-                                                data-modal-toggle="add-modal" wire:click='edit({{ $row->id }})' />
+                                            <x-pages.btn value="Edit" type="info" data-modal-target="add-modal" data-modal-toggle="add-modal" wire:click='edit({{ $row->id }})' />
                                         </div>
                                         @if ($row->status == false)
                                             <div class="">
-                                                <x-pages.btn value="Active" type="success"
-                                                    wire:click='toggleStatus({{ $row->id }})' />
+                                                <x-pages.btn value="Active" type="success" wire:click='toggleStatus({{ $row->id }})' />
                                             </div>
                                             <div class="">
-                                                <x-pages.btn value="Delete" type="danger"
-                                                    wire:click="confirmDelete('{{ $row->name }}',{{ $row->id }})" />
+                                                <x-pages.btn value="Delete" type="danger" wire:click="confirmDelete('{{ $row->name }}',{{ $row->id }})" />
                                             </div>
                                         @else
                                             <div class="">
-                                                <x-pages.btn value="Disable" type="danger"
-                                                    wire:click='toggleStatus({{ $row->id }})' />
+                                                <x-pages.btn value="Disable" type="danger" wire:click='toggleStatus({{ $row->id }})' />
                                             </div>
                                         @endif
                                     </div>
-                                </x-pages.table.td>
-                            </x-pages.table.tr>
+                                </td>
+                            </tr>
                         @endforeach
                     @else
-                        <x-pages.table.notFound colspan='6' />
+                        <tr><td colspan='5' class="px-6 py-8 text-center">No data found</td></tr>
                     @endif
-                </x-pages.table.table>
+                </x-ui.admin-table>
                 {{-- Table Admin --}}
             @elseif($userType == 'user')
                 {{-- Table User --}}
-                <x-pages.table.table :header="['No', 'Name', 'Email', 'Order', 'Warning Notes', 'Status', 'Action']">
+                <x-ui.admin-table title="Users" :subtitle="count($users).' total'" :paginator="$users">
+                    <x-slot name="head">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Warning Notes</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                        </tr>
+                    </x-slot>
                     @if (count($users) > 0)
                         @foreach ($users as $row)
-                            <x-pages.table.tr>
-                                <x-pages.table.td>
-                                    {{ $loop->iteration }}
-                                </x-pages.table.td>
-                                <x-pages.table.td>
-                                    {{ $row->name }}
-                                </x-pages.table.td>
-                                <x-pages.table.td>
-                                    {{ $row->email }}
-                                </x-pages.table.td>
-                                <x-pages.table.td>
-                                    <span class="font-semibold">{{ count($row->total_order) }}</span> Order
-                                </x-pages.table.td>
-                                <x-pages.table.td>
-                                    <span
-                                        class="font-semibold text-red-400">{{ count($row->warningNotes ?? 0) }}</span>
-                                    Notes
-                                </x-pages.table.td>
-                                <x-pages.table.td>
+                            <tr>
+                                <td class="px-6 py-4">{{ $loop->iteration }}</td>
+                                <td class="px-6 py-4">{{ $row->name }}</td>
+                                <td class="px-6 py-4">{{ $row->email }}</td>
+                                <td class="px-6 py-4"><span class="font-semibold">{{ count($row->total_order) }}</span> Order</td>
+                                <td class="px-6 py-4"><span class="font-semibold text-red-400">{{ count($row->warningNotes ?? 0) }}</span> Notes</td>
+                                <td class="px-6 py-4">
                                     @if ($row->status == 1)
                                         <x-pages.badge type='success' value='Active' />
                                     @elseif($row->status == 0)
                                         <x-pages.badge type='danger' value='Deactivate' />
                                     @endif
-                                </x-pages.table.td>
-                                <x-pages.table.td>
+                                </td>
+                                <td class="px-6 py-4">
                                     <div class="flex gap-2">
                                         <div class="">
-                                            <x-pages.btn value="Notes" type="info" data-modal-target="warning-modal"
-                                                data-modal-toggle="warning-modal"
-                                                wire:click='viewWarningNotes({{ $row->id }})' />
+                                            <x-pages.btn value="Notes" type="info" data-modal-target="warning-modal" data-modal-toggle="warning-modal" wire:click='viewWarningNotes({{ $row->id }})' />
                                         </div>
                                         <div class="">
-                                            <x-pages.btn value="Edit" type="info" data-modal-target="add-modal"
-                                                data-modal-toggle="add-modal" wire:click='edit({{ $row->id }})' />
+                                            <x-pages.btn value="Edit" type="info" data-modal-target="add-modal" data-modal-toggle="add-modal" wire:click='edit({{ $row->id }})' />
                                         </div>
                                         @if ($row->status == false)
                                             <div class="">
-                                                <x-pages.btn value="Active" type="success"
-                                                    wire:click='toggleStatus({{ $row->id }})' />
+                                                <x-pages.btn value="Active" type="success" wire:click='toggleStatus({{ $row->id }})' />
                                             </div>
                                             <div class="">
-                                                <x-pages.btn value="Delete" type="danger"
-                                                    wire:click="confirmDelete('{{ $row->name }}',{{ $row->id }})" />
+                                                <x-pages.btn value="Delete" type="danger" wire:click="confirmDelete('{{ $row->name }}',{{ $row->id }})" />
                                             </div>
                                         @else
                                             <div class="">
-                                                <x-pages.btn value="Disable" type="danger"
-                                                    wire:click='toggleStatus({{ $row->id }})' />
+                                                <x-pages.btn value="Disable" type="danger" wire:click='toggleStatus({{ $row->id }})' />
                                             </div>
                                         @endif
                                     </div>
-                                </x-pages.table.td>
-                            </x-pages.table.tr>
+                                </td>
+                            </tr>
                         @endforeach
                     @else
-                        <x-pages.table.notFound colspan='7' />
+                        <tr><td colspan='7' class="px-6 py-8 text-center">No data found</td></tr>
                     @endif
-                </x-pages.table.table>
+                </x-ui.admin-table>
                 {{-- Table User --}}
             @endif
         @endif

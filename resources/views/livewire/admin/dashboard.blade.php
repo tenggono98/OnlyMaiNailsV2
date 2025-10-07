@@ -38,37 +38,33 @@
       <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Recent Bookings</h3>
       <a href="{{ route('admin.booking') }}" class="text-sm font-medium text-blue-600 hover:underline">View all</a>
     </div>
-    <div class="mt-4 overflow-x-auto">
-      <table class="min-w-full text-sm text-left text-gray-500 dark:text-gray-400">
-
-        
-        <thead class="text-xs uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-300">
+    <div class="mt-4">
+      <x-ui.admin-table title="Recent Bookings" :subtitle="count($recentBookings).' record'.(count($recentBookings)!==1?'s':'')">
+        <x-slot name="head">
           <tr>
-            <th class="px-4 py-3">Code</th>
-            <th class="px-4 py-3">Client</th>
-            <th class="px-4 py-3">Date</th>
-            <th class="px-4 py-3">Time</th>
-            <th class="px-4 py-3">Deposit</th>
-            <th class="px-4 py-3">Status</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Code</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Deposit</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
           </tr>
-        </thead>
-        <tbody>
-          @forelse ($recentBookings as $b)
-            <tr class="border-b dark:border-gray-700">
-              <td class="px-4 py-3 font-medium text-gray-900 dark:text-white">{{ $b->code_booking }}</td>
-              <td class="px-4 py-3">{{ $b->client->name ?? '-' }}</td>
-              <td class="px-4 py-3">{{ optional($b->scheduleDateBook)->date_schedule }}</td>
-              <td class="px-4 py-3">{{ optional($b->scheduleTimeBook)->time }}</td>
-              <td class="px-4 py-3">{{ $b->is_deposit_paid ? 'Paid' : 'Unpaid' }}</td>
-              <td class="px-4 py-3">{{ $b->status ?? 'active' }}</td>
-            </tr>
-          @empty
-            <tr>
-              <td colspan="6" class="px-4 py-6 text-center">No recent bookings</td>
-            </tr>
-          @endforelse
-        </tbody>
-      </table>
+        </x-slot>
+        @forelse ($recentBookings as $b)
+          <tr>
+            <td class="px-4 py-3 font-medium text-gray-900">{{ $b->code_booking }}</td>
+            <td class="px-4 py-3">{{ $b->client->name ?? '-' }}</td>
+            <td class="px-4 py-3">{{ optional($b->scheduleDateBook)->date_schedule }}</td>
+            <td class="px-4 py-3">{{ optional($b->scheduleTimeBook)->time }}</td>
+            <td class="px-4 py-3">{{ $b->is_deposit_paid ? 'Paid' : 'Unpaid' }}</td>
+            <td class="px-4 py-3">{{ $b->status ?? 'active' }}</td>
+          </tr>
+        @empty
+          <tr>
+            <td colspan="6" class="px-4 py-6 text-center">No recent bookings</td>
+          </tr>
+        @endforelse
+      </x-ui.admin-table>
     </div>
   </div>
 </div>

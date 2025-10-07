@@ -23,18 +23,18 @@ class ImageCropper extends Component
     public $aspectRatio = null; // null for free aspect ratio, or array like [16, 9]
     public $minWidth = 100;
     public $minHeight = 100;
-    public $maxWidth = 1920;
-    public $maxHeight = 1080;
-    public $viewMode = 1; // 0: free, 1: restrict, 2: restrict with minimum size
+    public $maxWidth = 3840 ;
+    public $maxHeight = 2160 ;
+    public $viewMode = 2; // 0: free, 1: restrict, 2: restrict with minimum size
     public $dragMode = 'move'; // 'move', 'crop', 'none'
-    public $autoCropArea = 0.8; // 0-1, percentage of image to auto-crop
+    public $autoCropArea = 1; // Fill container to avoid border offset
     public $background = true; // show background
     public $responsive = true;
     public $restore = false;
     public $checkCrossOrigin = true;
     public $checkOrientation = true;
     public $modal = true;
-    public $guides = true;
+    public $guides = true; // show grid guides
     public $center = true;
     public $highlight = true;
     public $cropBoxMovable = true;
@@ -52,28 +52,13 @@ class ImageCropper extends Component
 
     public function mount($cropOptions = [])
     {
-        $this->cropOptions = array_merge([
+        $defaults = config('cropper.defaults');
+        $base = [
             'aspectRatio' => $this->aspectRatio,
-            'viewMode' => $this->viewMode,
-            'dragMode' => $this->dragMode,
-            'autoCropArea' => $this->autoCropArea,
-            'background' => $this->background,
-            'responsive' => $this->responsive,
-            'restore' => $this->restore,
-            'checkCrossOrigin' => $this->checkCrossOrigin,
-            'checkOrientation' => $this->checkOrientation,
-            'modal' => $this->modal,
-            'guides' => $this->guides,
-            'center' => $this->center,
-            'highlight' => $this->highlight,
-            'cropBoxMovable' => $this->cropBoxMovable,
-            'cropBoxResizable' => $this->cropBoxResizable,
-            'toggleDragModeOnDblclick' => $this->toggleDragModeOnDblclick,
-            'minWidth' => $this->minWidth,
-            'minHeight' => $this->minHeight,
             'maxWidth' => $this->maxWidth,
             'maxHeight' => $this->maxHeight,
-        ], $cropOptions);
+        ];
+        $this->cropOptions = array_merge($defaults, $base, $cropOptions);
     }
 
     public function updatedImage()

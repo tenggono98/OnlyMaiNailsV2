@@ -43,61 +43,60 @@
         </div>
         {{-- Action Zone --}}
         {{-- Table Zone --}}
-        <x-pages.table.table :header="['No', 'Date', 'Time', 'status', 'Action']">
+        <x-ui.admin-table title="Schedules" :subtitle="count($TScheduleData).' total'" :paginator="$TScheduleData">
+            <x-slot name="head">
+                <tr>
+                    <x-ui.th>No</x-ui.th>
+                    <x-ui.th>Date</x-ui.th>
+                    <x-ui.th>Time</x-ui.th>
+                    <x-ui.th>Status</x-ui.th>
+                    <x-ui.th>Action</x-ui.th>
+                </tr>
+            </x-slot>
             @if (count($TScheduleData) > 0)
                 @foreach ($TScheduleData as $key => $row)
-                    <x-pages.table.tr>
-                        <x-pages.table.td>
-                            {{ $loop->iteration }}
-                        </x-pages.table.td>
-                        <x-pages.table.td class="text-nowrap">
-                            {{ Carbon\Carbon::parse($row->date_schedule)->format('l , d F Y') }}
-                        </x-pages.table.td>
-                        <x-pages.table.td>
+                    <tr>
+                        <td class="px-6 py-4">{{ $loop->iteration }}</td>
+                        <td class="px-6 py-4 text-nowrap">{{ Carbon\Carbon::parse($row->date_schedule)->format('l , d F Y') }}</td>
+                        <td class="px-6 py-4">
                             <ul class="flex gap-2">
                                 @foreach ($row->times as $time)
-                                    <li
-                                        class="p-2 border rounded-lg {{ $time->is_book ? 'bg-green-500 text-white' : '' }} text-nowrap">
-                                        {{ Carbon\Carbon::parse($time->time)->format('h:i A') }}</li>
+                                    <li class="p-2 border rounded-lg {{ $time->is_book ? 'bg-green-500 text-white' : '' }} text-nowrap">{{ Carbon\Carbon::parse($time->time)->format('h:i A') }}</li>
                                 @endforeach
                             </ul>
-                        </x-pages.table.td>
-                        <x-pages.table.td>
+                        </td>
+                        <td class="px-6 py-4">
                             @if ($row->status == true)
                                 <x-pages.badge type='success' value='Active' />
                             @else
                                 <x-pages.badge type='danger' value='Deactivate' />
                             @endif
-                        </x-pages.table.td>
-                        <x-pages.table.td>
+                        </td>
+                        <td class="px-6 py-4">
                             <div class="flex gap-2">
                                 <div class="">
-                                    <x-pages.btn value="Edit" type="info" data-modal-target="add-modal"
-                                        data-modal-toggle="add-modal" wire:click='edit({{ $row->id }})' />
+                                    <x-pages.btn value="Edit" type="info" data-modal-target="add-modal" data-modal-toggle="add-modal" wire:click='edit({{ $row->id }})' />
                                 </div>
                                 @if ($row->status == false)
                                     <div class="">
-                                        <x-pages.btn value="Active" type="success"
-                                            wire:click='toggleStatus({{ $row->id }})' />
+                                        <x-pages.btn value="Active" type="success" wire:click='toggleStatus({{ $row->id }})' />
                                     </div>
                                     <div class="">
-                                        <x-pages.btn value="Delete" type="danger"
-                                            wire:click="confirmDelete('{{ $row->name_service }}',{{ $row->id }})" />
+                                        <x-pages.btn value="Delete" type="danger" wire:click="confirmDelete('{{ $row->name_service }}',{{ $row->id }})" />
                                     </div>
                                 @else
                                     <div class="">
-                                        <x-pages.btn value="Disable" type="danger"
-                                            wire:click='toggleStatus({{ $row->id }})' />
+                                        <x-pages.btn value="Disable" type="danger" wire:click='toggleStatus({{ $row->id }})' />
                                     </div>
                                 @endif
                             </div>
-                        </x-pages.table.td>
-                    </x-pages.table.tr>
+                        </td>
+                    </tr>
                 @endforeach
             @else
-                <x-pages.table.notFound colspan='5' />
+                <tr><td colspan='5' class="px-6 py-8 text-center">No data found</td></tr>
             @endif
-        </x-pages.table.table>
+        </x-ui.admin-table>
         {{-- {{ $TScheduleData->links() }} --}}
         {{-- Table Zone --}}
     <x-pages.modal.modal id='add-modal' title="{{ $is_edit == false ? 'New Schedule' : 'Edit Schedule' }}"

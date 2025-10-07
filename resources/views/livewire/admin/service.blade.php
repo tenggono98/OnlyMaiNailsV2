@@ -54,64 +54,66 @@
         </div>
         {{-- Action Zone --}}
         {{-- Table Zone --}}
-        <x-pages.table.table :header="['No','Category','Service Name','Price','Addons','Sort','Status','Action']">
+        <x-ui.admin-table title="Services" :subtitle="count($service).' total'" :paginator="$service">
+            <x-slot name="head">
+                <tr>
+                    <x-ui.th>No</x-ui.th>
+                    <x-ui.th>Category</x-ui.th>
+                    <x-ui.th>Service Name</x-ui.th>
+                    <x-ui.th>Price</x-ui.th>
+                    <x-ui.th>Addons</x-ui.th>
+                    <x-ui.th>Sort</x-ui.th>
+                    <x-ui.th>Status</x-ui.th>
+                    <x-ui.th>Action</x-ui.th>
+                </tr>
+            </x-slot>
             @if(count($service) > 0)
                 @foreach ($service as $key => $row)
-                <x-pages.table.tr>
-                    <x-pages.table.td>
-                        {{ $key + 1 }}
-                    </x-pages.table.td>
-                    <x-pages.table.td>
-                        {{ $row->category->name_service_categori }}
-                    </x-pages.table.td>
-                    <x-pages.table.td>
-                        {{ $row->name_service }}
-                    </x-pages.table.td>
-                    <x-pages.table.td>
-                        {{ getSettingWeb('Currency') }} {{ $row->price_service }}
-                    </x-pages.table.td>
-                    <x-pages.table.td>
-                        @if($row->is_merge == true)
-                        <x-pages.badge type='success' value='True' />
-                    @else
-                        <x-pages.badge type='danger' value='False' />
-                    @endif
-                    </x-pages.table.td>
-                    <x-pages.table.td>
-                        {{ $row->order }}
-                    </x-pages.table.td>
-                    <x-pages.table.td>
-                        @if($row->status == true)
-                            <x-pages.badge type='success' value='Active' />
-                        @else
-                            <x-pages.badge type='danger' value='Deactivate' />
-                        @endif
-                    </x-pages.table.td>
-                    <x-pages.table.td>
-                        <div class="flex gap-2">
-                            <div class="">
-                                <x-pages.btn value="Edit" type="info" data-modal-target="add-modal" data-modal-toggle="add-modal" wire:click='edit({{ $row->id }})' />
-                            </div>
-                            @if($row->status == false)
-                                <div class="">
-                                    <x-pages.btn value="Active" type="success" wire:click='toggleStatus({{ $row->id }})' />
-                                </div>
-                                <div class="">
-                                    <x-pages.btn value="Delete" type="danger" wire:click="confirmDelete('{{ $row->name_service }}',{{ $row->id }})" />
-                                </div>
-                                @else
-                                <div class="">
-                                    <x-pages.btn value="Disable" type="danger" wire:click='toggleStatus({{ $row->id }})' />
-                                </div>
+                    <tr>
+                        <td class="px-6 py-4">{{ $key + 1 }}</td>
+                        <td class="px-6 py-4">{{ $row->category->name_service_categori }}</td>
+                        <td class="px-6 py-4">{{ $row->name_service }}</td>
+                        <td class="px-6 py-4">{{ getSettingWeb('Currency') }} {{ $row->price_service }}</td>
+                        <td class="px-6 py-4">
+                            @if($row->is_merge == true)
+                                <x-pages.badge type='success' value='True' />
+                            @else
+                                <x-pages.badge type='danger' value='False' />
                             @endif
-                        </div>
-                    </x-pages.table.td>
-                </x-pages.table.tr>
+                        </td>
+                        <td class="px-6 py-4">{{ $row->order }}</td>
+                        <td class="px-6 py-4">
+                            @if($row->status == true)
+                                <x-pages.badge type='success' value='Active' />
+                            @else
+                                <x-pages.badge type='danger' value='Deactivate' />
+                            @endif
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex gap-2">
+                                <div class="">
+                                    <x-pages.btn value="Edit" type="info" data-modal-target="add-modal" data-modal-toggle="add-modal" wire:click='edit({{ $row->id }})' />
+                                </div>
+                                @if($row->status == false)
+                                    <div class="">
+                                        <x-pages.btn value="Active" type="success" wire:click='toggleStatus({{ $row->id }})' />
+                                    </div>
+                                    <div class="">
+                                        <x-pages.btn value="Delete" type="danger" wire:click="confirmDelete('{{ $row->name_service }}',{{ $row->id }})" />
+                                    </div>
+                                @else
+                                    <div class="">
+                                        <x-pages.btn value="Disable" type="danger" wire:click='toggleStatus({{ $row->id }})' />
+                                    </div>
+                                @endif
+                            </div>
+                        </td>
+                    </tr>
                 @endforeach
             @else
-            <x-pages.table.notFound colspan='7'/>
+                <tr><td colspan='8' class="px-6 py-8 text-center">No data found</td></tr>
             @endif
-        </x-pages.table.table>
+        </x-ui.admin-table>
         {{-- Table Zone --}}
     </div>
       {{-- Modal Zone --}}

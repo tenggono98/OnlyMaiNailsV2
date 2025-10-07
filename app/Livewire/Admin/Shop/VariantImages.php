@@ -18,6 +18,8 @@ class VariantImages extends Component
     use WithFileUploads;
     use LivewireAlert;
 
+    public $embedded = false;
+
     public $products;
     public $selectedProductId = null;
 
@@ -54,29 +56,54 @@ class VariantImages extends Component
         $variant = MProductVariant::where('m_product_id', $this->selectedProductId)->find($this->selectedVariantId);
         if (!$variant) return;
 
-        // Append images preserving order
-        $nextOrder = (int) MProductVariantImage::where('m_product_variant_id', $variant->id)->max('sort_order');
+        $this->isProcessingImage = true;
+        $this->processingMessage = 'Uploading images...';
 
-        foreach ($this->newImages as $file) {
-            $nextOrder++;
-            $path = $file->store('shop/variants', 'public');
-            MProductVariantImage::create([
-                'm_product_variant_id' => $variant->id,
-                'image_path' => $path,
-                'sort_order' => $nextOrder,
-            ]);
+        try {
+            // Append images preserving order
+            $nextOrder = (int) MProductVariantImage::where('m_product_variant_id', $variant->id)->max('sort_order');
+
+            foreach ($this->newImages as $file) {
+                $nextOrder++;
+                $path = $file->store('shop/variants', 'public');
+                MProductVariantImage::create([
+                    'm_product_variant_id' => $variant->id,
+                    'image_path' => $path,
+                    'sort_order' => $nextOrder,
+                ]);
+            }
+
+            $this->newImages = [];
+            $this->refreshImages();
+            $this->alert('success', 'Images uploaded');
+        } finally {
+            $this->isProcessingImage = false;
         }
-
-        $this->newImages = [];
-        $this->refreshImages();
     }
 
     public function mount()
     {
         $this->products = MProduct::orderBy('name_service')->get();
         $this->variants = collect();
-        $this->refreshImages();
         $this->setupCropOptions();
+        // Strengthen cropper accuracy
+        $this->cropOptions = array_merge(
+            config('cropper.defaults'),
+            $this->cropOptions ?? []
+        );
+
+        // If embedded and a product is preselected, auto-load variants and select the first one
+        if ($this->embedded && $this->selectedProductId) {
+            $this->loadVariants();
+            if ($this->variants && $this->variants->count() > 0) {
+                $this->selectedVariantId = $this->variants->first()->id;
+            }
+        } elseif (!$this->embedded && $this->selectedProductId) {
+            // Standalone: still load variants if parent passed selected product
+            $this->loadVariants();
+        }
+
+        $this->refreshImages();
     }
 
     protected function setupCropOptions()
@@ -107,8 +134,13 @@ class VariantImages extends Component
 
     public function updatedSelectedProductId()
     {
+        // Reset current variant first, then load and auto-pick
+        $this->selectedVariantId = null;
         $this->loadVariants();
-        $this->selectedVariantId = null; // wait for explicit selection
+        // On standalone page, auto-select first variant as well
+        if (!$this->embedded && $this->variants && $this->variants->count() > 0) {
+            $this->selectedVariantId = $this->variants->first()->id;
+        }
         $this->refreshImages();
     }
 
@@ -272,6 +304,10 @@ class VariantImages extends Component
         if ($this->selectedProductId) {
             $this->variants = MProductVariant::where('m_product_id', $this->selectedProductId)
                 ->orderBy('name')->get();
+            // When embedded, default to first variant if none selected yet
+            if ($this->embedded && !$this->selectedVariantId && $this->variants->count() > 0) {
+                $this->selectedVariantId = $this->variants->first()->id;
+            }
         } else {
             $this->variants = collect();
         }
