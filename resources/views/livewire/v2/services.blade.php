@@ -1,6 +1,20 @@
 <div>
     {{-- Container List Services --}}
     <div class="flex flex-col gap-4 mb-5" data-aos="fade-up">
+        <!-- Skeleton while loading services -->
+        <div wire:loading class="grid grid-cols-3 gap-10" aria-hidden="true">
+            <div class="rounded-xl h-60 w-full bg-gray-200 animate-pulse"></div>
+            <div class="col-span-2 space-y-3">
+                @for($i=0;$i<6;$i++)
+                    <div class="flex justify-between">
+                        <div class="h-5 w-1/2 bg-gray-200 rounded"></div>
+                        <div class="h-5 w-16 bg-gray-200 rounded"></div>
+                    </div>
+                @endfor
+            </div>
+        </div>
+
+        <div wire:loading.remove>
         @foreach ($services as $card)
         @php
             $image_link = '';
@@ -32,6 +46,7 @@
                     </div>
             </div>
         @endforeach
+        </div>
     </div>
     {{-- Container List Services --}}
 

@@ -137,7 +137,7 @@
         <div class="flex justify-between w-full ">
             {{-- Logo --}}
             <div class="">
-                <img src="{{ asset('img/transparant-logo-v2.png') }}" class="h-28" alt="">
+                <img src="{{ asset('img/transparant-logo-v2.png') }}" class="h-28" alt="OnlyMaiNails logo" loading="eager" fetchpriority="high" decoding="async" data-eager>
             </div>
             {{-- Logo --}}
             {{-- Menu --}}

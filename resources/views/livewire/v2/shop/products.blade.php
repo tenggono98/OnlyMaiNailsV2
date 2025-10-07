@@ -147,8 +147,26 @@
       </div>
     @endif
 
+    <!-- Products Grid: Skeleton while loading -->
+    <div wire:loading class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6" aria-hidden="true">
+      @for($i = 0; $i < 8; $i++)
+        <div class="relative bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 animate-pulse">
+          <div class="aspect-square bg-gray-200"></div>
+          <div class="p-4 space-y-3">
+            <div class="h-4 w-20 bg-gray-200 rounded"></div>
+            <div class="h-5 w-3/4 bg-gray-200 rounded"></div>
+            <div class="h-6 w-1/2 bg-gray-200 rounded"></div>
+            <div class="flex items-center justify-between">
+              <div class="h-4 w-24 bg-gray-200 rounded"></div>
+              <div class="h-6 w-6 bg-gray-200 rounded"></div>
+            </div>
+          </div>
+        </div>
+      @endfor
+    </div>
+
     <!-- Products Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6" data-aos="fade-up" data-aos-delay="100">
+    <div wire:loading.remove class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6" data-aos="fade-up" data-aos-delay="100">
       @forelse($products as $p)
         <a href="{{ route('shop.product', $p->slug) }}" class="group relative bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-brand-accent-light hover:border-brand-accent-light" data-aos="fade-up" data-aos-delay="{{ min($loop->index * 60, 360) }}">
           <!-- Product Image -->
@@ -156,7 +174,7 @@
             @if($p->image_path)
               <img src="{{ asset('storage/'.$p->image_path) }}"
                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                   alt="{{ $p->name_service }}"/>
+                   alt="{{ $p->name_service }}" loading="lazy" decoding="async"/>
             @else
               <div class="w-full h-full flex items-center justify-center">
                 <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -264,7 +282,7 @@
               @endif
 
               <!-- Add to Cart Button -->
-              <button class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 btn-primary-sm transform hover:scale-105 transition-all duration-200">
+              <button class="opacity-0 group-hover:opacity-100 transition-opacity duration-200 btn-primary-sm transform hover:scale-105">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"></path>
                 </svg>

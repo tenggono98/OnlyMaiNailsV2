@@ -19,6 +19,12 @@
 </head>
 
 <body class="h-full bg-white ">
+    <div id="page-loading-overlay" class="fixed inset-0 bg-white/70 backdrop-blur-sm items-center justify-center z-[9999] hidden">
+        <div class="flex flex-col items-center gap-4">
+            <div class="h-12 w-12 border-4 border-gray-300 border-t-[#efcabe] rounded-full animate-spin"></div>
+            <div class="text-gray-700">Loading...</div>
+        </div>
+    </div>
     <div class="hidden xl:block">
         <svg width="1040" height="986" viewBox="0 0 1040 986" fill="none" xmlns="http://www.w3.org/2000/svg" class="absolute right-0 top-28 -z-10 opacity-80 ">
             <path d="M1200.75 590.917C1195.61 588.579 1190.35 585.973 1184.24 582.698L1181.71 581.333L967.795 413.464L917.358 679.86L916.38 682.532C913.995 688.814 911.701 694.378 909.369 699.503C906.77 705.215 903.933 710.721 900.995 716.184C955.575 749.278 1024.17 758.067 1088.5 734.078C1152.83 710.092 1198.73 658.65 1218.05 598.034C1212.25 595.84 1206.46 593.515 1200.75 590.917Z" fill="#efcabe" fill-opacity="0.5"/>
@@ -34,7 +40,8 @@
         </div>
 
 
-        <div class="flex-auto  ">
+        <div class="flex-auto">
+      
 
             <div class="  xl:px-32 px-10 w-full py-20  min-h-screen ">
                 {{ $slot }}
@@ -47,8 +54,67 @@
     </div>
 
 
+   
+
+
     @vite('resources/js/datepicker.js')
     <script src="https://unpkg.com/taos@1.0.5/dist/taos.js"></script>
+    <script>
+        // Apply lazy-loading and async decoding to images that don't explicitly opt out
+        (function() {
+            if (!('loading' in HTMLImageElement.prototype)) return; // native support guard
+            var images = document.querySelectorAll('img:not([loading])');
+            images.forEach(function(img){
+                // Keep likely critical images eager if explicitly marked via data-eager
+                if (!img.hasAttribute('data-eager')) {
+                    img.setAttribute('loading', 'lazy');
+                }
+                if (!img.hasAttribute('decoding')) {
+                    img.setAttribute('decoding', 'async');
+                }
+            });
+            // Defer non-critical iframes by default when not specified
+            var iframes = document.querySelectorAll('iframe:not([loading])');
+            iframes.forEach(function(frame){
+                frame.setAttribute('loading', 'lazy');
+            });
+        })();
+    </script>
+    <script>
+        // Simple page transition loader for navigations
+        (function() {
+            var overlay = document.getElementById('page-loading-overlay');
+            function showOverlay() { if (overlay) { overlay.classList.remove('hidden'); overlay.classList.add('flex'); } }
+            function hideOverlay() { if (overlay) { overlay.classList.add('hidden'); overlay.classList.remove('flex'); } }
+
+            // Initial hide after paint
+            window.addEventListener('load', hideOverlay);
+            // Show on navigation away
+            window.addEventListener('beforeunload', function() { showOverlay(); });
+            // Handle bfcache restore
+            window.addEventListener('pageshow', function(e){ if (e.persisted) hideOverlay(); });
+
+            // Intercept regular same-origin link clicks
+            document.addEventListener('click', function(e){
+                var link = e.target && e.target.closest ? e.target.closest('a') : null;
+                if (!link) return;
+                if (link.hasAttribute('download')) return;
+                var target = link.getAttribute('target');
+                if (target && target.toLowerCase() === '_blank') return;
+                var href = link.getAttribute('href') || '';
+                if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
+                if (e.defaultPrevented) return;
+                if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+                try {
+                    var url = new URL(href, window.location.href);
+                    if (url.origin !== window.location.origin) return;
+                    // In-page hash on same path
+                    if (url.pathname === window.location.pathname && url.hash) return;
+                    showOverlay();
+                } catch(err) { /* noop */ }
+            }, true);
+        })();
+    </script>
 
 </body>
 

@@ -6,8 +6,27 @@
   </div>
 
   @if(count($items) > 0)
+    <!-- Skeleton cart items while loading -->
+    <div wire:loading class="space-y-4 mb-8" aria-hidden="true">
+      @for($i=0;$i<3;$i++)
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 animate-pulse">
+        <div class="flex items-start gap-4">
+          <div class="w-16 h-16 bg-gray-200 rounded-lg"></div>
+          <div class="flex-1 space-y-2">
+            <div class="h-5 w-1/2 bg-gray-200 rounded"></div>
+            <div class="h-4 w-1/3 bg-gray-200 rounded"></div>
+            <div class="h-4 w-20 bg-gray-200 rounded"></div>
+          </div>
+          <div class="w-32 space-y-2">
+            <div class="h-5 w-full bg-gray-200 rounded"></div>
+            <div class="h-4 w-2/3 bg-gray-200 rounded"></div>
+          </div>
+        </div>
+      </div>
+      @endfor
+    </div>
     <!-- Cart Items -->
-    <div class="space-y-4 mb-8" data-aos="fade-up" data-aos-delay="60">
+    <div wire:loading.remove class="space-y-4 mb-8" data-aos="fade-up" data-aos-delay="60">
       @foreach($items as $i => $it)
         <div class="bg-white rounded-xl border border-brand-accent-light shadow-sm hover:shadow-md transition-shadow duration-200" data-aos="fade-up" data-aos-delay="{{ min($i * 60, 360) }}">
           <div class="p-6">
@@ -91,7 +110,7 @@
     </div>
 
     <!-- Cart Summary -->
-    <div class="bg-white rounded-xl border border-brand-accent-light shadow-sm p-6 mb-8" data-aos="fade-up" data-aos-delay="80">
+    <div wire:loading.remove class="bg-white rounded-xl border border-brand-accent-light shadow-sm p-6 mb-8" data-aos="fade-up" data-aos-delay="80">
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-xl font-semibold text-gray-900">Order Summary</h2>
         <span class="text-sm text-gray-500">{{ count($items) }} item{{ count($items) > 1 ? 's' : '' }}</span>
@@ -116,7 +135,7 @@
     </div>
 
     <!-- Action Buttons -->
-    <div class="flex flex-col sm:flex-row gap-4" data-aos="fade-up" data-aos-delay="100">
+    <div wire:loading.remove class="flex flex-col sm:flex-row gap-4" data-aos="fade-up" data-aos-delay="100">
       <a href="{{ route('shop.index') }}"
          class="flex-1 btn-secondary">
         Continue Shopping

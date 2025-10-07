@@ -91,10 +91,19 @@
     </ol>
   </nav>
   <div class="grid grid-cols-1 gap-8 mt-6 md:grid-cols-2">
-    <div>
+    <!-- Left column skeleton -->
+    <div wire:loading class="space-y-3 md:order-1" aria-hidden="true">
+      <div class="w-full aspect-square bg-gray-200 rounded-xl animate-pulse"></div>
+      <div class="grid grid-cols-5 gap-2">
+        @for($i=0;$i<5;$i++)
+        <div class="aspect-square bg-gray-200 rounded-lg animate-pulse"></div>
+        @endfor
+      </div>
+    </div>
+    <div wire:loading.remove>
       @php $mainImage = !empty($gallery) && isset($gallery[$activeImage]) ? $gallery[$activeImage] : null; @endphp
       @if($mainImage)
-        <img src="{{ asset('storage/'.$mainImage) }}" class="w-full max-h-[500px] object-cover rounded-xl shadow-sm"/>
+        <img src="{{ asset('storage/'.$mainImage) }}" class="w-full max-h-[500px] object-cover rounded-xl shadow-sm" alt="{{ $product->name_service }}" loading="eager" decoding="async" data-eager/>
       @else
         <div class="w-full aspect-square bg-gray-100 rounded-xl flex items-center justify-center">
           <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -107,7 +116,7 @@
         <div class="mt-3 grid grid-cols-5 gap-2">
           @foreach($gallery as $idx => $g)
             <button type="button" wire:click="selectImage({{ $idx }})" class="aspect-square rounded-lg overflow-hidden border {{ $activeImage === $idx ? 'border-brand-accent-light ring-1 ring-brand-accent-light' : 'border-gray-200 hover:border-brand-accent-light' }}">
-              <img src="{{ asset('storage/'.$g) }}" class="w-full h-full object-cover"/>
+              <img src="{{ asset('storage/'.$g) }}" class="w-full h-full object-cover" alt="{{ $product->name_service }} thumbnail {{ $idx+1 }}" loading="lazy" decoding="async"/>
             </button>
           @endforeach
         </div>
