@@ -1,4 +1,4 @@
-<div>
+<div class="shadow-top">
     {{-- Do your work, then step back. --}}
     <div class="grid gap-5 px-10 py-10 lg:px-20 lg:grid-cols-4">
         {{-- Image --}}
