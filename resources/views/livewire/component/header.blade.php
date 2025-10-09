@@ -112,7 +112,7 @@
     <section id="nav-dekstop" class="bg-primary p-3 hidden lg:block lg:fixed lg:top-12 lg:left-0 lg:right-0 z-40 w-full   xl:px-32 px-5 " data-aos="fade-down">
         <div class="flex justify-between w-full ">
             {{-- Logo --}}
-            <div class="">`
+            <div class="">
                 <h1 class="julius-sans-one-regular text-4xl !tracking-[15%] ">ONLYMAINAILS</h1>
             </div>
             {{-- Logo --}}

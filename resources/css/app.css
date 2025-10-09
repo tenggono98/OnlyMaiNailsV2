@@ -360,7 +360,7 @@ button:focus-visible, a:focus-visible {
 
 
 .bg-primary{
-    @apply bg-brand-base-1;
+    @apply bg-white;
 }
 
 
